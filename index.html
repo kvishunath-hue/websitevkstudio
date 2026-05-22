@@ -292,15 +292,18 @@
   }
   body.modal-open { overflow: hidden; }
 
-  /* hCaptcha widget inside dark modal */
-  .contact-form .h-captcha {
-    margin: 8px 0 4px;
-    min-height: 78px;
-    display: flex;
-    justify-content: center;
-  }
-  .contact-form .h-captcha iframe {
-    border-radius: 0 !important;
+  /* Safari/Chrome autofill — keep dark background and white text */
+  .contact-field input:-webkit-autofill,
+  .contact-field input:-webkit-autofill:hover,
+  .contact-field input:-webkit-autofill:focus,
+  .contact-field input:-webkit-autofill:active,
+  .contact-field textarea:-webkit-autofill,
+  .contact-field select:-webkit-autofill {
+    -webkit-text-fill-color: var(--text) !important;
+    -webkit-box-shadow: 0 0 0 1000px rgba(10, 10, 12, 0.95) inset !important;
+    box-shadow: 0 0 0 1000px rgba(10, 10, 12, 0.95) inset !important;
+    caret-color: var(--text);
+    transition: background-color 5000s ease-in-out 0s;
   }
   nav {
     position: fixed;
@@ -4245,9 +4248,6 @@
         <textarea id="cf-message" name="message" required rows="4" placeholder="A short description of what you have in mind…"></textarea>
       </div>
 
-      <!-- hCaptcha (free, zero-config via Web3Forms) -->
-      <div class="h-captcha" data-captcha="true" data-theme="dark" data-size="normal"></div>
-
       <div class="contact-form-status" id="contactFormStatus"></div>
 
       <button type="submit" class="contact-form-submit" id="contactFormSubmit">Send enquiry →</button>
@@ -4329,9 +4329,6 @@
     });
   })();
 </script>
-
-<!-- Web3Forms client script — enables hCaptcha auto-injection -->
-<script src="https://web3forms.com/client/script.js" async defer></script>
 
 </body>
 </html>
