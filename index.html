@@ -91,12 +91,92 @@
   }
   @media (max-width: 720px) {
     nav {
-      position: absolute;
-      background-color: transparent;
-      backdrop-filter: none;
-      -webkit-backdrop-filter: none;
-      border-bottom: none;
+      background-color: rgba(10, 10, 12, 0.85);
     }
+    .nav-inner {
+      display: grid;
+      grid-template-columns: 40px 1fr 40px;
+      align-items: center;
+    }
+    .nav-logo {
+      justify-self: center;
+    }
+    .nav-cta {
+      display: none;
+    }
+    .nav-menu-btn {
+      display: flex;
+    }
+  }
+  .nav-menu-btn {
+    display: none;
+    width: 40px;
+    height: 40px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 5px;
+    color: var(--text);
+  }
+  .nav-menu-btn span {
+    width: 22px;
+    height: 1.5px;
+    background: var(--text);
+    transition: transform 0.3s, opacity 0.3s;
+    transform-origin: center;
+  }
+  .nav-menu-btn.is-open span:nth-child(1) {
+    transform: translateY(6.5px) rotate(45deg);
+  }
+  .nav-menu-btn.is-open span:nth-child(2) {
+    opacity: 0;
+  }
+  .nav-menu-btn.is-open span:nth-child(3) {
+    transform: translateY(-6.5px) rotate(-45deg);
+  }
+
+  /* Mobile menu overlay */
+  .mobile-menu {
+    position: fixed;
+    inset: 0;
+    background: var(--bg);
+    z-index: 49;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 32px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+    padding: 0 24px;
+  }
+  .mobile-menu.is-open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .mobile-menu a {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 32px;
+    font-weight: 300;
+    color: var(--text);
+    letter-spacing: -0.02em;
+  }
+  .mobile-menu .mobile-menu-cta {
+    margin-top: 16px;
+    font-family: var(--mono);
+    font-style: normal;
+    font-size: 12px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    padding: 14px 32px;
+    background: linear-gradient(135deg, #c8282e 0%, #6ba368 100%);
+    color: var(--text);
   }
   .nav-inner {
     display: flex;
@@ -1019,13 +1099,13 @@
     letter-spacing: 0.18em;
     color: var(--accent);
     padding: 3px 8px;
-    border: 0.5px solid var(--accent);
+    border: 1px solid var(--accent);
     white-space: nowrap;
     margin-top: 2px;
   }
   .nda-note a {
     color: var(--accent);
-    border-bottom: 0.5px solid var(--accent);
+    border-bottom: 1px solid var(--accent);
   }
 
   #testimonials { border-top: 0.5px solid var(--line); position: relative; overflow: hidden; }
@@ -1702,7 +1782,16 @@
   @media (max-width: 720px) {
     .footer-bottom {
       grid-template-columns: 1fr;
-      text-align: left;
+      text-align: center;
+      gap: 20px;
+    }
+    .footer-bottom-center {
+      justify-content: center;
+    }
+    .footer-bottom-links {
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 16px 22px;
     }
   }
   .footer-bottom-center {
@@ -2016,6 +2105,11 @@
 
 <nav>
   <div class="nav-inner">
+    <button class="nav-menu-btn" id="navMenuBtn" aria-label="Open menu" aria-expanded="false">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
     <a href="#" class="nav-logo" aria-label="VKSTUDIO home">
       <span class="logo-wordmark"><span class="logo-vk">vk</span>STUDIO</span>
     </a>
@@ -2028,6 +2122,15 @@
     <a href="#contact" class="nav-cta">Start a project</a>
   </div>
 </nav>
+
+<div class="mobile-menu" id="mobileMenu" aria-hidden="true">
+  <a href="#services" data-mobile-link>Services</a>
+  <a href="#approach" data-mobile-link>Approach</a>
+  <a href="#founder" data-mobile-link>Studio</a>
+  <a href="#clients" data-mobile-link>Work</a>
+  <a href="#testimonials" data-mobile-link>Voices</a>
+  <a href="#contact" class="mobile-menu-cta" data-mobile-link>Start a project</a>
+</div>
 
 <header class="hero">
   <div class="hero-bg">
@@ -2909,5 +3012,27 @@
   </div>
 </footer>
 
+<script>
+  (function() {
+    var btn = document.getElementById('navMenuBtn');
+    var menu = document.getElementById('mobileMenu');
+    if (!btn || !menu) return;
+
+    function toggleMenu(open) {
+      var isOpen = open !== undefined ? open : !menu.classList.contains('is-open');
+      menu.classList.toggle('is-open', isOpen);
+      btn.classList.toggle('is-open', isOpen);
+      btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+      menu.setAttribute('aria-hidden', isOpen ? 'false' : 'true');
+      document.body.style.overflow = isOpen ? 'hidden' : '';
+    }
+
+    btn.addEventListener('click', function() { toggleMenu(); });
+
+    menu.querySelectorAll('[data-mobile-link]').forEach(function(link) {
+      link.addEventListener('click', function() { toggleMenu(false); });
+    });
+  })();
+</script>
 </body>
 </html>
