@@ -37,7 +37,7 @@
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; }
+  html { scroll-behavior: smooth; overflow-x: hidden; }
 
   body {
     background: var(--bg);
@@ -48,6 +48,8 @@
     font-size: 15px;
     -webkit-font-smoothing: antialiased;
     overflow-x: hidden;
+    width: 100%;
+    position: relative;
   }
 
   body::before {
@@ -85,6 +87,9 @@
     padding: 12px 32px;
     max-width: 1280px;
     margin: 0 auto;
+  }
+  @media (max-width: 720px) {
+    .nav-inner { padding: 12px 20px; }
   }
   .nav-logo {
     height: 56px;
@@ -178,6 +183,9 @@
     align-items: center;
     overflow: hidden;
     perspective: 1200px;
+  }
+  @media (max-width: 720px) {
+    .hero { padding: 110px 0 60px; }
   }
 
   /* LAYER 1: Background — soft glows, deepest layer */
@@ -410,6 +418,10 @@
   section {
     padding: 120px 0;
     position: relative;
+  }
+  @media (max-width: 720px) {
+    section { padding: 80px 0; }
+    .container { padding: 0 20px; }
   }
   .section-label {
     font-family: var(--mono);
@@ -1745,6 +1757,15 @@
     height: 100%;
     display: block;
   }
+  @media (max-width: 720px) {
+    /* On mobile, show only the left ~40% of the scene (left palm, wading bird, bird flock)
+       by scaling up and anchoring left. We change preserveAspectRatio via CSS-friendly trick:
+       widen the SVG to ~2.5x and crop with the container. */
+    .beach-backdrop svg {
+      width: 280%;
+      left: 0;
+    }
+  }
 
   @keyframes cloudDriftA {
     0%, 100% { transform: translateX(0); }
@@ -2111,13 +2132,13 @@
         <div class="service-num">03</div>
         <svg class="service-icon"><use href="#ic-vr"/></svg>
         <h3 class="service-title">VR Filmmaking</h3>
-        <p class="service-desc">Directed, paced, scored. We treat VR like a film with a camera the viewer happens to be standing inside — not like stitched footage handed off to an editor.</p>
+        <p class="service-desc">Directed, paced, scored. We treat VR like a film the viewer happens to be standing inside — not like stitched footage with a headset bolted on.</p>
       </div>
       <div class="service">
         <div class="service-num">04</div>
         <svg class="service-icon"><use href="#ic-wayfind"/></svg>
         <h3 class="service-title">3D Wayfinding</h3>
-        <p class="service-desc">Big buildings tend to bewilder visitors. We make interactive maps that turn a campus, hospital, or plant into something a first-time guest can actually navigate.</p>
+        <p class="service-desc">Large buildings tend to confuse first-time visitors. We make interactive maps that turn a campus, hospital, or plant into something a stranger can actually navigate.</p>
       </div>
       <div class="service">
         <div class="service-num">05</div>
