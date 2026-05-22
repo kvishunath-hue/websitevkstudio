@@ -2971,6 +2971,40 @@
     transform-origin: center;
     transform-box: fill-box;
   }
+
+  /* === MOBILE PERFORMANCE OVERRIDES (Approach section) ===
+     Mobile GPUs choke on:
+     - Continuously animated `filter: drop-shadow(...)` (forces bitmap repaint each frame)
+     - 10 simultaneously animated SVG sparkles with transform-box: fill-box
+     - Multiple stacked waveScan + ecgFlicker animations
+     Strategy: keep visuals, lighten the animation cost. */
+  @media (max-width: 768px) {
+    /* Drop the heaviest filter animations - keep opacity/scale only */
+    .signal-wave {
+      animation: none;
+      filter: none;
+      opacity: 0.95;
+    }
+    .noise-wave {
+      animation: none;
+      filter: none;
+      opacity: 0.9;
+    }
+    /* Sparkles: keep only every other one animating, halve frame load */
+    .sparkle-2, .sparkle-4, .sparkle-6, .sparkle-8, .sparkle-10 {
+      animation: none;
+      opacity: 0.6;
+    }
+    /* The yellow scanner sweep is fine on mobile, leave it */
+  }
+  /* Honor reduced motion preference globally */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
 </style>
 </head>
 <body>
