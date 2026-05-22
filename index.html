@@ -1601,14 +1601,31 @@
   .founder-mid .f-dot-4 { top: 38%; right: 40%; background: var(--accent-blue); animation: pulse 2.2s ease-in-out infinite, driftBig 10s ease-in-out infinite; }
   #founder > .container { position: relative; z-index: 2; }
   .founder-grid {
-    display: grid;
-    grid-template-columns: 280px 1fr;
-    gap: 48px;
     margin-top: 56px;
-    align-items: start;
+  }
+  @media (min-width: 901px) {
+    .founder-grid::after {
+      content: '';
+      display: block;
+      clear: both;
+    }
+    .founder-card {
+      float: left;
+      width: 340px;
+      margin: 0 48px 24px 0;
+    }
+    .founder-text {
+      display: block;
+    }
   }
   @media (max-width: 900px) {
-    .founder-grid { grid-template-columns: 1fr; gap: 40px; max-width: 480px; }
+    .founder-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 40px;
+      max-width: 480px;
+      align-items: start;
+    }
   }
   .founder-text {
     display: flex;
