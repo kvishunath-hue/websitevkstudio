@@ -1675,6 +1675,37 @@
     padding: 36px 28px 32px;
     position: relative;
   }
+  .founder-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+  .founder-portrait {
+    width: 72px;
+    height: 72px;
+    object-fit: cover;
+    object-position: center 18%;
+    display: block;
+    flex-shrink: 0;
+    border: 0.5px solid rgba(212, 213, 215, 0.5);
+    box-shadow:
+      0 0 0 1px rgba(10, 10, 12, 0.6),
+      0 0 0 1.5px rgba(212, 213, 215, 0.2);
+    background: #1a1a1d;
+  }
+  .founder-header-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 72px;
+  }
+  .founder-header-text .founder-name {
+    margin-bottom: 6px;
+  }
+  .founder-header-text .founder-role {
+    margin-bottom: 0;
+  }
   .founder-info::before {
     content: 'CARD · 03';
     position: absolute;
@@ -3901,8 +3932,13 @@
       <aside class="founder-card">
         <div class="founder-info">
           <div class="founder-card-tag">Studio Lead</div>
-          <div class="founder-name">Vishwanath <em>Kothapalli</em></div>
-          <div class="founder-role">Founder · Practice since 2014</div>
+          <div class="founder-header">
+            <img src="vishwanath.jpg" alt="Vishwanath Kothapalli portrait" class="founder-portrait" loading="lazy" />
+            <div class="founder-header-text">
+              <div class="founder-name">Vishwanath <em>Kothapalli</em></div>
+              <div class="founder-role">Founder · Practice since 2014</div>
+            </div>
+          </div>
           <div class="founder-creds">
             <div class="founder-cred">
               <span class="founder-cred-key">Education</span>
