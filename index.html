@@ -147,14 +147,12 @@
   }
   .contact-modal-panel::before {
     content: '';
-    position: sticky;
-    top: 0;
-    left: 0; right: 0;
+    position: absolute;
+    top: 0; left: 0; right: 0;
     height: 3px;
     background: linear-gradient(90deg, #6b6c70 0%, #d4d5d7 20%, #f0f1f3 50%, #8e8f93 75%, #c8c9cb 100%);
     z-index: 6;
-    margin-bottom: -3px;
-    flex-shrink: 0;
+    pointer-events: none;
   }
   .contact-modal-close {
     width: 32px;
