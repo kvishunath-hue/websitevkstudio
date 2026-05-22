@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="theme-color" content="#0a0a0c" />
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
@@ -80,8 +80,6 @@
   }
 
   /* === NAV === */
-  /* Translucent nav with blur — Safari iOS 26 uses its background-color to tint
-     the toolbar, so we set a dark rgba which produces a dark tint. */
   nav {
     position: fixed;
     top: 0; left: 0; right: 0;
@@ -91,20 +89,14 @@
     -webkit-backdrop-filter: blur(16px);
     border-bottom: 1px solid var(--line);
   }
-
-  /* Dedicated status bar overlay — sits ABOVE the viewport (top: negative)
-     so content can't bleed through the iOS Safari status bar zone.
-     This element is invisible until iOS pulls down and reveals it as content
-     scrolls underneath. Same background as page = seamless. */
-  .statusbar-overlay {
-    position: fixed;
-    left: 0;
-    right: 0;
-    top: -100px;
-    height: 100px;
-    background-color: #0a0a0c;
-    z-index: 60;
-    pointer-events: none;
+  @media (max-width: 720px) {
+    nav {
+      position: absolute;
+      background-color: transparent;
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+      border-bottom: none;
+    }
   }
   .nav-inner {
     display: flex;
@@ -1891,7 +1883,6 @@
 </style>
 </head>
 <body>
-<div class="statusbar-overlay" aria-hidden="true"></div>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <defs>
