@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
 <title>VKSTUDIO — Immersive Imaging &amp; Technology Solutions</title>
 <meta name="description" content="360° virtual tours, photogrammetry, VR filmmaking, and 3D wayfinding. A small studio practicing imaging and technology with care." />
 <meta property="og:title" content="VKSTUDIO — Immersive Imaging" />
@@ -79,17 +79,24 @@
     -webkit-backdrop-filter: blur(18px);
     background: rgba(10,10,12,0.7);
     border-bottom: 0.5px solid var(--line);
+    padding-top: env(safe-area-inset-top);
   }
   .nav-inner {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 12px 32px;
+    padding-left: max(32px, env(safe-area-inset-left));
+    padding-right: max(32px, env(safe-area-inset-right));
     max-width: 1280px;
     margin: 0 auto;
   }
   @media (max-width: 720px) {
-    .nav-inner { padding: 12px 20px; }
+    .nav-inner {
+      padding: 12px 20px;
+      padding-left: max(20px, env(safe-area-inset-left));
+      padding-right: max(20px, env(safe-area-inset-right));
+    }
   }
   .nav-logo {
     height: 56px;
