@@ -146,13 +146,19 @@
     to { opacity: 1; transform: translateY(0); }
   }
   .contact-modal-panel::before {
-    content: '';
+    content: none;
+  }
+  .contact-modal-bar {
     position: absolute;
-    top: 0; left: 0; right: 0;
+    top: 0;
+    left: 0;
+    right: 0;
     height: 3px;
     background: linear-gradient(90deg, #6b6c70 0%, #d4d5d7 20%, #f0f1f3 50%, #8e8f93 75%, #c8c9cb 100%);
-    z-index: 6;
     pointer-events: none;
+  }
+  .contact-modal-inner {
+    position: relative;
   }
   .contact-modal-close {
     width: 32px;
@@ -4896,6 +4902,7 @@
       <button class="contact-modal-close" type="button" aria-label="Close" data-close-contact>×</button>
     </div>
     <div class="contact-modal-inner">
+    <div class="contact-modal-bar" aria-hidden="true"></div>
     <div class="contact-modal-label">— Start a project —</div>
     <h2 class="contact-modal-title" id="contactModalTitle">Tell us about the <em>project.</em></h2>
     <p class="contact-modal-intro">A few lines about what you have in mind is plenty to start. We'll reply within a working day.</p>
