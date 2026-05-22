@@ -25,8 +25,8 @@
     --bg: #0a0a0c;
     --bg-elev: #111114;
     --bg-card: #16161a;
-    --line: rgba(255,255,255,0.08);
-    --line-strong: rgba(255,255,255,0.18);
+    --line: rgba(255,255,255,0.14);
+    --line-strong: rgba(255,255,255,0.26);
     --text: #f4f4f2;
     --text-muted: #8a8a85;
     --text-dim: #5a5a55;
@@ -1984,18 +1984,6 @@
   }
   footer > .container { position: relative; z-index: 2; }
 
-  /* Background grid for end credits — notebook style */
-  .footer-grid {
-    position: absolute;
-    inset: 0;
-    background-image:
-      linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px);
-    background-size: 6px 6px;
-    z-index: 0;
-    pointer-events: none;
-  }
-
   /* Manifesto strip at the top of footer */
   .footer-manifesto {
     display: grid;
@@ -2305,18 +2293,6 @@
     letter-spacing: 0.14em;
     text-transform: uppercase;
     color: #c4c4be;
-    position: relative;
-    z-index: 3;
-  }
-  .footer-bottom::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100vw;
-    right: -100vw;
-    bottom: -32px;
-    background: var(--bg);
-    z-index: -1;
   }
   .footer-bottom-center {
     display: flex;
@@ -3827,7 +3803,6 @@
 </section>
 
 <footer>
-  <div class="footer-grid"></div>
   <div class="container">
     <!-- END CREDITS DIVIDER -->
     <div class="credits-divider">
