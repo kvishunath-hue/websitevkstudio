@@ -2176,6 +2176,16 @@
     pointer-events: none;
     z-index: 1;
     overflow: hidden;
+    /* Same top-left corner clip as the beach backdrop, so any floating
+       shape that drifts into that 5×5 corner is hidden cleanly. */
+    clip-path: polygon(
+      5% 0,
+      100% 0,
+      100% 100%,
+      0 100%,
+      0 5%,
+      5% 5%
+    );
   }
   .contact-mid .c-shape {
     position: absolute;
@@ -2819,6 +2829,17 @@
     pointer-events: none;
     overflow: hidden;
     opacity: 0.4;
+    /* Cut the top-left 5% × 5% corner out so anything that clips into
+       that distracting zone is hidden — the section's actual background
+       shows through naturally with no patch artifact. */
+    clip-path: polygon(
+      5% 0,
+      100% 0,
+      100% 100%,
+      0 100%,
+      0 5%,
+      5% 5%
+    );
   }
   .beach-backdrop svg {
     position: absolute;
@@ -2830,8 +2851,7 @@
   }
   @media (max-width: 720px) {
     /* On mobile, show only the left ~40% of the scene (left palm, wading bird, bird flock)
-       by scaling up and anchoring left. We change preserveAspectRatio via CSS-friendly trick:
-       widen the SVG to ~2.5x and crop with the container. */
+       by scaling up and anchoring left. */
     .beach-backdrop svg {
       width: 280%;
       left: 0;
