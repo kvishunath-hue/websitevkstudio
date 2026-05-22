@@ -294,8 +294,10 @@
 
   /* hCaptcha widget inside dark modal */
   .contact-form .h-captcha {
-    margin: 4px 0;
+    margin: 8px 0 4px;
     min-height: 78px;
+    display: flex;
+    justify-content: center;
   }
   .contact-form .h-captcha iframe {
     border-radius: 0 !important;
@@ -4244,7 +4246,7 @@
       </div>
 
       <!-- hCaptcha (free, zero-config via Web3Forms) -->
-      <div class="h-captcha" data-captcha="true"></div>
+      <div class="h-captcha" data-captcha="true" data-theme="dark" data-size="normal"></div>
 
       <div class="contact-form-status" id="contactFormStatus"></div>
 
