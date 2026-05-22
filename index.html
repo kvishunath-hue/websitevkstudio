@@ -38,7 +38,11 @@
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; overflow-x: hidden; }
+  html {
+    scroll-behavior: smooth;
+    overflow-x: hidden;
+    background: var(--bg);
+  }
 
   body {
     background: var(--bg);
@@ -76,22 +80,11 @@
     position: fixed;
     top: 0; left: 0; right: 0;
     z-index: 50;
+    background: rgba(10,10,12,0.96);
     backdrop-filter: blur(18px);
     -webkit-backdrop-filter: blur(18px);
-    background: rgba(10,10,12,0.92);
-    border-bottom: 0.5px solid var(--line);
+    border-bottom: 1px solid var(--line);
     padding-top: env(safe-area-inset-top);
-  }
-  /* Solid backstop behind the notch/status bar area so scrolled content doesn't bleed through */
-  nav::before {
-    content: '';
-    position: absolute;
-    top: calc(-1 * env(safe-area-inset-top));
-    left: 0;
-    right: 0;
-    height: env(safe-area-inset-top);
-    background: var(--bg);
-    z-index: -1;
   }
   .nav-inner {
     display: flex;
