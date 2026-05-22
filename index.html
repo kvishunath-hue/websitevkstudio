@@ -10,8 +10,9 @@
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://www.vkstudio.in" />
 <link rel="canonical" href="https://www.vkstudio.in" />
-<link rel="icon" type="image/svg+xml" href="favicon.svg" />
-<link rel="alternate icon" href="favicon.svg" />
+<link rel="icon" type="image/svg+xml" href="favicon.svg?v=2" />
+<link rel="alternate icon" href="favicon.svg?v=2" />
+<link rel="apple-touch-icon" href="favicon.svg?v=2" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,400&family=JetBrains+Mono:wght@400;500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
@@ -77,9 +78,20 @@
     z-index: 50;
     backdrop-filter: blur(18px);
     -webkit-backdrop-filter: blur(18px);
-    background: rgba(10,10,12,0.7);
+    background: rgba(10,10,12,0.92);
     border-bottom: 0.5px solid var(--line);
     padding-top: env(safe-area-inset-top);
+  }
+  /* Solid backstop behind the notch/status bar area so scrolled content doesn't bleed through */
+  nav::before {
+    content: '';
+    position: absolute;
+    top: calc(-1 * env(safe-area-inset-top));
+    left: 0;
+    right: 0;
+    height: env(safe-area-inset-top);
+    background: var(--bg);
+    z-index: -1;
   }
   .nav-inner {
     display: flex;
@@ -168,7 +180,7 @@
     letter-spacing: 0.18em;
     text-transform: uppercase;
     padding: 9px 18px;
-    border: 0.5px solid var(--line-strong);
+    border: 1px solid var(--line-strong);
     color: var(--text);
     transition: all 0.25s;
   }
@@ -987,7 +999,7 @@
   .nda-note {
     margin-top: 48px;
     padding: 24px 28px;
-    border: 0.5px solid var(--line);
+    border: 1px solid var(--line);
     background: var(--bg-card);
     font-size: 14px;
     color: var(--text-muted);
