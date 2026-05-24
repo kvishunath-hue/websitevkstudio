@@ -1302,11 +1302,11 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 80px;
-    align-items: center;
-    margin-top: 24px;
+    align-items: start;
+    margin-top: 40px;
   }
   @media (max-width: 900px) {
-    .approach-grid { grid-template-columns: 1fr; gap: 48px; margin-top: 20px; }
+    .approach-grid { grid-template-columns: 1fr; gap: 48px; margin-top: 24px; }
   }
   .approach-text p {
     font-size: 16px;
@@ -1327,6 +1327,10 @@
   .approach-quote em { color: var(--accent-yellow); }
   .approach-visual {
     aspect-ratio: 1;
+    max-height: 480px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
     position: relative;
     display: flex;
     align-items: center;
