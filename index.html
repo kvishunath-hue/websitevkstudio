@@ -2983,13 +2983,70 @@
     0%, 100% { transform: rotate(-0.6deg); }
     50%      { transform: rotate(0.8deg); }
   }
-  /* Moon reflection — gentle vertical shimmer (opacity breath) */
-  .pond-moon-reflection {
-    animation: pondShimmer 6s ease-in-out infinite;
+  /* Shared horizontal anchor for moon + reflection (so they always align) */
+  .pond-backdrop {
+    --moon-right-offset: clamp(-30px, 0vw, 50px);
+    --moon-size: clamp(80px, 9vw, 140px);
+    --moon-center-x: calc(var(--moon-right-offset) + (var(--moon-size) / 2));
   }
-  @keyframes pondShimmer {
-    0%, 100% { opacity: 0.55; transform: scaleY(1); }
-    50%      { opacity: 0.85; transform: scaleY(1.04); }
+  /* Moon disc — top-right, clips off the right edge on narrow viewports */
+  .pond-moon-disc {
+    position: absolute;
+    top: clamp(24px, 5vh, 60px);
+    right: var(--moon-right-offset);
+    width: var(--moon-size);
+    height: var(--moon-size);
+    pointer-events: none;
+    z-index: 1;
+  }
+  .pond-moon-disc svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+    overflow: visible;
+  }
+  /* Moon reflection — anchored to water surface (75% of section), centered on the moon */
+  .pond-moon-reflection {
+    position: absolute;
+    top: 75%;
+    /* The reflection's CSS box is wider than its visible content so the SVG can center
+       under the moon. We position by right edge, matching the moon's center. */
+    right: var(--moon-center-x);
+    transform: translateX(50%);
+    width: clamp(160px, 18vw, 260px);
+    height: 22%;
+    pointer-events: none;
+    z-index: 1;
+  }
+  .pond-moon-reflection svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+  /* Shaft (the whole stack of bands) — gentle overall opacity shimmer */
+  .pond-moon-streak-shaft {
+    animation: pondShaftShimmer 7s ease-in-out infinite;
+  }
+  @keyframes pondShaftShimmer {
+    0%, 100% { opacity: 0.70; }
+    50%      { opacity: 1.00; }
+  }
+  /* Individual bands — gentle horizontal drift with staggered timing */
+  .ref-band {
+    animation: pondBandDrift 7s ease-in-out infinite;
+    transform-origin: center;
+  }
+  .ref-band-1 { animation-duration: 5s;   animation-delay: 0s; }
+  .ref-band-2 { animation-duration: 7s;   animation-delay: -1.2s; }
+  .ref-band-3 { animation-duration: 6s;   animation-delay: -2.0s; }
+  .ref-band-4 { animation-duration: 8s;   animation-delay: -3.4s; }
+  .ref-band-5 { animation-duration: 5.5s; animation-delay: -1.8s; }
+  .ref-band-6 { animation-duration: 6.5s; animation-delay: -2.8s; }
+  .ref-band-7 { animation-duration: 7.5s; animation-delay: -4.2s; }
+  .ref-band-8 { animation-duration: 9s;   animation-delay: -5.0s; }
+  @keyframes pondBandDrift {
+    0%, 100% { transform: translateX(-3px) scaleX(0.94); opacity: 0.7; }
+    50%      { transform: translateX(3px)  scaleX(1.06); opacity: 1.0; }
   }
   /* Surface ripples — slow expansion */
   .pond-ripple {
@@ -3017,7 +3074,7 @@
     50%      { opacity: 0.7; }
   }
   @media (prefers-reduced-motion: reduce) {
-    .pond-stem, .pond-moon-reflection, .pond-ripple, .pond-stars circle { animation: none; }
+    .pond-stem, .pond-moon-streak-shaft, .ref-band, .pond-ripple, .pond-stars circle { animation: none; }
   }
 
   /* ============ AURORA BACKDROP — green aurora curtains behind contact section ============ */
@@ -4540,7 +4597,7 @@
           <stop offset="100%" stop-color="#04101a"/>
         </linearGradient>
         <!-- Moon glow upper-right -->
-        <radialGradient id="pond-moon" cx="0.82" cy="0.20" r="0.20">
+        <radialGradient id="pond-moon" cx="0.88" cy="0.12" r="0.22">
           <stop offset="0%"   stop-color="rgba(232,210,168,0.55)"/>
           <stop offset="55%"  stop-color="rgba(232,210,168,0.10)"/>
           <stop offset="100%" stop-color="rgba(232,210,168,0)"/>
@@ -4564,10 +4621,6 @@
       <rect x="0" y="0" width="1200" height="270" fill="url(#pond-moon)"/>
       <!-- Horizon haze layer just above the water -->
       <rect x="0" y="210" width="1200" height="60" fill="url(#pond-haze)"/>
-
-      <!-- Moon disc (subtle, not blinding) -->
-      <circle cx="985" cy="68" r="22" fill="rgba(232,210,168,0.42)"/>
-      <circle cx="985" cy="68" r="14" fill="rgba(244,228,196,0.65)"/>
 
       <!-- STARS — sparse, in upper sky -->
       <g class="pond-stars" fill="#d8dee0">
@@ -4607,31 +4660,31 @@
 
       <!-- Stem 1 -->
       <g class="pond-stem">
-        <path d="M 120 270 Q 122 224 124 192" fill="none" stroke="#1e3a28" stroke-width="1.6" stroke-linecap="round"/>
+        <path d="M 120 270 Q 122 242 124 223" fill="none" stroke="#1e3a28" stroke-width="1.6" stroke-linecap="round"/>
         <!-- Bloom -->
-        <g transform="translate(124 188)">
+        <g class="bloom-wrap"><g transform="translate(124 221)">
           <ellipse cx="-7" cy="2" rx="5" ry="9" fill="#c8a094" transform="rotate(-30 -7 2)"/>
           <ellipse cx="7" cy="2" rx="5" ry="9" fill="#c8a094" transform="rotate(30 7 2)"/>
           <ellipse cx="0" cy="0" rx="6" ry="11" fill="#e8c4b8"/>
           <ellipse cx="0" cy="-2" rx="3" ry="7" fill="#f4dcd0"/>
           <circle r="1.4" fill="#d4a896"/>
-        </g>
+        </g></g>
       </g>
 
       <!-- Stem 2 -->
       <g class="pond-stem">
-        <path d="M 240 270 Q 238 230 236 196" fill="none" stroke="#1e3a28" stroke-width="1.4" stroke-linecap="round"/>
+        <path d="M 240 270 Q 238 246 236 226" fill="none" stroke="#1e3a28" stroke-width="1.4" stroke-linecap="round"/>
         <!-- Closed bud -->
-        <g transform="translate(236 192)">
+        <g class="bloom-wrap"><g transform="translate(236 223)">
           <ellipse cx="0" cy="0" rx="4" ry="8" fill="#d4a896"/>
           <ellipse cx="0" cy="-2" rx="2.5" ry="6" fill="#e8c4b8"/>
-        </g>
+        </g></g>
       </g>
 
       <!-- Stem 3 — taller bloom -->
       <g class="pond-stem">
-        <path d="M 360 270 Q 362 220 364 178" fill="none" stroke="#1e3a28" stroke-width="1.6" stroke-linecap="round"/>
-        <g transform="translate(364 174)">
+        <path d="M 360 270 Q 362 240 364 215" fill="none" stroke="#1e3a28" stroke-width="1.6" stroke-linecap="round"/>
+        <g class="bloom-wrap"><g transform="translate(364 212)">
           <ellipse cx="-8" cy="2" rx="6" ry="11" fill="#c8a094" transform="rotate(-32 -8 2)"/>
           <ellipse cx="8" cy="2" rx="6" ry="11" fill="#c8a094" transform="rotate(32 8 2)"/>
           <ellipse cx="-13" cy="0" rx="4" ry="9" fill="#b48a7c" transform="rotate(-55 -13 0)"/>
@@ -4641,21 +4694,21 @@
           <ellipse cx="4" cy="-1" rx="3" ry="9" fill="#f0d4c8" transform="rotate(18)"/>
           <ellipse cx="0" cy="-3" rx="3" ry="7" fill="#f4dcd0"/>
           <circle r="1.8" fill="#d4a896"/>
-        </g>
+        </g></g>
       </g>
 
       <!-- Stem 4 — small bud -->
       <g class="pond-stem">
-        <path d="M 480 270 Q 478 240 476 218" fill="none" stroke="#1e3a28" stroke-width="1.2" stroke-linecap="round"/>
-        <g transform="translate(476 214)">
+        <path d="M 480 270 Q 478 252 476 239" fill="none" stroke="#1e3a28" stroke-width="1.2" stroke-linecap="round"/>
+        <g class="bloom-wrap"><g transform="translate(476 236)">
           <ellipse cx="0" cy="0" rx="3" ry="6" fill="#d4a896"/>
-        </g>
+        </g></g>
       </g>
 
       <!-- Stem 5 — main center bloom -->
       <g class="pond-stem">
-        <path d="M 600 270 Q 602 216 604 168" fill="none" stroke="#1e3a28" stroke-width="1.8" stroke-linecap="round"/>
-        <g transform="translate(604 164)">
+        <path d="M 600 270 Q 602 238 604 209" fill="none" stroke="#1e3a28" stroke-width="1.8" stroke-linecap="round"/>
+        <g class="bloom-wrap"><g transform="translate(604 206)">
           <ellipse cx="-9" cy="3" rx="7" ry="13" fill="#b48a7c" transform="rotate(-35 -9 3)"/>
           <ellipse cx="9" cy="3" rx="7" ry="13" fill="#b48a7c" transform="rotate(35 9 3)"/>
           <ellipse cx="-15" cy="0" rx="5" ry="11" fill="#a07868" transform="rotate(-55 -15 0)"/>
@@ -4670,61 +4723,61 @@
           <circle cx="-1" cy="-4" r="0.5" fill="#a87850"/>
           <circle cx="1" cy="-3.5" r="0.5" fill="#a87850"/>
           <circle cx="0" cy="-2.5" r="0.5" fill="#a87850"/>
-        </g>
+        </g></g>
       </g>
 
       <!-- Stem 6 -->
       <g class="pond-stem">
-        <path d="M 720 270 Q 722 236 724 208" fill="none" stroke="#1e3a28" stroke-width="1.4" stroke-linecap="round"/>
-        <g transform="translate(724 204)">
+        <path d="M 720 270 Q 722 250 724 233" fill="none" stroke="#1e3a28" stroke-width="1.4" stroke-linecap="round"/>
+        <g class="bloom-wrap"><g transform="translate(724 230)">
           <ellipse cx="-6" cy="2" rx="4" ry="8" fill="#c8a094" transform="rotate(-30 -6 2)"/>
           <ellipse cx="6" cy="2" rx="4" ry="8" fill="#c8a094" transform="rotate(30 6 2)"/>
           <ellipse cx="0" cy="0" rx="5" ry="10" fill="#e8c4b8"/>
           <ellipse cx="0" cy="-2" rx="2.5" ry="6" fill="#f4dcd0"/>
           <circle r="1.2" fill="#d4a896"/>
-        </g>
+        </g></g>
       </g>
 
       <!-- Stem 7 — tall slim with closed bud -->
       <g class="pond-stem">
-        <path d="M 840 270 Q 838 222 836 188" fill="none" stroke="#1e3a28" stroke-width="1.4" stroke-linecap="round"/>
-        <g transform="translate(836 184)">
+        <path d="M 840 270 Q 838 241 836 221" fill="none" stroke="#1e3a28" stroke-width="1.4" stroke-linecap="round"/>
+        <g class="bloom-wrap"><g transform="translate(836 218)">
           <ellipse cx="0" cy="0" rx="4" ry="10" fill="#c8a094"/>
           <ellipse cx="0" cy="-3" rx="2.5" ry="7" fill="#e8c4b8"/>
-        </g>
+        </g></g>
       </g>
 
       <!-- Stem 8 -->
       <g class="pond-stem">
-        <path d="M 940 270 Q 942 232 944 200" fill="none" stroke="#1e3a28" stroke-width="1.5" stroke-linecap="round"/>
-        <g transform="translate(944 196)">
+        <path d="M 940 270 Q 942 247 944 228" fill="none" stroke="#1e3a28" stroke-width="1.5" stroke-linecap="round"/>
+        <g class="bloom-wrap"><g transform="translate(944 226)">
           <ellipse cx="-7" cy="2" rx="5" ry="9" fill="#c8a094" transform="rotate(-30 -7 2)"/>
           <ellipse cx="7" cy="2" rx="5" ry="9" fill="#c8a094" transform="rotate(30 7 2)"/>
           <ellipse cx="0" cy="0" rx="6" ry="11" fill="#e8c4b8"/>
           <ellipse cx="-3" cy="-1" rx="2.5" ry="7" fill="#f0d4c8" transform="rotate(-18)"/>
           <ellipse cx="3" cy="-1" rx="2.5" ry="7" fill="#f0d4c8" transform="rotate(18)"/>
           <circle r="1.4" fill="#d4a896"/>
-        </g>
+        </g></g>
       </g>
 
       <!-- Stem 9 — small bud -->
       <g class="pond-stem">
-        <path d="M 1050 270 Q 1048 240 1046 218" fill="none" stroke="#1e3a28" stroke-width="1.2" stroke-linecap="round"/>
-        <g transform="translate(1046 214)">
+        <path d="M 1050 270 Q 1048 252 1046 239" fill="none" stroke="#1e3a28" stroke-width="1.2" stroke-linecap="round"/>
+        <g class="bloom-wrap"><g transform="translate(1046 236)">
           <ellipse cx="0" cy="0" rx="3" ry="6" fill="#d4a896"/>
-        </g>
+        </g></g>
       </g>
 
       <!-- Stem 10 -->
       <g class="pond-stem">
-        <path d="M 1140 270 Q 1142 224 1144 192" fill="none" stroke="#1e3a28" stroke-width="1.5" stroke-linecap="round"/>
-        <g transform="translate(1144 188)">
+        <path d="M 1140 270 Q 1142 242 1144 223" fill="none" stroke="#1e3a28" stroke-width="1.5" stroke-linecap="round"/>
+        <g class="bloom-wrap"><g transform="translate(1144 221)">
           <ellipse cx="-6" cy="2" rx="4" ry="9" fill="#c8a094" transform="rotate(-30 -6 2)"/>
           <ellipse cx="6" cy="2" rx="4" ry="9" fill="#c8a094" transform="rotate(30 6 2)"/>
           <ellipse cx="0" cy="0" rx="5" ry="11" fill="#e8c4b8"/>
           <ellipse cx="0" cy="-2" rx="2.5" ry="7" fill="#f4dcd0"/>
           <circle r="1.2" fill="#d4a896"/>
-        </g>
+        </g></g>
       </g>
 
       <!-- WATER SURFACE LINE -->
@@ -4747,27 +4800,16 @@
         <ellipse cx="1120" cy="272" rx="32" ry="3"/>
       </g>
 
-      <!-- MOON REFLECTION on water — vertical shaft beneath the moon -->
-      <g class="pond-moon-reflection">
-        <rect x="978" y="272" width="14" height="86" fill="rgba(232,210,168,0.18)"/>
-        <rect x="982" y="272" width="6" height="80" fill="rgba(244,228,196,0.30)"/>
-        <!-- Broken-up reflection bands -->
-        <rect x="976" y="290" width="18" height="2" fill="rgba(244,228,196,0.45)"/>
-        <rect x="978" y="306" width="14" height="1.5" fill="rgba(244,228,196,0.4)"/>
-        <rect x="980" y="320" width="10" height="1.5" fill="rgba(244,228,196,0.35)"/>
-        <rect x="982" y="334" width="6" height="1" fill="rgba(244,228,196,0.30)"/>
-      </g>
-
       <!-- STEM REFLECTIONS in water — mirror, slightly fainter and broken -->
       <g stroke="#1e3a28" stroke-width="0.9" fill="none" stroke-linecap="round" opacity="0.32">
-        <path d="M 120 272 Q 122 290 124 308"/>
-        <path d="M 240 272 Q 238 286 236 300"/>
-        <path d="M 360 272 Q 362 296 364 320"/>
-        <path d="M 600 272 Q 602 300 604 332"/>
-        <path d="M 720 272 Q 722 290 724 306"/>
-        <path d="M 840 272 Q 838 294 836 314"/>
-        <path d="M 940 272 Q 942 292 944 308"/>
-        <path d="M 1140 272 Q 1142 290 1144 308"/>
+        <path d="M 120 272 Q 122 283 124 294"/>
+        <path d="M 240 272 Q 238 280 236 289"/>
+        <path d="M 360 272 Q 362 286 364 301"/>
+        <path d="M 600 272 Q 602 289 604 308"/>
+        <path d="M 720 272 Q 722 283 724 292"/>
+        <path d="M 840 272 Q 838 285 836 297"/>
+        <path d="M 940 272 Q 942 284 944 294"/>
+        <path d="M 1140 272 Q 1142 283 1144 294"/>
       </g>
 
       <!-- RIPPLES — three concentric sets that loop -->
@@ -4793,6 +4835,50 @@
       </defs>
       <rect width="1200" height="360" fill="url(#pond-vignette)"/>
     </svg>
+
+    <!-- MOON DISC — anchored top-right; allowed to clip off the edge on narrow viewports -->
+    <div class="pond-moon-disc" aria-hidden="true">
+      <svg viewBox="0 0 120 120" preserveAspectRatio="xMidYMid meet">
+        <!-- Soft outer glow halo -->
+        <circle cx="60" cy="60" r="48" fill="rgba(232,210,168,0.18)"/>
+        <!-- Main moon -->
+        <circle cx="60" cy="60" r="40" fill="rgba(232,210,168,0.55)"/>
+        <circle cx="60" cy="60" r="32" fill="rgba(244,228,196,0.78)"/>
+        <!-- Subtle inner highlight -->
+        <circle cx="56" cy="56" r="22" fill="rgba(252,240,212,0.16)"/>
+      </svg>
+    </div>
+
+    <!-- MOON REFLECTION — naturally spreading light pool on the water surface.
+         Horizontally aligned with the moon's center via shared --moon-center-x.
+         Vertically anchored to 75% of the section (the water surface line). -->
+    <div class="pond-moon-reflection" aria-hidden="true">
+      <svg viewBox="-100 0 200 90" preserveAspectRatio="xMidYMin meet">
+        <defs>
+          <!-- Soft glow base for the reflection -->
+          <radialGradient id="reflection-glow" cx="0.5" cy="0" r="0.8">
+            <stop offset="0%"   stop-color="rgba(244,228,196,0.40)"/>
+            <stop offset="40%"  stop-color="rgba(232,210,168,0.16)"/>
+            <stop offset="100%" stop-color="rgba(232,210,168,0)"/>
+          </radialGradient>
+        </defs>
+        <!-- Underlying glow pool — wider at top (near surface), fading downward -->
+        <ellipse cx="0" cy="6" rx="80" ry="80" fill="url(#reflection-glow)"/>
+
+        <!-- Horizontal highlight bands — wider near the surface, narrower with depth.
+             Each animated independently for a natural shimmering rhythm. -->
+        <g class="pond-moon-streak-shaft">
+          <ellipse class="ref-band ref-band-1" cx="0" cy="6"  rx="50" ry="2.0" fill="rgba(252,240,212,0.55)"/>
+          <ellipse class="ref-band ref-band-2" cx="0" cy="14" rx="42" ry="1.6" fill="rgba(244,228,196,0.50)"/>
+          <ellipse class="ref-band ref-band-3" cx="0" cy="24" rx="38" ry="1.4" fill="rgba(244,228,196,0.42)"/>
+          <ellipse class="ref-band ref-band-4" cx="0" cy="34" rx="32" ry="1.2" fill="rgba(244,228,196,0.36)"/>
+          <ellipse class="ref-band ref-band-5" cx="0" cy="44" rx="26" ry="1.0" fill="rgba(244,228,196,0.30)"/>
+          <ellipse class="ref-band ref-band-6" cx="0" cy="54" rx="20" ry="0.9" fill="rgba(244,228,196,0.24)"/>
+          <ellipse class="ref-band ref-band-7" cx="0" cy="64" rx="16" ry="0.8" fill="rgba(244,228,196,0.18)"/>
+          <ellipse class="ref-band ref-band-8" cx="0" cy="74" rx="12" ry="0.7" fill="rgba(244,228,196,0.12)"/>
+        </g>
+      </svg>
+    </div>
   </div>
 
   <div class="container">
