@@ -2419,15 +2419,13 @@
     border-left: 0.5px solid var(--line-strong);
   }
   @media (max-width: 720px) {
-    .process-strip { grid-template-columns: repeat(2, 1fr); }
+    .process-strip { grid-template-columns: 1fr; }
   }
   .process-step {
     padding: 28px 24px;
     border-right: 0.5px solid var(--line-strong);
     border-bottom: 0.5px solid var(--line-strong);
-    background: rgba(17, 17, 20, 0.04);
-    backdrop-filter: blur(1px);
-    -webkit-backdrop-filter: blur(1px);
+    background: transparent;
   }
   .process-num {
     font-family: var(--mono);
@@ -2954,127 +2952,77 @@
     color: #f4f4f0;
   }
 
-  /* ============ POND BACKDROP — moonlit lotus pond behind contact section ============ */
+  /* ============ POND BACKDROP — single moonlit lotus in a forest pond ============ */
   .pond-backdrop {
     position: absolute;
     inset: 0;
     z-index: 0;
     pointer-events: none;
     overflow: hidden;
-    opacity: 0.65;
+    opacity: 0.85;
   }
-  .pond-backdrop svg {
+  .pond-svg {
     position: absolute;
-    top: 0;
-    left: 0;
+    inset: 0;
     width: 100%;
     height: 100%;
     display: block;
   }
-  /* Lotus stems — gentle sway from base, like a slow breeze */
-  .pond-stem {
-    transform-origin: bottom center;
-    animation: pondStemSway 7s ease-in-out infinite;
+  .pond-svg-mobile { display: none; }
+  @media (max-width: 720px) {
+    .pond-svg-desktop { display: none; }
+    .pond-svg-mobile { display: block; }
   }
-  .pond-stem:nth-child(2n)   { animation-duration: 9s;  animation-delay: -1.4s; }
-  .pond-stem:nth-child(3n)   { animation-duration: 11s; animation-delay: -3.2s; }
-  .pond-stem:nth-child(5n+1) { animation-duration: 8s;  animation-delay: -2.6s; }
-  @keyframes pondStemSway {
+
+  /* Gentle motion */
+  .pond-lotus {
+    transform-origin: center bottom;
+    animation: lotusSway 9s ease-in-out infinite;
+  }
+  @keyframes lotusSway {
     0%, 100% { transform: rotate(-0.6deg); }
-    50%      { transform: rotate(0.8deg); }
+    50%      { transform: rotate(0.6deg); }
   }
-  /* Shared horizontal anchor for moon + reflection (so they always align) */
-  .pond-backdrop {
-    --moon-right-offset: clamp(-30px, 0vw, 50px);
-    --moon-size: clamp(80px, 9vw, 140px);
-    --moon-center-x: calc(var(--moon-right-offset) + (var(--moon-size) / 2));
-  }
-  /* Moon disc — top-right, clips off the right edge on narrow viewports */
-  .pond-moon-disc {
-    position: absolute;
-    top: clamp(24px, 5vh, 60px);
-    right: var(--moon-right-offset);
-    width: var(--moon-size);
-    height: var(--moon-size);
-    pointer-events: none;
-    z-index: 1;
-  }
-  .pond-moon-disc svg {
-    width: 100%;
-    height: 100%;
-    display: block;
-    overflow: visible;
-  }
-  /* Moon reflection — anchored to water surface (75% of section), centered on the moon */
-  .pond-moon-reflection {
-    position: absolute;
-    top: 75%;
-    /* The reflection's CSS box is wider than its visible content so the SVG can center
-       under the moon. We position by right edge, matching the moon's center. */
-    right: var(--moon-center-x);
-    transform: translateX(50%);
-    width: clamp(160px, 18vw, 260px);
-    height: 22%;
-    pointer-events: none;
-    z-index: 1;
-  }
-  .pond-moon-reflection svg {
-    width: 100%;
-    height: 100%;
-    display: block;
-  }
-  /* Shaft (the whole stack of bands) — gentle overall opacity shimmer */
-  .pond-moon-streak-shaft {
-    animation: pondShaftShimmer 7s ease-in-out infinite;
-  }
-  @keyframes pondShaftShimmer {
-    0%, 100% { opacity: 0.70; }
-    50%      { opacity: 1.00; }
-  }
-  /* Individual bands — gentle horizontal drift with staggered timing */
-  .ref-band {
-    animation: pondBandDrift 7s ease-in-out infinite;
+  .pond-moonpool {
+    animation: moonpoolBreathe 8s ease-in-out infinite;
     transform-origin: center;
   }
-  .ref-band-1 { animation-duration: 5s;   animation-delay: 0s; }
-  .ref-band-2 { animation-duration: 7s;   animation-delay: -1.2s; }
-  .ref-band-3 { animation-duration: 6s;   animation-delay: -2.0s; }
-  .ref-band-4 { animation-duration: 8s;   animation-delay: -3.4s; }
-  .ref-band-5 { animation-duration: 5.5s; animation-delay: -1.8s; }
-  .ref-band-6 { animation-duration: 6.5s; animation-delay: -2.8s; }
-  .ref-band-7 { animation-duration: 7.5s; animation-delay: -4.2s; }
-  .ref-band-8 { animation-duration: 9s;   animation-delay: -5.0s; }
-  @keyframes pondBandDrift {
-    0%, 100% { transform: translateX(-3px) scaleX(0.94); opacity: 0.7; }
-    50%      { transform: translateX(3px)  scaleX(1.06); opacity: 1.0; }
+  @keyframes moonpoolBreathe {
+    0%, 100% { opacity: 0.7; }
+    50%      { opacity: 1.0; }
   }
-  /* Surface ripples — slow expansion */
   .pond-ripple {
     transform-origin: center;
-    animation: pondRipple 9s ease-out infinite;
+    animation: rippleExpand 10s ease-out infinite;
     opacity: 0;
   }
-  .pond-ripple-a { animation-delay: 0s; }
-  .pond-ripple-b { animation-delay: -3s; }
-  .pond-ripple-c { animation-delay: -6s; }
-  @keyframes pondRipple {
-    0%   { transform: scale(0.4); opacity: 0; }
-    20%  { opacity: 0.5; }
-    100% { transform: scale(1.4); opacity: 0; }
+  .pond-ripple-2 { animation-delay: -3s; }
+  .pond-ripple-3 { animation-delay: -6s; }
+  @keyframes rippleExpand {
+    0%   { transform: scale(0.3); opacity: 0; }
+    25%  { opacity: 0.6; }
+    100% { transform: scale(1.6); opacity: 0; }
   }
-  /* Stars in upper sky — gentle twinkle */
-  .pond-stars circle {
-    animation: pondStarTwinkle 9s ease-in-out infinite;
+  .pond-mote {
+    animation: moteFloat linear infinite;
   }
-  .pond-stars circle:nth-child(3n)   { animation-delay: -1.5s; animation-duration: 12s; }
-  .pond-stars circle:nth-child(3n+1) { animation-delay: -4s;   animation-duration: 8s;  }
-  .pond-stars circle:nth-child(3n+2) { animation-delay: -6.5s; animation-duration: 14s; }
-  @keyframes pondStarTwinkle {
+  @keyframes moteFloat {
+    0%   { transform: translateY(60px); opacity: 0; }
+    20%  { opacity: 0.8; }
+    80%  { opacity: 0.5; }
+    100% { transform: translateY(-200px); opacity: 0; }
+  }
+  .pond-star {
+    animation: pondTwinkle 10s ease-in-out infinite;
+  }
+  .pond-star:nth-child(3n)   { animation-duration: 13s; animation-delay: -2s; }
+  .pond-star:nth-child(3n+1) { animation-duration: 9s;  animation-delay: -4s; }
+  @keyframes pondTwinkle {
     0%, 100% { opacity: 0.25; }
     50%      { opacity: 0.7; }
   }
   @media (prefers-reduced-motion: reduce) {
-    .pond-stem, .pond-moon-streak-shaft, .ref-band, .pond-ripple, .pond-stars circle { animation: none; }
+    .pond-lotus, .pond-moonpool, .pond-ripple, .pond-mote, .pond-star { animation: none; }
   }
 
   /* ============ AURORA BACKDROP — green aurora curtains behind contact section ============ */
@@ -4582,303 +4530,223 @@
 
   <!-- LOTUS POND — moonlit side view, moving painting -->
   <div class="pond-backdrop">
-    <svg viewBox="0 0 1200 360" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    <svg class="pond-svg pond-svg-desktop" viewBox="0 0 1200 1100" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
       <defs>
-        <!-- Night sky: deep teal/indigo top, slightly warmer near horizon -->
-        <linearGradient id="pond-sky" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%"   stop-color="#06121c"/>
-          <stop offset="50%"  stop-color="#0a1c28"/>
-          <stop offset="100%" stop-color="#142e3c"/>
+        <!-- Sky: very dark forest-night -->
+        <linearGradient id="d-sky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#02060a"/>
+          <stop offset="50%" stop-color="#04101a"/>
+          <stop offset="100%" stop-color="#081a26"/>
         </linearGradient>
-        <!-- Water surface band gradient -->
-        <linearGradient id="pond-water" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%"   stop-color="#1a3040"/>
-          <stop offset="60%"  stop-color="#0c1c26"/>
-          <stop offset="100%" stop-color="#04101a"/>
+        <!-- Water: muddy dark -->
+        <linearGradient id="d-water" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#0c1a22"/>
+          <stop offset="50%" stop-color="#040a0e"/>
+          <stop offset="100%" stop-color="#010204"/>
         </linearGradient>
-        <!-- Moon glow upper-right -->
-        <radialGradient id="pond-moon" cx="0.88" cy="0.12" r="0.22">
-          <stop offset="0%"   stop-color="rgba(232,210,168,0.55)"/>
-          <stop offset="55%"  stop-color="rgba(232,210,168,0.10)"/>
+        <!-- Moonlight pool on water (large soft circular highlight) -->
+        <radialGradient id="d-moonpool" cx="0.5" cy="0.5" r="0.5">
+          <stop offset="0%" stop-color="rgba(244,232,200,0.32)"/>
+          <stop offset="40%" stop-color="rgba(232,210,168,0.14)"/>
           <stop offset="100%" stop-color="rgba(232,210,168,0)"/>
         </radialGradient>
-        <!-- Soft horizon haze just above the water surface -->
-        <linearGradient id="pond-haze" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%"   stop-color="rgba(160,180,170,0)"/>
-          <stop offset="80%"  stop-color="rgba(160,180,170,0.08)"/>
-          <stop offset="100%" stop-color="rgba(160,180,170,0.16)"/>
+        <!-- Moonlight beam descending from moon to lotus -->
+        <linearGradient id="d-beam" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="rgba(244,228,196,0)"/>
+          <stop offset="50%" stop-color="rgba(244,228,196,0.08)"/>
+          <stop offset="100%" stop-color="rgba(244,228,196,0.18)"/>
         </linearGradient>
-        <!-- Subtle green hint in middle of sky (atmosphere) -->
-        <radialGradient id="pond-green-glow" cx="0.30" cy="0.55" r="0.45">
-          <stop offset="0%"   stop-color="rgba(95,140,108,0.10)"/>
-          <stop offset="100%" stop-color="rgba(95,140,108,0)"/>
+        <!-- Moon halo -->
+        <radialGradient id="d-moonhalo" cx="0.5" cy="0.5" r="0.5">
+          <stop offset="0%" stop-color="rgba(244,228,196,0.45)"/>
+          <stop offset="100%" stop-color="rgba(244,228,196,0)"/>
         </radialGradient>
+        <!-- Outer vignette -->
+        <radialGradient id="d-vignette" cx="0.5" cy="0.5" r="0.65">
+          <stop offset="40%" stop-color="rgba(0,0,0,0)"/>
+          <stop offset="100%" stop-color="rgba(0,0,0,0.8)"/>
+        </radialGradient>
+        <linearGradient id="d-lotus-pet-back" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#e8a4b8"/>
+          <stop offset="60%" stop-color="#f0c4d0"/>
+          <stop offset="100%" stop-color="#f8dce0"/>
+        </linearGradient>
+        <linearGradient id="d-lotus-pet-mid" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#d484a0"/>
+          <stop offset="50%" stop-color="#e8a8be"/>
+          <stop offset="100%" stop-color="#f4d0d8"/>
+        </linearGradient>
+        <linearGradient id="d-lotus-pet-front" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#c46888"/>
+          <stop offset="40%" stop-color="#d88aa4"/>
+          <stop offset="100%" stop-color="#ecbcc8"/>
+        </linearGradient>
       </defs>
 
-      <!-- SKY (top portion, where text sits above the water line) -->
-      <rect x="0" y="0" width="1200" height="270" fill="url(#pond-sky)"/>
-      <rect x="0" y="0" width="1200" height="270" fill="url(#pond-green-glow)"/>
-      <rect x="0" y="0" width="1200" height="270" fill="url(#pond-moon)"/>
-      <!-- Horizon haze layer just above the water -->
-      <rect x="0" y="210" width="1200" height="60" fill="url(#pond-haze)"/>
+      <!-- Sky base -->
+      <rect x="0" y="0" width="1200" height="720" fill="url(#d-sky)"/>
 
-      <!-- STARS — sparse, in upper sky -->
-      <g class="pond-stars" fill="#d8dee0">
-        <circle cx="60"   cy="22" r="0.6" opacity="0.55"/>
-        <circle cx="142"  cy="38" r="0.4" opacity="0.4"/>
-        <circle cx="218"  cy="16" r="0.5" opacity="0.5"/>
-        <circle cx="296"  cy="28" r="0.7" opacity="0.55"/>
-        <circle cx="368"  cy="14" r="0.4" opacity="0.4"/>
-        <circle cx="442"  cy="32" r="0.5" opacity="0.5"/>
-        <circle cx="518"  cy="20" r="0.6" opacity="0.55"/>
-        <circle cx="592"  cy="36" r="0.4" opacity="0.4"/>
-        <circle cx="668"  cy="18" r="0.5" opacity="0.5"/>
-        <circle cx="742"  cy="30" r="0.7" opacity="0.55"/>
-        <circle cx="822"  cy="14" r="0.4" opacity="0.4"/>
-        <circle cx="900"  cy="34" r="0.5" opacity="0.5"/>
-        <circle cx="1064" cy="22" r="0.5" opacity="0.45"/>
-        <circle cx="1138" cy="38" r="0.4" opacity="0.4"/>
-        <!-- Mid-sky -->
-        <circle cx="92"   cy="78" r="0.4" opacity="0.4"/>
-        <circle cx="232"  cy="92" r="0.5" opacity="0.5"/>
-        <circle cx="392"  cy="74" r="0.4" opacity="0.4"/>
-        <circle cx="558"  cy="88" r="0.6" opacity="0.5"/>
-        <circle cx="712"  cy="76" r="0.4" opacity="0.4"/>
-        <circle cx="868"  cy="90" r="0.5" opacity="0.5"/>
-        <circle cx="1112" cy="84" r="0.4" opacity="0.4"/>
-        <!-- Lower sky -->
-        <circle cx="140"  cy="138" r="0.4" opacity="0.35"/>
-        <circle cx="312"  cy="142" r="0.5" opacity="0.4"/>
-        <circle cx="488"  cy="138" r="0.4" opacity="0.35"/>
-        <circle cx="664"  cy="142" r="0.5" opacity="0.4"/>
-        <circle cx="848"  cy="138" r="0.4" opacity="0.35"/>
-        <circle cx="1042" cy="142" r="0.5" opacity="0.4"/>
+      <!-- Stars peeking through canopy gap -->
+      <circle class="pond-star" cx="480" cy="80" r="0.5" fill="#d8dee0" opacity="0.55"/><circle class="pond-star" cx="560" cy="130" r="0.4" fill="#d8dee0" opacity="0.4"/><circle class="pond-star" cx="680" cy="60" r="0.6" fill="#d8dee0" opacity="0.55"/><circle class="pond-star" cx="820" cy="110" r="0.4" fill="#d8dee0" opacity="0.45"/><circle class="pond-star" cx="920" cy="70" r="0.5" fill="#d8dee0" opacity="0.5"/><circle class="pond-star" cx="520" cy="250" r="0.4" fill="#d8dee0" opacity="0.4"/><circle class="pond-star" cx="700" cy="220" r="0.4" fill="#d8dee0" opacity="0.45"/><circle class="pond-star" cx="880" cy="280" r="0.4" fill="#d8dee0" opacity="0.4"/><circle class="pond-star" cx="620" cy="380" r="0.4" fill="#d8dee0" opacity="0.35"/><circle class="pond-star" cx="780" cy="420" r="0.4" fill="#d8dee0" opacity="0.35"/>
+
+      <!-- Moon (partly visible, with halo) -->
+      <g class="pond-moonpool">
+        <circle cx="780" cy="180" r="68" fill="url(#d-moonhalo)"/>
+      </g>
+      <circle cx="780" cy="180" r="38" fill="#e8d8b0"/>
+      <circle cx="780" cy="180" r="32" fill="#f4e8c8"/>
+      <circle cx="774" cy="174" r="19" fill="#fbf3d8" opacity="0.5"/>
+
+      <!-- Water surface line -->
+      <line x1="0" y1="720" x2="1200" y2="720" stroke="rgba(180,200,190,0.15)" stroke-width="0.5"/>
+
+      <!-- Water -->
+      <rect x="0" y="720" width="1200" height="380" fill="url(#d-water)"/>
+
+      <!-- Ripples expanding from where lotus sits -->
+      <g class="pond-ripple">
+        <ellipse cx="600" cy="728" rx="120" ry="22" fill="none" stroke="rgba(180,200,190,0.4)" stroke-width="0.6"/>
+        <ellipse cx="600" cy="728" rx="80" ry="14" fill="none" stroke="rgba(180,200,190,0.25)" stroke-width="0.4"/>
+      </g>
+      <g class="pond-ripple pond-ripple-2">
+        <ellipse cx="600" cy="728" rx="120" ry="22" fill="none" stroke="rgba(180,200,190,0.4)" stroke-width="0.6"/>
+        <ellipse cx="600" cy="728" rx="80" ry="14" fill="none" stroke="rgba(180,200,190,0.25)" stroke-width="0.4"/>
+      </g>
+      <g class="pond-ripple pond-ripple-3">
+        <ellipse cx="600" cy="728" rx="120" ry="22" fill="none" stroke="rgba(180,200,190,0.4)" stroke-width="0.6"/>
+        <ellipse cx="600" cy="728" rx="80" ry="14" fill="none" stroke="rgba(180,200,190,0.25)" stroke-width="0.4"/>
       </g>
 
-      <!-- LOTUS STEMS — rise from the water surface (y=270) into the sky -->
-      <!-- Stems are slim curving paths with a blossom at the top. Each stem is its own group so it sways independently. -->
+      <!-- Lily pads — lotus leaves floating on the water -->
+      <ellipse cx="120" cy="722" rx="38" ry="5" fill="#1f3826"/><polygon points="120,722 154.2,724.2 151.5,724.8" fill="#02060a"/><ellipse cx="290" cy="724" rx="32" ry="4" fill="#1f3826"/><polygon points="290,724 318.0,722.1 319.9,722.6" fill="#02060a"/><ellipse cx="430" cy="722" rx="36" ry="5" fill="#1f3826"/><polygon points="430,722 465.3,723.0 464.0,723.6" fill="#02060a"/><ellipse cx="760" cy="723" rx="40" ry="5" fill="#1f3826"/><polygon points="760,723 793.2,720.2 796.0,720.8" fill="#02060a"/><ellipse cx="920" cy="722" rx="34" ry="4" fill="#1f3826"/><polygon points="920,722 952.7,723.1 951.1,723.6" fill="#02060a"/><ellipse cx="1090" cy="724" rx="42" ry="5" fill="#1f3826"/><polygon points="1090,724 1129.7,722.4 1131.2,723.0" fill="#02060a"/><ellipse cx="180" cy="730" rx="46" ry="6" fill="#2d4a32"/><polygon points="180,730 213.1,725.8 217.2,726.5" fill="#02060a"/><ellipse cx="370" cy="732" rx="40" ry="6" fill="#2d4a32"/><polygon points="370,732 404.3,735.1 401.1,735.8" fill="#02060a"/><ellipse cx="520" cy="730" rx="44" ry="6" fill="#2d4a32"/><polygon points="520,730 560.2,727.6 562.3,728.3" fill="#02060a"/><ellipse cx="700" cy="734" rx="50" ry="7" fill="#2d4a32"/><polygon points="700,734 746.7,736.5 743.7,737.4" fill="#02060a"/><ellipse cx="860" cy="732" rx="42" ry="6" fill="#2d4a32"/><polygon points="860,732 894.8,728.6 897.7,729.4" fill="#02060a"/><ellipse cx="1010" cy="734" rx="38" ry="6" fill="#2d4a32"/><polygon points="1010,734 1040.7,737.5 1037.3,738.2" fill="#02060a"/>
 
-      <!-- Stem 1 -->
-      <g class="pond-stem">
-        <path d="M 120 270 Q 122 242 124 223" fill="none" stroke="#1e3a28" stroke-width="1.6" stroke-linecap="round"/>
-        <!-- Bloom -->
-        <g class="bloom-wrap"><g transform="translate(124 221)">
-          <ellipse cx="-7" cy="2" rx="5" ry="9" fill="#c8a094" transform="rotate(-30 -7 2)"/>
-          <ellipse cx="7" cy="2" rx="5" ry="9" fill="#c8a094" transform="rotate(30 7 2)"/>
-          <ellipse cx="0" cy="0" rx="6" ry="11" fill="#e8c4b8"/>
-          <ellipse cx="0" cy="-2" rx="3" ry="7" fill="#f4dcd0"/>
-          <circle r="1.4" fill="#d4a896"/>
-        </g></g>
-      </g>
+      <!-- Trees (deep silhouettes framing the scene) -->
+      <path d="M -30 720 L 18.0 504.0 L 36.0 360.0 L 60 240 L 84.0 360.0 L 102.0 504.0 L 150 720 Z" fill="#040a08"/><path d="M 80 720 L 131.0 477.0 L 152.0 315.0 L 180 180 L 208.0 315.0 L 229.0 477.0 L 280 720 Z" fill="#040a08"/><path d="M 165 720 L 211.5 513.0 L 228.0 375.0 L 250 260 L 272.0 375.0 L 288.5 513.0 L 335 720 Z" fill="#040a08"/><path d="M 920 720 L 961.5 522.0 L 978.0 390.0 L 1000 280 L 1022.0 390.0 L 1038.5 522.0 L 1080 720 Z" fill="#040a08"/><path d="M 1000 720 L 1051.0 486.0 L 1072.0 330.0 L 1100 200 L 1128.0 330.0 L 1149.0 486.0 L 1200 720 Z" fill="#040a08"/><path d="M 1105 720 L 1145.0 513.0 L 1160.0 375.0 L 1180 260 L 1200.0 375.0 L 1215.0 513.0 L 1255 720 Z" fill="#040a08"/>
 
-      <!-- Stem 2 -->
-      <g class="pond-stem">
-        <path d="M 240 270 Q 238 246 236 226" fill="none" stroke="#1e3a28" stroke-width="1.4" stroke-linecap="round"/>
-        <!-- Closed bud -->
-        <g class="bloom-wrap"><g transform="translate(236 223)">
-          <ellipse cx="0" cy="0" rx="4" ry="8" fill="#d4a896"/>
-          <ellipse cx="0" cy="-2" rx="2.5" ry="6" fill="#e8c4b8"/>
-        </g></g>
-      </g>
+      <!-- THE LOTUS — single subject, centered, lit -->
+      <g transform="translate(600 720)"><g class="pond-lotus">
+        <!-- Layer 1: outermost back petals -->
+        <path d="M 0.00 -6.60 Q -48.40 -4.40 -61.60 -22.00 Q -48.40 -35.20 -17.60 -30.80 Q -6.60 -22.00 0.00 -6.60 Z" fill="url(#d-lotus-pet-back)" opacity="0.9"/>
+        <path d="M 0.00 -6.60 Q 48.40 -4.40 61.60 -22.00 Q 48.40 -35.20 17.60 -30.80 Q 6.60 -22.00 0.00 -6.60 Z" fill="url(#d-lotus-pet-back)" opacity="0.9"/>
+        <!-- Layer 2: mid-spread sides -->
+        <path d="M 0.00 -4.40 Q -35.20 -17.60 -44.00 -44.00 Q -30.80 -57.20 -13.20 -48.40 Q -4.40 -30.80 0.00 -4.40 Z" fill="url(#d-lotus-pet-mid)"/>
+        <path d="M 0.00 -4.40 Q 35.20 -17.60 44.00 -44.00 Q 30.80 -57.20 13.20 -48.40 Q 4.40 -30.80 0.00 -4.40 Z" fill="url(#d-lotus-pet-mid)"/>
+        <!-- Layer 3: upper-side petals -->
+        <path d="M 0.00 -4.40 Q -22.00 -26.40 -26.40 -61.60 Q -15.40 -74.80 -6.60 -61.60 Q -2.20 -35.20 0.00 -4.40 Z" fill="url(#d-lotus-pet-mid)"/>
+        <path d="M 0.00 -4.40 Q 22.00 -26.40 26.40 -61.60 Q 15.40 -74.80 6.60 -61.60 Q 2.20 -35.20 0.00 -4.40 Z" fill="url(#d-lotus-pet-mid)"/>
+        <!-- Layer 4: inner front petals -->
+        <path d="M 0.00 -4.40 Q -15.40 -17.60 -17.60 -48.40 Q -8.80 -61.60 0.00 -61.60 Q 2.20 -35.20 0.00 -4.40 Z" fill="url(#d-lotus-pet-front)" opacity="0.95"/>
+        <path d="M 0.00 -4.40 Q 15.40 -17.60 17.60 -48.40 Q 8.80 -61.60 0.00 -61.60 Q -2.20 -35.20 0.00 -4.40 Z" fill="url(#d-lotus-pet-front)" opacity="0.95"/>
+        <!-- Layer 5: center tall petal -->
+        <path d="M 0.00 -4.40 Q -6.60 -22.00 -4.40 -61.60 Q 0.00 -74.80 4.40 -61.60 Q 6.60 -22.00 0.00 -4.40 Z" fill="url(#d-lotus-pet-front)"/>
+        <!-- Vein hints -->
+        <line x1="-26.40" y1="-17.60" x2="-35.20" y2="-48.40" stroke="#a05870" stroke-width="0.33" opacity="0.4"/>
+        <line x1="26.40" y1="-17.60" x2="35.20" y2="-48.40" stroke="#a05870" stroke-width="0.33" opacity="0.4"/>
+        <line x1="0" y1="-17.60" x2="0" y2="-57.20" stroke="#a05870" stroke-width="0.33" opacity="0.3"/>
+        <!-- Tiny stem stub -->
+        <line x1="0" y1="-4.40" x2="0" y2="0" stroke="#1a3826" stroke-width="1.32" stroke-linecap="round"/></g></g>
 
-      <!-- Stem 3 — taller bloom -->
-      <g class="pond-stem">
-        <path d="M 360 270 Q 362 240 364 215" fill="none" stroke="#1e3a28" stroke-width="1.6" stroke-linecap="round"/>
-        <g class="bloom-wrap"><g transform="translate(364 212)">
-          <ellipse cx="-8" cy="2" rx="6" ry="11" fill="#c8a094" transform="rotate(-32 -8 2)"/>
-          <ellipse cx="8" cy="2" rx="6" ry="11" fill="#c8a094" transform="rotate(32 8 2)"/>
-          <ellipse cx="-13" cy="0" rx="4" ry="9" fill="#b48a7c" transform="rotate(-55 -13 0)"/>
-          <ellipse cx="13" cy="0" rx="4" ry="9" fill="#b48a7c" transform="rotate(55 13 0)"/>
-          <ellipse cx="0" cy="0" rx="7" ry="13" fill="#e8c4b8"/>
-          <ellipse cx="-4" cy="-1" rx="3" ry="9" fill="#f0d4c8" transform="rotate(-18)"/>
-          <ellipse cx="4" cy="-1" rx="3" ry="9" fill="#f0d4c8" transform="rotate(18)"/>
-          <ellipse cx="0" cy="-3" rx="3" ry="7" fill="#f4dcd0"/>
-          <circle r="1.8" fill="#d4a896"/>
-        </g></g>
-      </g>
+      <!-- Floating moonlight motes (drifting upward in the beam) -->
+      <circle class="pond-mote" cx="570" cy="720" r="0.8" fill="#f4e8c8" style="animation-duration: 22s; animation-delay: -2s;"/><circle class="pond-mote" cx="585" cy="720" r="0.8" fill="#f4e8c8" style="animation-duration: 28s; animation-delay: -10s;"/><circle class="pond-mote" cx="610" cy="720" r="0.8" fill="#f4e8c8" style="animation-duration: 25s; animation-delay: -16s;"/><circle class="pond-mote" cx="625" cy="720" r="0.8" fill="#f4e8c8" style="animation-duration: 30s; animation-delay: -5s;"/><circle class="pond-mote" cx="595" cy="720" r="0.8" fill="#f4e8c8" style="animation-duration: 24s; animation-delay: -19s;"/>
 
-      <!-- Stem 4 — small bud -->
-      <g class="pond-stem">
-        <path d="M 480 270 Q 478 252 476 239" fill="none" stroke="#1e3a28" stroke-width="1.2" stroke-linecap="round"/>
-        <g class="bloom-wrap"><g transform="translate(476 236)">
-          <ellipse cx="0" cy="0" rx="3" ry="6" fill="#d4a896"/>
-        </g></g>
-      </g>
-
-      <!-- Stem 5 — main center bloom -->
-      <g class="pond-stem">
-        <path d="M 600 270 Q 602 238 604 209" fill="none" stroke="#1e3a28" stroke-width="1.8" stroke-linecap="round"/>
-        <g class="bloom-wrap"><g transform="translate(604 206)">
-          <ellipse cx="-9" cy="3" rx="7" ry="13" fill="#b48a7c" transform="rotate(-35 -9 3)"/>
-          <ellipse cx="9" cy="3" rx="7" ry="13" fill="#b48a7c" transform="rotate(35 9 3)"/>
-          <ellipse cx="-15" cy="0" rx="5" ry="11" fill="#a07868" transform="rotate(-55 -15 0)"/>
-          <ellipse cx="15" cy="0" rx="5" ry="11" fill="#a07868" transform="rotate(55 15 0)"/>
-          <ellipse cx="0" cy="0" rx="8" ry="15" fill="#e8c4b8"/>
-          <ellipse cx="-5" cy="-1" rx="4" ry="11" fill="#f0d4c8" transform="rotate(-20)"/>
-          <ellipse cx="5" cy="-1" rx="4" ry="11" fill="#f0d4c8" transform="rotate(20)"/>
-          <ellipse cx="0" cy="-3" rx="3" ry="9" fill="#f4dcd0"/>
-          <ellipse cx="0" cy="-5" rx="2" ry="5" fill="#fce8dc"/>
-          <!-- Seed pod center -->
-          <ellipse cx="0" cy="-3" rx="2.5" ry="3.5" fill="#d4a072"/>
-          <circle cx="-1" cy="-4" r="0.5" fill="#a87850"/>
-          <circle cx="1" cy="-3.5" r="0.5" fill="#a87850"/>
-          <circle cx="0" cy="-2.5" r="0.5" fill="#a87850"/>
-        </g></g>
-      </g>
-
-      <!-- Stem 6 -->
-      <g class="pond-stem">
-        <path d="M 720 270 Q 722 250 724 233" fill="none" stroke="#1e3a28" stroke-width="1.4" stroke-linecap="round"/>
-        <g class="bloom-wrap"><g transform="translate(724 230)">
-          <ellipse cx="-6" cy="2" rx="4" ry="8" fill="#c8a094" transform="rotate(-30 -6 2)"/>
-          <ellipse cx="6" cy="2" rx="4" ry="8" fill="#c8a094" transform="rotate(30 6 2)"/>
-          <ellipse cx="0" cy="0" rx="5" ry="10" fill="#e8c4b8"/>
-          <ellipse cx="0" cy="-2" rx="2.5" ry="6" fill="#f4dcd0"/>
-          <circle r="1.2" fill="#d4a896"/>
-        </g></g>
-      </g>
-
-      <!-- Stem 7 — tall slim with closed bud -->
-      <g class="pond-stem">
-        <path d="M 840 270 Q 838 241 836 221" fill="none" stroke="#1e3a28" stroke-width="1.4" stroke-linecap="round"/>
-        <g class="bloom-wrap"><g transform="translate(836 218)">
-          <ellipse cx="0" cy="0" rx="4" ry="10" fill="#c8a094"/>
-          <ellipse cx="0" cy="-3" rx="2.5" ry="7" fill="#e8c4b8"/>
-        </g></g>
-      </g>
-
-      <!-- Stem 8 -->
-      <g class="pond-stem">
-        <path d="M 940 270 Q 942 247 944 228" fill="none" stroke="#1e3a28" stroke-width="1.5" stroke-linecap="round"/>
-        <g class="bloom-wrap"><g transform="translate(944 226)">
-          <ellipse cx="-7" cy="2" rx="5" ry="9" fill="#c8a094" transform="rotate(-30 -7 2)"/>
-          <ellipse cx="7" cy="2" rx="5" ry="9" fill="#c8a094" transform="rotate(30 7 2)"/>
-          <ellipse cx="0" cy="0" rx="6" ry="11" fill="#e8c4b8"/>
-          <ellipse cx="-3" cy="-1" rx="2.5" ry="7" fill="#f0d4c8" transform="rotate(-18)"/>
-          <ellipse cx="3" cy="-1" rx="2.5" ry="7" fill="#f0d4c8" transform="rotate(18)"/>
-          <circle r="1.4" fill="#d4a896"/>
-        </g></g>
-      </g>
-
-      <!-- Stem 9 — small bud -->
-      <g class="pond-stem">
-        <path d="M 1050 270 Q 1048 252 1046 239" fill="none" stroke="#1e3a28" stroke-width="1.2" stroke-linecap="round"/>
-        <g class="bloom-wrap"><g transform="translate(1046 236)">
-          <ellipse cx="0" cy="0" rx="3" ry="6" fill="#d4a896"/>
-        </g></g>
-      </g>
-
-      <!-- Stem 10 -->
-      <g class="pond-stem">
-        <path d="M 1140 270 Q 1142 242 1144 223" fill="none" stroke="#1e3a28" stroke-width="1.5" stroke-linecap="round"/>
-        <g class="bloom-wrap"><g transform="translate(1144 221)">
-          <ellipse cx="-6" cy="2" rx="4" ry="9" fill="#c8a094" transform="rotate(-30 -6 2)"/>
-          <ellipse cx="6" cy="2" rx="4" ry="9" fill="#c8a094" transform="rotate(30 6 2)"/>
-          <ellipse cx="0" cy="0" rx="5" ry="11" fill="#e8c4b8"/>
-          <ellipse cx="0" cy="-2" rx="2.5" ry="7" fill="#f4dcd0"/>
-          <circle r="1.2" fill="#d4a896"/>
-        </g></g>
-      </g>
-
-      <!-- WATER SURFACE LINE -->
-      <line x1="0" y1="270" x2="1200" y2="270" stroke="rgba(180,200,190,0.20)" stroke-width="0.5"/>
-
-      <!-- WATER (bottom portion, below the surface line) -->
-      <rect x="0" y="270" width="1200" height="90" fill="url(#pond-water)"/>
-
-      <!-- LILY PADS floating on the surface -->
-      <g fill="#1a3826">
-        <ellipse cx="60"   cy="270" rx="32" ry="3"/>
-        <ellipse cx="180"  cy="272" rx="26" ry="3"/>
-        <ellipse cx="310"  cy="270" rx="34" ry="3"/>
-        <ellipse cx="440"  cy="273" rx="28" ry="3"/>
-        <ellipse cx="558"  cy="270" rx="32" ry="3"/>
-        <ellipse cx="680"  cy="272" rx="26" ry="3"/>
-        <ellipse cx="800"  cy="270" rx="34" ry="3"/>
-        <ellipse cx="908"  cy="273" rx="30" ry="3"/>
-        <ellipse cx="1020" cy="270" rx="28" ry="3"/>
-        <ellipse cx="1120" cy="272" rx="32" ry="3"/>
-      </g>
-
-      <!-- STEM REFLECTIONS in water — mirror, slightly fainter and broken -->
-      <g stroke="#1e3a28" stroke-width="0.9" fill="none" stroke-linecap="round" opacity="0.32">
-        <path d="M 120 272 Q 122 283 124 294"/>
-        <path d="M 240 272 Q 238 280 236 289"/>
-        <path d="M 360 272 Q 362 286 364 301"/>
-        <path d="M 600 272 Q 602 289 604 308"/>
-        <path d="M 720 272 Q 722 283 724 292"/>
-        <path d="M 840 272 Q 838 285 836 297"/>
-        <path d="M 940 272 Q 942 284 944 294"/>
-        <path d="M 1140 272 Q 1142 283 1144 294"/>
-      </g>
-
-      <!-- RIPPLES — three concentric sets that loop -->
-      <g class="pond-ripple pond-ripple-a" transform-origin="280px 310px">
-        <ellipse cx="280" cy="310" rx="40" ry="6" fill="none" stroke="rgba(180,200,190,0.45)" stroke-width="0.5"/>
-        <ellipse cx="280" cy="310" rx="28" ry="4" fill="none" stroke="rgba(180,200,190,0.30)" stroke-width="0.4"/>
-      </g>
-      <g class="pond-ripple pond-ripple-b" transform-origin="680px 326px">
-        <ellipse cx="680" cy="326" rx="40" ry="6" fill="none" stroke="rgba(180,200,190,0.45)" stroke-width="0.5"/>
-        <ellipse cx="680" cy="326" rx="28" ry="4" fill="none" stroke="rgba(180,200,190,0.30)" stroke-width="0.4"/>
-      </g>
-      <g class="pond-ripple pond-ripple-c" transform-origin="980px 318px">
-        <ellipse cx="980" cy="318" rx="40" ry="6" fill="none" stroke="rgba(180,200,190,0.45)" stroke-width="0.5"/>
-        <ellipse cx="980" cy="318" rx="28" ry="4" fill="none" stroke="rgba(180,200,190,0.30)" stroke-width="0.4"/>
-      </g>
-
-      <!-- Vignette — keeps content centered/readable -->
-      <defs>
-        <radialGradient id="pond-vignette" cx="0.5" cy="0.5" r="0.72">
-          <stop offset="50%" stop-color="rgba(0,0,0,0)"/>
-          <stop offset="100%" stop-color="rgba(0,0,0,0.55)"/>
-        </radialGradient>
-      </defs>
-      <rect width="1200" height="360" fill="url(#pond-vignette)"/>
+      <!-- Vignette (darken edges) -->
+      <rect width="1200" height="1100" fill="url(#d-vignette)"/>
     </svg>
 
-    <!-- MOON DISC — anchored top-right; allowed to clip off the edge on narrow viewports -->
-    <div class="pond-moon-disc" aria-hidden="true">
-      <svg viewBox="0 0 120 120" preserveAspectRatio="xMidYMid meet">
-        <!-- Soft outer glow halo -->
-        <circle cx="60" cy="60" r="48" fill="rgba(232,210,168,0.18)"/>
-        <!-- Main moon -->
-        <circle cx="60" cy="60" r="40" fill="rgba(232,210,168,0.55)"/>
-        <circle cx="60" cy="60" r="32" fill="rgba(244,228,196,0.78)"/>
-        <!-- Subtle inner highlight -->
-        <circle cx="56" cy="56" r="22" fill="rgba(252,240,212,0.16)"/>
-      </svg>
-    </div>
+    <svg class="pond-svg pond-svg-mobile" viewBox="0 0 480 1200" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+      <defs>
+        <linearGradient id="m-sky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#02060a"/>
+          <stop offset="50%" stop-color="#04101a"/>
+          <stop offset="100%" stop-color="#081a26"/>
+        </linearGradient>
+        <linearGradient id="m-water" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#0c1a22"/>
+          <stop offset="50%" stop-color="#040a0e"/>
+          <stop offset="100%" stop-color="#010204"/>
+        </linearGradient>
+        <radialGradient id="m-moonpool" cx="0.5" cy="0.5" r="0.5">
+          <stop offset="0%" stop-color="rgba(244,232,200,0.32)"/>
+          <stop offset="40%" stop-color="rgba(232,210,168,0.14)"/>
+          <stop offset="100%" stop-color="rgba(232,210,168,0)"/>
+        </radialGradient>
+        <linearGradient id="m-beam" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="rgba(244,228,196,0)"/>
+          <stop offset="50%" stop-color="rgba(244,228,196,0.08)"/>
+          <stop offset="100%" stop-color="rgba(244,228,196,0.18)"/>
+        </linearGradient>
+        <radialGradient id="m-moonhalo" cx="0.5" cy="0.5" r="0.5">
+          <stop offset="0%" stop-color="rgba(244,228,196,0.45)"/>
+          <stop offset="100%" stop-color="rgba(244,228,196,0)"/>
+        </radialGradient>
+        <radialGradient id="m-vignette" cx="0.5" cy="0.5" r="0.7">
+          <stop offset="40%" stop-color="rgba(0,0,0,0)"/>
+          <stop offset="100%" stop-color="rgba(0,0,0,0.8)"/>
+        </radialGradient>
+        <linearGradient id="m-lotus-pet-back" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#e8a4b8"/>
+          <stop offset="60%" stop-color="#f0c4d0"/>
+          <stop offset="100%" stop-color="#f8dce0"/>
+        </linearGradient>
+        <linearGradient id="m-lotus-pet-mid" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#d484a0"/>
+          <stop offset="50%" stop-color="#e8a8be"/>
+          <stop offset="100%" stop-color="#f4d0d8"/>
+        </linearGradient>
+        <linearGradient id="m-lotus-pet-front" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#c46888"/>
+          <stop offset="40%" stop-color="#d88aa4"/>
+          <stop offset="100%" stop-color="#ecbcc8"/>
+        </linearGradient>
+      </defs>
 
-    <!-- MOON REFLECTION — naturally spreading light pool on the water surface.
-         Horizontally aligned with the moon's center via shared --moon-center-x.
-         Vertically anchored to 75% of the section (the water surface line). -->
-    <div class="pond-moon-reflection" aria-hidden="true">
-      <svg viewBox="-100 0 200 90" preserveAspectRatio="xMidYMin meet">
-        <defs>
-          <!-- Soft glow base for the reflection -->
-          <radialGradient id="reflection-glow" cx="0.5" cy="0" r="0.8">
-            <stop offset="0%"   stop-color="rgba(244,228,196,0.40)"/>
-            <stop offset="40%"  stop-color="rgba(232,210,168,0.16)"/>
-            <stop offset="100%" stop-color="rgba(232,210,168,0)"/>
-          </radialGradient>
-        </defs>
-        <!-- Underlying glow pool — wider at top (near surface), fading downward -->
-        <ellipse cx="0" cy="6" rx="80" ry="80" fill="url(#reflection-glow)"/>
+      <rect x="0" y="0" width="480" height="720" fill="url(#m-sky)"/>
+      <circle class="pond-star" cx="130" cy="80" r="0.5" fill="#d8dee0" opacity="0.55"/><circle class="pond-star" cx="200" cy="130" r="0.4" fill="#d8dee0" opacity="0.45"/><circle class="pond-star" cx="260" cy="60" r="0.5" fill="#d8dee0" opacity="0.5"/><circle class="pond-star" cx="180" cy="200" r="0.4" fill="#d8dee0" opacity="0.4"/><circle class="pond-star" cx="290" cy="240" r="0.4" fill="#d8dee0" opacity="0.45"/><circle class="pond-star" cx="210" cy="320" r="0.4" fill="#d8dee0" opacity="0.35"/><circle class="pond-star" cx="270" cy="400" r="0.4" fill="#d8dee0" opacity="0.35"/>
 
-        <!-- Horizontal highlight bands — wider near the surface, narrower with depth.
-             Each animated independently for a natural shimmering rhythm. -->
-        <g class="pond-moon-streak-shaft">
-          <ellipse class="ref-band ref-band-1" cx="0" cy="6"  rx="50" ry="2.0" fill="rgba(252,240,212,0.55)"/>
-          <ellipse class="ref-band ref-band-2" cx="0" cy="14" rx="42" ry="1.6" fill="rgba(244,228,196,0.50)"/>
-          <ellipse class="ref-band ref-band-3" cx="0" cy="24" rx="38" ry="1.4" fill="rgba(244,228,196,0.42)"/>
-          <ellipse class="ref-band ref-band-4" cx="0" cy="34" rx="32" ry="1.2" fill="rgba(244,228,196,0.36)"/>
-          <ellipse class="ref-band ref-band-5" cx="0" cy="44" rx="26" ry="1.0" fill="rgba(244,228,196,0.30)"/>
-          <ellipse class="ref-band ref-band-6" cx="0" cy="54" rx="20" ry="0.9" fill="rgba(244,228,196,0.24)"/>
-          <ellipse class="ref-band ref-band-7" cx="0" cy="64" rx="16" ry="0.8" fill="rgba(244,228,196,0.18)"/>
-          <ellipse class="ref-band ref-band-8" cx="0" cy="74" rx="12" ry="0.7" fill="rgba(244,228,196,0.12)"/>
-        </g>
-      </svg>
-    </div>
+      <g class="pond-moonpool">
+        <circle cx="360" cy="170" r="82" fill="url(#m-moonhalo)"/>
+      </g>
+      <circle cx="360" cy="170" r="42" fill="#e8d8b0"/>
+      <circle cx="360" cy="170" r="36" fill="#f4e8c8"/>
+      <circle cx="354" cy="164" r="21" fill="#fbf3d8" opacity="0.5"/>
+
+      <line x1="0" y1="720" x2="480" y2="720" stroke="rgba(180,200,190,0.15)" stroke-width="0.5"/>
+      <rect x="0" y="720" width="480" height="480" fill="url(#m-water)"/>
+
+      <g class="pond-ripple">
+        <ellipse cx="240" cy="730" rx="120" ry="22" fill="none" stroke="rgba(180,200,190,0.4)" stroke-width="0.7"/>
+      </g>
+      <g class="pond-ripple pond-ripple-2">
+        <ellipse cx="240" cy="730" rx="120" ry="22" fill="none" stroke="rgba(180,200,190,0.4)" stroke-width="0.7"/>
+      </g>
+      <g class="pond-ripple pond-ripple-3">
+        <ellipse cx="240" cy="730" rx="120" ry="22" fill="none" stroke="rgba(180,200,190,0.4)" stroke-width="0.7"/>
+      </g>
+
+      <!-- Lily pads — lotus leaves floating on the water -->
+      <ellipse cx="50" cy="722" rx="30" ry="4" fill="#1f3826"/><polygon points="50,722 78.0,723.4 76.2,723.9" fill="#02060a"/><ellipse cx="180" cy="724" rx="28" ry="4" fill="#1f3826"/><polygon points="180,724 205.6,722.4 206.9,722.9" fill="#02060a"/><ellipse cx="340" cy="722" rx="32" ry="5" fill="#1f3826"/><polygon points="340,722 371.4,723.0 370.3,723.6" fill="#02060a"/><ellipse cx="440" cy="724" rx="26" ry="4" fill="#1f3826"/><polygon points="440,724 461.6,721.8 463.4,722.2" fill="#02060a"/><ellipse cx="90" cy="732" rx="38" ry="6" fill="#2d4a32"/><polygon points="90,732 119.5,728.2 122.6,728.9" fill="#02060a"/><ellipse cx="210" cy="734" rx="32" ry="5" fill="#2d4a32"/><polygon points="210,734 238.8,736.2 236.5,736.8" fill="#02060a"/><ellipse cx="310" cy="732" rx="36" ry="6" fill="#2d4a32"/><polygon points="310,732 341.5,729.1 343.6,729.8" fill="#02060a"/><ellipse cx="420" cy="736" rx="30" ry="5" fill="#2d4a32"/><polygon points="420,736 445.7,738.6 443.3,739.1" fill="#02060a"/>
+
+      <path d="M -120 720 L -69.0 486.0 L -48.0 330.0 L -20 200 L 8.0 330.0 L 29.0 486.0 L 80 720 Z" fill="#040a08"/><path d="M -30 720 L 18.0 504.0 L 36.0 360.0 L 60 240 L 84.0 360.0 L 102.0 504.0 L 150 720 Z" fill="#040a08"/><path d="M 345 720 L 394.5 477.0 L 414.0 315.0 L 440 180 L 466.0 315.0 L 485.5 477.0 L 535 720 Z" fill="#040a08"/><path d="M 420 720 L 468.0 495.0 L 486.0 345.0 L 510 220 L 534.0 345.0 L 552.0 495.0 L 600 720 Z" fill="#040a08"/>
+
+      <g transform="translate(240 720)"><g class="pond-lotus">
+        <path d="M 0.00 -5.40 Q -39.60 -3.60 -50.40 -18.00 Q -39.60 -28.80 -14.40 -25.20 Q -5.40 -18.00 0.00 -5.40 Z" fill="url(#m-lotus-pet-back)" opacity="0.9"/>
+        <path d="M 0.00 -5.40 Q 39.60 -3.60 50.40 -18.00 Q 39.60 -28.80 14.40 -25.20 Q 5.40 -18.00 0.00 -5.40 Z" fill="url(#m-lotus-pet-back)" opacity="0.9"/>
+        <path d="M 0.00 -3.60 Q -28.80 -14.40 -36.00 -36.00 Q -25.20 -46.80 -10.80 -39.60 Q -3.60 -25.20 0.00 -3.60 Z" fill="url(#m-lotus-pet-mid)"/>
+        <path d="M 0.00 -3.60 Q 28.80 -14.40 36.00 -36.00 Q 25.20 -46.80 10.80 -39.60 Q 3.60 -25.20 0.00 -3.60 Z" fill="url(#m-lotus-pet-mid)"/>
+        <path d="M 0.00 -3.60 Q -18.00 -21.60 -21.60 -50.40 Q -12.60 -61.20 -5.40 -50.40 Q -1.80 -28.80 0.00 -3.60 Z" fill="url(#m-lotus-pet-mid)"/>
+        <path d="M 0.00 -3.60 Q 18.00 -21.60 21.60 -50.40 Q 12.60 -61.20 5.40 -50.40 Q 1.80 -28.80 0.00 -3.60 Z" fill="url(#m-lotus-pet-mid)"/>
+        <path d="M 0.00 -3.60 Q -12.60 -14.40 -14.40 -39.60 Q -7.20 -50.40 0.00 -50.40 Q 1.80 -28.80 0.00 -3.60 Z" fill="url(#m-lotus-pet-front)" opacity="0.95"/>
+        <path d="M 0.00 -3.60 Q 12.60 -14.40 14.40 -39.60 Q 7.20 -50.40 0.00 -50.40 Q -1.80 -28.80 0.00 -3.60 Z" fill="url(#m-lotus-pet-front)" opacity="0.95"/>
+        <path d="M 0.00 -3.60 Q -5.40 -18.00 -3.60 -50.40 Q 0.00 -61.20 3.60 -50.40 Q 5.40 -18.00 0.00 -3.60 Z" fill="url(#m-lotus-pet-front)"/>
+        <line x1="-21.60" y1="-14.40" x2="-28.80" y2="-39.60" stroke="#a05870" stroke-width="0.27" opacity="0.4"/>
+        <line x1="21.60" y1="-14.40" x2="28.80" y2="-39.60" stroke="#a05870" stroke-width="0.27" opacity="0.4"/>
+        <line x1="0" y1="-14.40" x2="0" y2="-46.80" stroke="#a05870" stroke-width="0.27" opacity="0.3"/>
+        <line x1="0" y1="-3.60" x2="0" y2="0" stroke="#1a3826" stroke-width="1.08" stroke-linecap="round"/></g></g>
+
+      <circle class="pond-mote" cx="215" cy="720" r="1.2" fill="#f4e8c8" style="animation-duration: 22s; animation-delay: -3s;"/><circle class="pond-mote" cx="230" cy="720" r="1.2" fill="#f4e8c8" style="animation-duration: 26s; animation-delay: -11s;"/><circle class="pond-mote" cx="252" cy="720" r="1.2" fill="#f4e8c8" style="animation-duration: 24s; animation-delay: -16s;"/><circle class="pond-mote" cx="260" cy="720" r="1.2" fill="#f4e8c8" style="animation-duration: 30s; animation-delay: -6s;"/><circle class="pond-mote" cx="235" cy="720" r="1.2" fill="#f4e8c8" style="animation-duration: 28s; animation-delay: -19s;"/>
+
+      <rect width="480" height="1200" fill="url(#m-vignette)"/>
+    </svg>
   </div>
 
   <div class="container">
