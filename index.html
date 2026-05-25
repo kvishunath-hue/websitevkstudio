@@ -2966,13 +2966,14 @@
     color: #f4f4f0;
   }
 
-  /* ============ FOREST BACKDROP — misty dawn forest behind contact section ============ */
-  .forest-backdrop {
+  /* ============ AURORA BACKDROP — green aurora curtains behind contact section ============ */
+  .aurora-backdrop {
     position: absolute;
     inset: 0;
     z-index: 0;
     pointer-events: none;
     overflow: hidden;
+    opacity: 0.55;
     /* Match the contact-mid corner clip */
     clip-path: polygon(
       5% 0,
@@ -2983,7 +2984,7 @@
       5% 5%
     );
   }
-  .forest-backdrop svg {
+  .aurora-backdrop svg {
     position: absolute;
     top: 0;
     left: 0;
@@ -2991,62 +2992,57 @@
     height: 100%;
     display: block;
   }
-  /* Light shafts — slow drift in opacity, evoking sun breaking through canopy */
-  .forest-shafts g {
-    animation: shaftBreath 14s ease-in-out infinite;
-    transform-origin: top right;
+  /* Aurora curtains — each curtain sways subtly side-to-side AND breathes in opacity at its own pace */
+  .aurora-curtain-1 { animation: auroraSway1 18s ease-in-out infinite, auroraBreath1 11s ease-in-out infinite; transform-origin: center bottom; }
+  .aurora-curtain-2 { animation: auroraSway2 22s ease-in-out infinite, auroraBreath2 14s ease-in-out infinite; transform-origin: center bottom; }
+  .aurora-curtain-3 { animation: auroraSway3 26s ease-in-out infinite, auroraBreath3 17s ease-in-out infinite; transform-origin: center bottom; }
+  .aurora-curtain-4 { animation: auroraSway4 20s ease-in-out infinite, auroraBreath4 13s ease-in-out infinite; transform-origin: center bottom; }
+  @keyframes auroraSway1 {
+    0%, 100% { transform: translateX(0)    skewX(0deg); }
+    50%      { transform: translateX(-14px) skewX(-1.4deg); }
   }
-  .forest-shafts g:nth-child(1) { animation-delay: 0s;    animation-duration: 13s; }
-  .forest-shafts g:nth-child(2) { animation-delay: -3.5s; animation-duration: 17s; }
-  .forest-shafts g:nth-child(3) { animation-delay: -7s;   animation-duration: 15s; }
-  .forest-shafts g:nth-child(4) { animation-delay: -10s;  animation-duration: 19s; }
-  @keyframes shaftBreath {
-    0%, 100% { opacity: 0.18; transform: rotate(0deg); }
-    50%      { opacity: 0.42; transform: rotate(0.4deg); }
+  @keyframes auroraSway2 {
+    0%, 100% { transform: translateX(0)    skewX(0deg); }
+    50%      { transform: translateX(18px) skewX(1.6deg); }
   }
-  /* Mist layers — slow horizontal drift, parallax */
-  .forest-mist-far {
-    animation: mistDriftFar 60s linear infinite;
+  @keyframes auroraSway3 {
+    0%, 100% { transform: translateX(0)    skewX(0deg); }
+    50%      { transform: translateX(-22px) skewX(-1.2deg); }
   }
-  .forest-mist-near {
-    animation: mistDriftNear 48s linear infinite;
+  @keyframes auroraSway4 {
+    0%, 100% { transform: translateX(0)    skewX(0deg); }
+    50%      { transform: translateX(12px) skewX(1.8deg); }
   }
-  @keyframes mistDriftFar {
-    0%   { transform: translateX(0); }
-    100% { transform: translateX(-40px); }
+  @keyframes auroraBreath1 {
+    0%, 100% { opacity: 0.72; }
+    50%      { opacity: 0.95; }
   }
-  @keyframes mistDriftNear {
-    0%   { transform: translateX(0); }
-    100% { transform: translateX(60px); }
+  @keyframes auroraBreath2 {
+    0%, 100% { opacity: 0.62; }
+    50%      { opacity: 0.85; }
   }
-  /* Pollen / spores — slow upward float */
-  .forest-pollen circle {
-    animation: pollenFloat linear infinite;
+  @keyframes auroraBreath3 {
+    0%, 100% { opacity: 0.55; }
+    50%      { opacity: 0.80; }
   }
-  @keyframes pollenFloat {
-    0%   { transform: translateY(80px); opacity: 0; }
-    15%  { opacity: 0.55; }
-    85%  { opacity: 0.4; }
-    100% { transform: translateY(-380px); opacity: 0; }
+  @keyframes auroraBreath4 {
+    0%, 100% { opacity: 0.50; }
+    50%      { opacity: 0.78; }
   }
-  /* Tree silhouette layers — barely perceptible sway */
-  .forest-trees-mid { animation: treeSwayMid 22s ease-in-out infinite; transform-origin: center bottom; }
-  .forest-trees-near { animation: treeSwayNear 26s ease-in-out infinite; transform-origin: center bottom; }
-  @keyframes treeSwayMid {
-    0%, 100% { transform: translateX(0); }
-    50%      { transform: translateX(-3px); }
+  /* Stars — gentle twinkle */
+  .aurora-stars circle {
+    animation: auroraTwinkle 9s ease-in-out infinite;
   }
-  @keyframes treeSwayNear {
-    0%, 100% { transform: translateX(0); }
-    50%      { transform: translateX(4px); }
+  .aurora-stars circle:nth-child(3n)   { animation-delay: -1.5s; animation-duration: 12s; }
+  .aurora-stars circle:nth-child(3n+1) { animation-delay: -4s;   animation-duration: 8s;  }
+  .aurora-stars circle:nth-child(3n+2) { animation-delay: -6.5s; animation-duration: 14s; }
+  @keyframes auroraTwinkle {
+    0%, 100% { opacity: 0.25; }
+    50%      { opacity: 0.7; }
   }
   @media (prefers-reduced-motion: reduce) {
-    .forest-shafts g,
-    .forest-mist-far,
-    .forest-mist-near,
-    .forest-pollen circle,
-    .forest-trees-mid,
-    .forest-trees-near { animation: none; }
+    .aurora-curtain-1, .aurora-curtain-2, .aurora-curtain-3, .aurora-curtain-4,
+    .aurora-stars circle { animation: none; }
   }
 
   /* ============ TOPO BACKDROP — moving painting behind contact section ============ */
@@ -4482,209 +4478,125 @@
     <div class="c-shape c-shape-2"></div>
   </div>
 
-  <!-- MISTY DAWN FOREST — moving painting -->
-  <div class="forest-backdrop">
+  <!-- AURORA — green light curtains moving painting -->
+  <div class="aurora-backdrop">
     <svg viewBox="0 0 1200 360" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
       <defs>
-        <!-- Dawn sky: cool blue-grey top fading to muted peach near horizon -->
-        <linearGradient id="forest-sky" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%"  stop-color="#0e1218"/>
-          <stop offset="35%" stop-color="#142028"/>
-          <stop offset="68%" stop-color="#1c2826"/>
-          <stop offset="100%" stop-color="#1a2218"/>
+        <!-- Deep night sky base -->
+        <linearGradient id="aurora-sky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"  stop-color="#04080a"/>
+          <stop offset="65%" stop-color="#06100c"/>
+          <stop offset="100%" stop-color="#08140e"/>
         </linearGradient>
-        <!-- Warm sun-up glow upper-right -->
-        <radialGradient id="forest-sun" cx="0.78" cy="0.22" r="0.36">
-          <stop offset="0%"   stop-color="rgba(232,196,140,0.30)"/>
-          <stop offset="45%"  stop-color="rgba(232,196,140,0.10)"/>
-          <stop offset="100%" stop-color="rgba(232,196,140,0)"/>
+        <!-- Subtle horizon glow at the bottom -->
+        <radialGradient id="aurora-horizon" cx="0.5" cy="1" r="0.7">
+          <stop offset="0%"   stop-color="rgba(90,180,110,0.18)"/>
+          <stop offset="60%"  stop-color="rgba(90,180,110,0.04)"/>
+          <stop offset="100%" stop-color="rgba(90,180,110,0)"/>
         </radialGradient>
-        <!-- Subtle peach atmosphere overall -->
-        <radialGradient id="forest-warm" cx="0.55" cy="0.4" r="0.6">
-          <stop offset="0%"   stop-color="rgba(212,150,108,0.08)"/>
-          <stop offset="100%" stop-color="rgba(212,150,108,0)"/>
-        </radialGradient>
-        <!-- Light shaft gradient -->
-        <linearGradient id="shaft-grad" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%"   stop-color="rgba(232,196,140,0.55)"/>
-          <stop offset="100%" stop-color="rgba(232,196,140,0)"/>
+        <!-- Aurora curtain gradients — green at top fading down -->
+        <linearGradient id="aurora-grad-1" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"  stop-color="rgba(120,210,140,0)"/>
+          <stop offset="20%" stop-color="rgba(120,210,140,0.55)"/>
+          <stop offset="60%" stop-color="rgba(140,220,160,0.42)"/>
+          <stop offset="100%" stop-color="rgba(120,210,140,0)"/>
         </linearGradient>
-        <!-- Far / mid / near tree gradient (darker as they come forward) -->
-        <linearGradient id="trees-far" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%"   stop-color="#1e3028"/>
-          <stop offset="100%" stop-color="#0e1814"/>
+        <linearGradient id="aurora-grad-2" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"  stop-color="rgba(90,190,120,0)"/>
+          <stop offset="22%" stop-color="rgba(90,190,120,0.48)"/>
+          <stop offset="65%" stop-color="rgba(110,200,140,0.38)"/>
+          <stop offset="100%" stop-color="rgba(90,190,120,0)"/>
         </linearGradient>
-        <linearGradient id="trees-mid" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%"   stop-color="#101e18"/>
-          <stop offset="100%" stop-color="#060b08"/>
+        <linearGradient id="aurora-grad-3" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"  stop-color="rgba(180,230,160,0)"/>
+          <stop offset="25%" stop-color="rgba(180,230,160,0.35)"/>
+          <stop offset="62%" stop-color="rgba(170,225,155,0.30)"/>
+          <stop offset="100%" stop-color="rgba(180,230,160,0)"/>
         </linearGradient>
-        <linearGradient id="trees-near" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%"   stop-color="#070d09"/>
-          <stop offset="100%" stop-color="#020403"/>
-        </linearGradient>
-        <linearGradient id="floor-grad" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%"   stop-color="#0a120c"/>
-          <stop offset="100%" stop-color="#040605"/>
+        <linearGradient id="aurora-grad-4" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"  stop-color="rgba(70,170,140,0)"/>
+          <stop offset="28%" stop-color="rgba(70,170,140,0.38)"/>
+          <stop offset="60%" stop-color="rgba(95,185,155,0.32)"/>
+          <stop offset="100%" stop-color="rgba(70,170,140,0)"/>
         </linearGradient>
       </defs>
 
-      <!-- Base sky -->
-      <rect width="1200" height="360" fill="url(#forest-sky)"/>
-      <rect width="1200" height="360" fill="url(#forest-sun)"/>
-      <rect width="1200" height="360" fill="url(#forest-warm)"/>
+      <!-- Sky base + horizon -->
+      <rect width="1200" height="360" fill="url(#aurora-sky)"/>
+      <rect width="1200" height="360" fill="url(#aurora-horizon)"/>
 
-      <!-- LIGHT SHAFTS — angled from upper-right (sun) through trees -->
-      <g class="forest-shafts" transform="rotate(-12 1000 60)">
-        <g><polygon points="900,40 920,40 480,400 440,400" fill="url(#shaft-grad)"/></g>
-        <g><polygon points="1020,30 1042,30 660,400 615,400" fill="url(#shaft-grad)"/></g>
-        <g><polygon points="1100,50 1120,50 820,400 780,400" fill="url(#shaft-grad)"/></g>
-        <g><polygon points="780,60 798,60 320,400 285,400" fill="url(#shaft-grad)"/></g>
+      <!-- STARS — gentle twinkle, sparser at the bottom (where curtains live) -->
+      <g class="aurora-stars" fill="#d8e0d8">
+        <!-- Upper field, denser -->
+        <circle cx="80"   cy="22" r="0.6" opacity="0.55"/>
+        <circle cx="142"  cy="38" r="0.4" opacity="0.4"/>
+        <circle cx="218"  cy="16" r="0.5" opacity="0.5"/>
+        <circle cx="296"  cy="28" r="0.7" opacity="0.55"/>
+        <circle cx="368"  cy="14" r="0.4" opacity="0.4"/>
+        <circle cx="438"  cy="32" r="0.5" opacity="0.5"/>
+        <circle cx="518"  cy="20" r="0.6" opacity="0.55"/>
+        <circle cx="592"  cy="36" r="0.4" opacity="0.4"/>
+        <circle cx="660"  cy="18" r="0.5" opacity="0.5"/>
+        <circle cx="732"  cy="30" r="0.7" opacity="0.55"/>
+        <circle cx="808"  cy="14" r="0.4" opacity="0.4"/>
+        <circle cx="876"  cy="34" r="0.5" opacity="0.5"/>
+        <circle cx="948"  cy="22" r="0.6" opacity="0.55"/>
+        <circle cx="1024" cy="38" r="0.4" opacity="0.4"/>
+        <circle cx="1098" cy="16" r="0.5" opacity="0.5"/>
+        <circle cx="1162" cy="32" r="0.7" opacity="0.55"/>
+        <!-- Middle band -->
+        <circle cx="120"  cy="78" r="0.4" opacity="0.4"/>
+        <circle cx="248"  cy="92" r="0.5" opacity="0.5"/>
+        <circle cx="382"  cy="74" r="0.4" opacity="0.4"/>
+        <circle cx="510"  cy="88" r="0.6" opacity="0.5"/>
+        <circle cx="640"  cy="76" r="0.4" opacity="0.4"/>
+        <circle cx="772"  cy="90" r="0.5" opacity="0.5"/>
+        <circle cx="902"  cy="78" r="0.4" opacity="0.4"/>
+        <circle cx="1038" cy="92" r="0.5" opacity="0.5"/>
+        <circle cx="1148" cy="74" r="0.4" opacity="0.4"/>
+        <!-- Mid-low, fewer -->
+        <circle cx="180"  cy="138" r="0.4" opacity="0.35"/>
+        <circle cx="412"  cy="142" r="0.5" opacity="0.4"/>
+        <circle cx="688"  cy="138" r="0.4" opacity="0.35"/>
+        <circle cx="942"  cy="142" r="0.5" opacity="0.4"/>
       </g>
 
-      <!-- FAR mist band (high horizon, very pale, drifts slowly) -->
-      <g class="forest-mist-far" opacity="0.55">
-        <ellipse cx="200" cy="190" rx="320" ry="22" fill="rgba(190,210,200,0.18)"/>
-        <ellipse cx="600" cy="200" rx="380" ry="20" fill="rgba(190,210,200,0.16)"/>
-        <ellipse cx="980" cy="195" rx="300" ry="22" fill="rgba(190,210,200,0.18)"/>
-        <ellipse cx="1240" cy="200" rx="220" ry="18" fill="rgba(190,210,200,0.15)"/>
+      <!-- AURORA CURTAIN 1 — left side, tall -->
+      <g class="aurora-curtain-1">
+        <path d="M 80 360 Q 130 60 180 320 Q 230 80 280 360 Z" fill="url(#aurora-grad-1)"/>
       </g>
 
-      <!-- FAR TREE LAYER — distant, soft, lots of small trunks -->
-      <g class="forest-trees-far">
-        <!-- A row of slim tapered trunks at far depth -->
-        <g fill="url(#trees-far)" opacity="0.82">
-          <polygon points="30,360 30,200 33,160 34,200 34,360"/>
-          <polygon points="78,360 78,190 80,148 82,190 82,360"/>
-          <polygon points="115,360 115,210 118,178 120,210 120,360"/>
-          <polygon points="160,360 160,175 162,140 164,175 164,360"/>
-          <polygon points="208,360 208,200 211,162 213,200 213,360"/>
-          <polygon points="255,360 255,185 257,150 260,185 260,360"/>
-          <polygon points="298,360 298,205 301,168 303,205 303,360"/>
-          <polygon points="340,360 340,175 343,140 345,175 345,360"/>
-          <polygon points="388,360 388,195 391,155 393,195 393,360"/>
-          <polygon points="432,360 432,182 435,148 438,182 438,360"/>
-          <polygon points="478,360 478,200 481,165 483,200 483,360"/>
-          <polygon points="520,360 520,190 523,155 525,190 525,360"/>
-          <polygon points="565,360 565,210 568,175 570,210 570,360"/>
-          <polygon points="610,360 610,180 613,145 616,180 616,360"/>
-          <polygon points="655,360 655,205 658,168 660,205 660,360"/>
-          <polygon points="700,360 700,192 703,155 706,192 706,360"/>
-          <polygon points="745,360 745,178 748,142 751,178 751,360"/>
-          <polygon points="790,360 790,205 793,170 795,205 795,360"/>
-          <polygon points="836,360 836,188 839,152 841,188 841,360"/>
-          <polygon points="880,360 880,200 883,168 885,200 885,360"/>
-          <polygon points="925,360 925,175 928,138 930,175 930,360"/>
-          <polygon points="970,360 970,202 973,168 975,202 975,360"/>
-          <polygon points="1015,360 1015,190 1018,158 1020,190 1020,360"/>
-          <polygon points="1058,360 1058,210 1061,178 1064,210 1064,360"/>
-          <polygon points="1102,360 1102,180 1105,148 1108,180 1108,360"/>
-          <polygon points="1150,360 1150,195 1153,162 1156,195 1156,360"/>
-          <polygon points="1195,360 1195,205 1198,170 1200,205 1200,360"/>
-        </g>
+      <!-- AURORA CURTAIN 2 — center-left, slimmer, taller -->
+      <g class="aurora-curtain-2">
+        <path d="M 280 360 Q 340 100 400 300 Q 460 60 520 360 Z" fill="url(#aurora-grad-2)"/>
       </g>
 
-      <!-- MID mist band — drifts opposite direction (parallax) -->
-      <g class="forest-mist-near" opacity="0.6">
-        <ellipse cx="100"  cy="248" rx="260" ry="20" fill="rgba(200,220,210,0.18)"/>
-        <ellipse cx="480"  cy="252" rx="340" ry="22" fill="rgba(200,220,210,0.20)"/>
-        <ellipse cx="850"  cy="245" rx="320" ry="18" fill="rgba(200,220,210,0.18)"/>
-        <ellipse cx="1180" cy="252" rx="240" ry="20" fill="rgba(200,220,210,0.16)"/>
+      <!-- AURORA CURTAIN 3 — center-right, wider and softer -->
+      <g class="aurora-curtain-3">
+        <path d="M 500 360 Q 580 120 660 280 Q 740 80 820 360 Z" fill="url(#aurora-grad-3)"/>
       </g>
 
-      <!-- MID TREE LAYER — thicker trunks, slightly slower sway -->
-      <g class="forest-trees-mid">
-        <g fill="url(#trees-mid)">
-          <!-- Trunk 1 -->
-          <polygon points="56,360 50,260 48,140 53,120 58,140 58,260 64,360"/>
-          <!-- Trunk 2 -->
-          <polygon points="180,360 174,250 172,135 177,108 182,135 184,250 190,360"/>
-          <!-- Trunk 3 -->
-          <polygon points="310,360 304,240 302,128 308,98 314,128 316,240 322,360"/>
-          <!-- Trunk 4 -->
-          <polygon points="430,360 424,255 422,135 428,108 434,135 436,255 442,360"/>
-          <!-- Trunk 5 -->
-          <polygon points="560,360 554,240 552,120 558,90 564,120 566,240 572,360"/>
-          <!-- Trunk 6 -->
-          <polygon points="690,360 684,260 682,148 688,118 694,148 696,260 702,360"/>
-          <!-- Trunk 7 -->
-          <polygon points="820,360 814,245 812,125 818,95 824,125 826,245 832,360"/>
-          <!-- Trunk 8 -->
-          <polygon points="950,360 944,250 942,138 948,108 954,138 956,250 962,360"/>
-          <!-- Trunk 9 -->
-          <polygon points="1080,360 1074,238 1072,118 1078,88 1084,118 1086,238 1092,360"/>
-        </g>
-        <!-- Mid-layer canopy hints (soft elliptical shadows mid-height) -->
-        <g fill="rgba(20,32,26,0.5)">
-          <ellipse cx="55" cy="135" rx="22" ry="42"/>
-          <ellipse cx="180" cy="125" rx="24" ry="46"/>
-          <ellipse cx="310" cy="115" rx="26" ry="48"/>
-          <ellipse cx="430" cy="125" rx="24" ry="44"/>
-          <ellipse cx="560" cy="108" rx="28" ry="50"/>
-          <ellipse cx="690" cy="138" rx="22" ry="42"/>
-          <ellipse cx="820" cy="115" rx="26" ry="46"/>
-          <ellipse cx="950" cy="128" rx="24" ry="44"/>
-          <ellipse cx="1080" cy="108" rx="28" ry="50"/>
-        </g>
+      <!-- AURORA CURTAIN 4 — right side, smaller -->
+      <g class="aurora-curtain-4">
+        <path d="M 820 360 Q 880 90 940 320 Q 1000 70 1060 360 Z" fill="url(#aurora-grad-4)"/>
       </g>
 
-      <!-- NEAR TREE LAYER — large in foreground, darkest, slowest sway -->
-      <g class="forest-trees-near">
-        <g fill="url(#trees-near)">
-          <!-- Left foreground giant -->
-          <polygon points="0,360 -10,260 -8,90 8,40 24,90 26,260 40,360"/>
-          <!-- Right foreground giant -->
-          <polygon points="1160,360 1148,250 1146,80 1170,30 1194,80 1196,250 1210,360"/>
-          <!-- Mid-right foreground -->
-          <polygon points="880,360 870,270 868,130 884,90 900,130 902,270 912,360"/>
-          <!-- Mid-left foreground -->
-          <polygon points="240,360 230,275 228,140 244,100 260,140 262,275 272,360"/>
-        </g>
-        <!-- Near-layer canopy masses (large dark blobs creating top frame) -->
-        <g fill="rgba(6,10,8,0.85)">
-          <ellipse cx="10"   cy="60"  rx="80"  ry="80"/>
-          <ellipse cx="1180" cy="50"  rx="90"  ry="85"/>
-          <ellipse cx="888"  cy="110" rx="56"  ry="62"/>
-          <ellipse cx="246"  cy="118" rx="52"  ry="58"/>
-        </g>
+      <!-- Additional small curtains for depth -->
+      <g class="aurora-curtain-2" style="opacity: 0.4;">
+        <path d="M 1020 360 Q 1080 130 1140 300 Q 1200 100 1260 360 Z" fill="url(#aurora-grad-1)"/>
+      </g>
+      <g class="aurora-curtain-3" style="opacity: 0.35;">
+        <path d="M -40 360 Q 20 110 80 320 Q 140 80 200 360 Z" fill="url(#aurora-grad-4)"/>
       </g>
 
-      <!-- FOREST FLOOR — soft dark mossy base -->
-      <rect x="0" y="320" width="1200" height="40" fill="url(#floor-grad)"/>
-      <!-- Tiny ground tufts -->
-      <g stroke="rgba(60,90,72,0.4)" stroke-width="0.6" fill="none">
-        <path d="M 80 348 L 82 338 M 85 348 L 87 336 M 88 348 L 90 339"/>
-        <path d="M 270 350 L 272 340 M 275 350 L 277 337 M 278 350 L 280 341"/>
-        <path d="M 480 348 L 482 338 M 485 348 L 487 336 M 488 348 L 490 339"/>
-        <path d="M 720 350 L 722 340 M 725 350 L 727 337 M 728 350 L 730 341"/>
-        <path d="M 980 348 L 982 338 M 985 348 L 987 336 M 988 348 L 990 339"/>
-        <path d="M 1140 350 L 1142 340 M 1145 350 L 1147 337 M 1148 350 L 1150 341"/>
-      </g>
-
-      <!-- POLLEN / SPORES — slow upward float, warm color -->
-      <g class="forest-pollen" fill="#e8c48c">
-        <circle cx="120"  cy="360" r="0.7" opacity="0.7" style="animation-duration: 26s; animation-delay: -1s;"/>
-        <circle cx="240"  cy="360" r="0.6" opacity="0.6" style="animation-duration: 32s; animation-delay: -8s;"/>
-        <circle cx="370"  cy="360" r="0.8" opacity="0.65" style="animation-duration: 28s; animation-delay: -14s;"/>
-        <circle cx="500"  cy="360" r="0.5" opacity="0.55" style="animation-duration: 36s; animation-delay: -4s;"/>
-        <circle cx="620"  cy="360" r="0.7" opacity="0.7" style="animation-duration: 30s; animation-delay: -18s;"/>
-        <circle cx="750"  cy="360" r="0.6" opacity="0.6" style="animation-duration: 34s; animation-delay: -10s;"/>
-        <circle cx="880"  cy="360" r="0.8" opacity="0.65" style="animation-duration: 26s; animation-delay: -22s;"/>
-        <circle cx="1010" cy="360" r="0.5" opacity="0.55" style="animation-duration: 32s; animation-delay: -6s;"/>
-        <circle cx="1130" cy="360" r="0.7" opacity="0.7" style="animation-duration: 28s; animation-delay: -16s;"/>
-        <circle cx="180"  cy="360" r="0.5" opacity="0.5" style="animation-duration: 38s; animation-delay: -12s;"/>
-        <circle cx="430"  cy="360" r="0.6" opacity="0.6" style="animation-duration: 30s; animation-delay: -20s;"/>
-        <circle cx="690"  cy="360" r="0.5" opacity="0.55" style="animation-duration: 36s; animation-delay: -24s;"/>
-        <circle cx="940"  cy="360" r="0.6" opacity="0.6" style="animation-duration: 34s; animation-delay: -3s;"/>
-      </g>
-
-      <!-- Vignette overlay (frames the painting, keeps content legible) -->
+      <!-- Vignette — keeps content centered/readable -->
       <defs>
-        <radialGradient id="forest-vignette" cx="0.5" cy="0.5" r="0.7">
-          <stop offset="55%" stop-color="rgba(0,0,0,0)"/>
-          <stop offset="100%" stop-color="rgba(0,0,0,0.65)"/>
+        <radialGradient id="aurora-vignette" cx="0.5" cy="0.5" r="0.72">
+          <stop offset="50%" stop-color="rgba(0,0,0,0)"/>
+          <stop offset="100%" stop-color="rgba(0,0,0,0.55)"/>
         </radialGradient>
       </defs>
-      <rect width="1200" height="360" fill="url(#forest-vignette)"/>
+      <rect width="1200" height="360" fill="url(#aurora-vignette)"/>
     </svg>
   </div>
 
