@@ -2930,7 +2930,7 @@
     z-index: 0;
     pointer-events: none;
     overflow: hidden;
-    opacity: 0.4;
+    opacity: 0.85;
     /* Cut the top-left 5% × 5% corner out so anything that clips into
        that distracting zone is hidden — the section's actual background
        shows through naturally with no patch artifact. */
@@ -2951,11 +2951,206 @@
     height: 100%;
     display: block;
   }
+
+  /* Brighter text inside contact section so it stays legible over the forest backdrop */
+  #contact .section-intro,
+  #contact .process-desc {
+    color: #e8e8e2;
+  }
+  #contact .process-num,
+  #contact .footer-manifesto-meta {
+    color: #c8c8c0;
+  }
+  #contact .process-title,
+  #contact .footer-manifesto-text {
+    color: #f4f4f0;
+  }
+
+  /* ============ FOREST BACKDROP — misty dawn forest behind contact section ============ */
+  .forest-backdrop {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+    /* Match the contact-mid corner clip */
+    clip-path: polygon(
+      5% 0,
+      100% 0,
+      100% 100%,
+      0 100%,
+      0 5%,
+      5% 5%
+    );
+  }
+  .forest-backdrop svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+  /* Light shafts — slow drift in opacity, evoking sun breaking through canopy */
+  .forest-shafts g {
+    animation: shaftBreath 14s ease-in-out infinite;
+    transform-origin: top right;
+  }
+  .forest-shafts g:nth-child(1) { animation-delay: 0s;    animation-duration: 13s; }
+  .forest-shafts g:nth-child(2) { animation-delay: -3.5s; animation-duration: 17s; }
+  .forest-shafts g:nth-child(3) { animation-delay: -7s;   animation-duration: 15s; }
+  .forest-shafts g:nth-child(4) { animation-delay: -10s;  animation-duration: 19s; }
+  @keyframes shaftBreath {
+    0%, 100% { opacity: 0.18; transform: rotate(0deg); }
+    50%      { opacity: 0.42; transform: rotate(0.4deg); }
+  }
+  /* Mist layers — slow horizontal drift, parallax */
+  .forest-mist-far {
+    animation: mistDriftFar 60s linear infinite;
+  }
+  .forest-mist-near {
+    animation: mistDriftNear 48s linear infinite;
+  }
+  @keyframes mistDriftFar {
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(-40px); }
+  }
+  @keyframes mistDriftNear {
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(60px); }
+  }
+  /* Pollen / spores — slow upward float */
+  .forest-pollen circle {
+    animation: pollenFloat linear infinite;
+  }
+  @keyframes pollenFloat {
+    0%   { transform: translateY(80px); opacity: 0; }
+    15%  { opacity: 0.55; }
+    85%  { opacity: 0.4; }
+    100% { transform: translateY(-380px); opacity: 0; }
+  }
+  /* Tree silhouette layers — barely perceptible sway */
+  .forest-trees-mid { animation: treeSwayMid 22s ease-in-out infinite; transform-origin: center bottom; }
+  .forest-trees-near { animation: treeSwayNear 26s ease-in-out infinite; transform-origin: center bottom; }
+  @keyframes treeSwayMid {
+    0%, 100% { transform: translateX(0); }
+    50%      { transform: translateX(-3px); }
+  }
+  @keyframes treeSwayNear {
+    0%, 100% { transform: translateX(0); }
+    50%      { transform: translateX(4px); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .forest-shafts g,
+    .forest-mist-far,
+    .forest-mist-near,
+    .forest-pollen circle,
+    .forest-trees-mid,
+    .forest-trees-near { animation: none; }
+  }
+
+  /* ============ TOPO BACKDROP — moving painting behind contact section ============ */
+  .topo-backdrop {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+    /* Same top-left corner clip as contact-mid so any drifting element
+       that nudges into the top-left 5×5 corner is hidden cleanly. */
+    clip-path: polygon(
+      5% 0,
+      100% 0,
+      100% 100%,
+      0 100%,
+      0 5%,
+      5% 5%
+    );
+  }
+  .topo-backdrop svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+  /* Stars — gentle twinkle */
+  .topo-stars circle {
+    animation: topoTwinkle 8s ease-in-out infinite;
+  }
+  .topo-stars circle:nth-child(3n)  { animation-delay: -1.2s; animation-duration: 11s; }
+  .topo-stars circle:nth-child(3n+1) { animation-delay: -3.4s; animation-duration: 9s; }
+  .topo-stars circle:nth-child(3n+2) { animation-delay: -5.8s; animation-duration: 13s; }
+  @keyframes topoTwinkle {
+    0%, 100% { opacity: 0.18; }
+    50%      { opacity: 0.55; }
+  }
+  /* Contour systems — very slow breathing */
+  .topo-system-a {
+    transform-origin: 350px 200px;
+    animation: topoBreatheA 22s ease-in-out infinite;
+  }
+  .topo-system-b {
+    transform-origin: 880px 200px;
+    animation: topoBreatheB 28s ease-in-out infinite;
+  }
+  @keyframes topoBreatheA {
+    0%, 100% { transform: scale(1) translate(0, 0); opacity: 1; }
+    50%      { transform: scale(1.04) translate(-6px, 2px); opacity: 0.85; }
+  }
+  @keyframes topoBreatheB {
+    0%, 100% { transform: scale(1) translate(0, 0); opacity: 1; }
+    50%      { transform: scale(1.05) translate(8px, -3px); opacity: 0.85; }
+  }
+  /* Rolling lower bands — slow horizontal drift */
+  .topo-bands {
+    animation: topoBandsDrift 36s linear infinite;
+  }
+  @keyframes topoBandsDrift {
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(-16px); }
+  }
+
+  /* ============ CREDITS BACKDROP — quiet vertical dust drift behind end credits ============ */
+  footer { position: relative; overflow: hidden; }
+  .credits-backdrop {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
+  .credits-backdrop svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+  /* The dust particles rise slowly upward */
+  .credits-dust circle {
+    animation: dustRise linear infinite;
+  }
+  @keyframes dustRise {
+    0%   { transform: translateY(40px); opacity: 0; }
+    20%  { opacity: 0.6; }
+    80%  { opacity: 0.4; }
+    100% { transform: translateY(-1200px); opacity: 0; }
+  }
+  /* Ensure footer content sits above the backdrop */
+  footer > .container { position: relative; z-index: 2; }
+  @media (prefers-reduced-motion: reduce) {
+    .topo-stars circle,
+    .topo-system-a,
+    .topo-system-b,
+    .topo-bands,
+    .credits-dust circle { animation: none; }
+  }
   @media (max-width: 720px) {
-    /* On mobile, show only the left ~40% of the scene (left palm, wading bird, bird flock)
-       by scaling up and anchoring left. */
     .beach-backdrop svg {
-      width: 280%;
+      width: 100%;
       left: 0;
     }
   }
@@ -3015,6 +3210,81 @@
   .bird-fly-2 { animation: birdFly2 32s linear infinite; }
   .tree-sway { animation: treeSway 5s ease-in-out infinite; transform-origin: bottom center; transform-box: fill-box; }
   .tree-sway-2 { animation: treeSwayGentle 9s ease-in-out infinite reverse; transform-origin: bottom center; transform-box: fill-box; }
+
+  /* === MOONLIT OCEAN — moving painting === */
+  /* Twinkle stars (5 staggered) */
+  @keyframes oceanTwinkle {
+    0%, 100% { opacity: 0.2; }
+    50% { opacity: 0.85; }
+  }
+  .twinkle-1 { animation: oceanTwinkle 4.2s ease-in-out infinite; }
+  .twinkle-2 { animation: oceanTwinkle 5.8s ease-in-out 0.8s infinite; }
+  .twinkle-3 { animation: oceanTwinkle 4.6s ease-in-out 1.6s infinite; }
+  .twinkle-4 { animation: oceanTwinkle 5.2s ease-in-out 2.4s infinite; }
+  .twinkle-5 { animation: oceanTwinkle 4.8s ease-in-out 3.0s infinite; }
+
+  /* Slow cloud drift across sky */
+  @keyframes oceanCloudA {
+    0%   { transform: translateX(-40px); }
+    100% { transform: translateX(40px); }
+  }
+  @keyframes oceanCloudB {
+    0%   { transform: translateX(30px); }
+    100% { transform: translateX(-30px); }
+  }
+  .ocean-cloud-a { animation: oceanCloudA 90s linear infinite alternate; }
+  .ocean-cloud-b { animation: oceanCloudB 110s linear infinite alternate; }
+
+  /* Moonlight reflection on water — gentle shimmer */
+  @keyframes reflectionShimmer {
+    0%, 100% { transform: scaleX(1); opacity: 0.45; }
+    50%      { transform: scaleX(1.08); opacity: 0.62; }
+  }
+  .ocean-reflection-shimmer { animation: reflectionShimmer 7s ease-in-out infinite; }
+
+  /* Water ripples — three layers, very slow horizontal drift, different speeds */
+  @keyframes ripplesFar {
+    0%, 100% { transform: translateX(0); }
+    50%      { transform: translateX(8px); }
+  }
+  @keyframes ripplesMid {
+    0%, 100% { transform: translateX(0); }
+    50%      { transform: translateX(-10px); }
+  }
+  @keyframes ripplesNear {
+    0%, 100% { transform: translateX(0); }
+    50%      { transform: translateX(12px); }
+  }
+  .ripples-far  { animation: ripplesFar  12s ease-in-out infinite; }
+  .ripples-mid  { animation: ripplesMid  16s ease-in-out infinite; }
+  .ripples-near { animation: ripplesNear 20s ease-in-out infinite; }
+
+  /* Slow bird flight across sky */
+  @keyframes oceanBirdFly {
+    0%   { transform: translate(0, 0); opacity: 0; }
+    8%   { opacity: 0.8; }
+    92%  { opacity: 0.8; }
+    100% { transform: translate(820px, -12px); opacity: 0; }
+  }
+  @keyframes oceanBirdFly2 {
+    0%   { transform: translate(0, 0); opacity: 0; }
+    10%  { opacity: 0.7; }
+    90%  { opacity: 0.7; }
+    100% { transform: translate(-680px, -8px); opacity: 0; }
+  }
+  .bird-fly-slow   { animation: oceanBirdFly   55s linear infinite; }
+  .bird-fly-slow-2 { animation: oceanBirdFly2  72s linear infinite; }
+
+  /* Respect users who prefer reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    .twinkle-1, .twinkle-2, .twinkle-3, .twinkle-4, .twinkle-5,
+    .ocean-cloud-a, .ocean-cloud-b,
+    .ocean-reflection-shimmer,
+    .ripples-far, .ripples-mid, .ripples-near,
+    .bird-fly-slow, .bird-fly-slow-2 {
+      animation: none;
+    }
+  }
 
   /* Creature animations */
   @keyframes crabWalk {
@@ -4212,517 +4482,209 @@
     <div class="c-shape c-shape-2"></div>
   </div>
 
-  <!-- BEACH BACKDROP -->
-  <div class="beach-backdrop">
-    <svg viewBox="0 0 1200 360" preserveAspectRatio="none" aria-hidden="true">
-      <!-- Faint horizon grid -->
-      <g stroke="rgba(255,255,255,0.04)" stroke-width="0.5">
-        <line x1="0" y1="80" x2="1200" y2="80"/>
-        <line x1="0" y1="140" x2="1200" y2="140"/>
-        <line x1="0" y1="200" x2="1200" y2="200"/>
+  <!-- MISTY DAWN FOREST — moving painting -->
+  <div class="forest-backdrop">
+    <svg viewBox="0 0 1200 360" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+      <defs>
+        <!-- Dawn sky: cool blue-grey top fading to muted peach near horizon -->
+        <linearGradient id="forest-sky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"  stop-color="#0e1218"/>
+          <stop offset="35%" stop-color="#142028"/>
+          <stop offset="68%" stop-color="#1c2826"/>
+          <stop offset="100%" stop-color="#1a2218"/>
+        </linearGradient>
+        <!-- Warm sun-up glow upper-right -->
+        <radialGradient id="forest-sun" cx="0.78" cy="0.22" r="0.36">
+          <stop offset="0%"   stop-color="rgba(232,196,140,0.30)"/>
+          <stop offset="45%"  stop-color="rgba(232,196,140,0.10)"/>
+          <stop offset="100%" stop-color="rgba(232,196,140,0)"/>
+        </radialGradient>
+        <!-- Subtle peach atmosphere overall -->
+        <radialGradient id="forest-warm" cx="0.55" cy="0.4" r="0.6">
+          <stop offset="0%"   stop-color="rgba(212,150,108,0.08)"/>
+          <stop offset="100%" stop-color="rgba(212,150,108,0)"/>
+        </radialGradient>
+        <!-- Light shaft gradient -->
+        <linearGradient id="shaft-grad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"   stop-color="rgba(232,196,140,0.55)"/>
+          <stop offset="100%" stop-color="rgba(232,196,140,0)"/>
+        </linearGradient>
+        <!-- Far / mid / near tree gradient (darker as they come forward) -->
+        <linearGradient id="trees-far" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"   stop-color="#1e3028"/>
+          <stop offset="100%" stop-color="#0e1814"/>
+        </linearGradient>
+        <linearGradient id="trees-mid" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"   stop-color="#101e18"/>
+          <stop offset="100%" stop-color="#060b08"/>
+        </linearGradient>
+        <linearGradient id="trees-near" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"   stop-color="#070d09"/>
+          <stop offset="100%" stop-color="#020403"/>
+        </linearGradient>
+        <linearGradient id="floor-grad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"   stop-color="#0a120c"/>
+          <stop offset="100%" stop-color="#040605"/>
+        </linearGradient>
+      </defs>
+
+      <!-- Base sky -->
+      <rect width="1200" height="360" fill="url(#forest-sky)"/>
+      <rect width="1200" height="360" fill="url(#forest-sun)"/>
+      <rect width="1200" height="360" fill="url(#forest-warm)"/>
+
+      <!-- LIGHT SHAFTS — angled from upper-right (sun) through trees -->
+      <g class="forest-shafts" transform="rotate(-12 1000 60)">
+        <g><polygon points="900,40 920,40 480,400 440,400" fill="url(#shaft-grad)"/></g>
+        <g><polygon points="1020,30 1042,30 660,400 615,400" fill="url(#shaft-grad)"/></g>
+        <g><polygon points="1100,50 1120,50 820,400 780,400" fill="url(#shaft-grad)"/></g>
+        <g><polygon points="780,60 798,60 320,400 285,400" fill="url(#shaft-grad)"/></g>
       </g>
 
-      <!-- CLOUDS — drifting across the sky -->
-      <g class="cloud-drift-a">
-        <g fill="rgba(244,244,242,0.08)" stroke="rgba(244,244,242,0.16)" stroke-width="0.5">
-          <ellipse cx="180" cy="48" rx="38" ry="9"/>
-          <ellipse cx="202" cy="44" rx="28" ry="8"/>
-          <ellipse cx="160" cy="52" rx="22" ry="7"/>
+      <!-- FAR mist band (high horizon, very pale, drifts slowly) -->
+      <g class="forest-mist-far" opacity="0.55">
+        <ellipse cx="200" cy="190" rx="320" ry="22" fill="rgba(190,210,200,0.18)"/>
+        <ellipse cx="600" cy="200" rx="380" ry="20" fill="rgba(190,210,200,0.16)"/>
+        <ellipse cx="980" cy="195" rx="300" ry="22" fill="rgba(190,210,200,0.18)"/>
+        <ellipse cx="1240" cy="200" rx="220" ry="18" fill="rgba(190,210,200,0.15)"/>
+      </g>
+
+      <!-- FAR TREE LAYER — distant, soft, lots of small trunks -->
+      <g class="forest-trees-far">
+        <!-- A row of slim tapered trunks at far depth -->
+        <g fill="url(#trees-far)" opacity="0.82">
+          <polygon points="30,360 30,200 33,160 34,200 34,360"/>
+          <polygon points="78,360 78,190 80,148 82,190 82,360"/>
+          <polygon points="115,360 115,210 118,178 120,210 120,360"/>
+          <polygon points="160,360 160,175 162,140 164,175 164,360"/>
+          <polygon points="208,360 208,200 211,162 213,200 213,360"/>
+          <polygon points="255,360 255,185 257,150 260,185 260,360"/>
+          <polygon points="298,360 298,205 301,168 303,205 303,360"/>
+          <polygon points="340,360 340,175 343,140 345,175 345,360"/>
+          <polygon points="388,360 388,195 391,155 393,195 393,360"/>
+          <polygon points="432,360 432,182 435,148 438,182 438,360"/>
+          <polygon points="478,360 478,200 481,165 483,200 483,360"/>
+          <polygon points="520,360 520,190 523,155 525,190 525,360"/>
+          <polygon points="565,360 565,210 568,175 570,210 570,360"/>
+          <polygon points="610,360 610,180 613,145 616,180 616,360"/>
+          <polygon points="655,360 655,205 658,168 660,205 660,360"/>
+          <polygon points="700,360 700,192 703,155 706,192 706,360"/>
+          <polygon points="745,360 745,178 748,142 751,178 751,360"/>
+          <polygon points="790,360 790,205 793,170 795,205 795,360"/>
+          <polygon points="836,360 836,188 839,152 841,188 841,360"/>
+          <polygon points="880,360 880,200 883,168 885,200 885,360"/>
+          <polygon points="925,360 925,175 928,138 930,175 930,360"/>
+          <polygon points="970,360 970,202 973,168 975,202 975,360"/>
+          <polygon points="1015,360 1015,190 1018,158 1020,190 1020,360"/>
+          <polygon points="1058,360 1058,210 1061,178 1064,210 1064,360"/>
+          <polygon points="1102,360 1102,180 1105,148 1108,180 1108,360"/>
+          <polygon points="1150,360 1150,195 1153,162 1156,195 1156,360"/>
+          <polygon points="1195,360 1195,205 1198,170 1200,205 1200,360"/>
         </g>
       </g>
 
-      <g class="cloud-drift-b">
-        <g fill="rgba(244,244,242,0.07)" stroke="rgba(244,244,242,0.14)" stroke-width="0.5">
-          <ellipse cx="520" cy="62" rx="44" ry="10"/>
-          <ellipse cx="548" cy="56" rx="30" ry="8"/>
-          <ellipse cx="496" cy="68" rx="24" ry="7"/>
+      <!-- MID mist band — drifts opposite direction (parallax) -->
+      <g class="forest-mist-near" opacity="0.6">
+        <ellipse cx="100"  cy="248" rx="260" ry="20" fill="rgba(200,220,210,0.18)"/>
+        <ellipse cx="480"  cy="252" rx="340" ry="22" fill="rgba(200,220,210,0.20)"/>
+        <ellipse cx="850"  cy="245" rx="320" ry="18" fill="rgba(200,220,210,0.18)"/>
+        <ellipse cx="1180" cy="252" rx="240" ry="20" fill="rgba(200,220,210,0.16)"/>
+      </g>
+
+      <!-- MID TREE LAYER — thicker trunks, slightly slower sway -->
+      <g class="forest-trees-mid">
+        <g fill="url(#trees-mid)">
+          <!-- Trunk 1 -->
+          <polygon points="56,360 50,260 48,140 53,120 58,140 58,260 64,360"/>
+          <!-- Trunk 2 -->
+          <polygon points="180,360 174,250 172,135 177,108 182,135 184,250 190,360"/>
+          <!-- Trunk 3 -->
+          <polygon points="310,360 304,240 302,128 308,98 314,128 316,240 322,360"/>
+          <!-- Trunk 4 -->
+          <polygon points="430,360 424,255 422,135 428,108 434,135 436,255 442,360"/>
+          <!-- Trunk 5 -->
+          <polygon points="560,360 554,240 552,120 558,90 564,120 566,240 572,360"/>
+          <!-- Trunk 6 -->
+          <polygon points="690,360 684,260 682,148 688,118 694,148 696,260 702,360"/>
+          <!-- Trunk 7 -->
+          <polygon points="820,360 814,245 812,125 818,95 824,125 826,245 832,360"/>
+          <!-- Trunk 8 -->
+          <polygon points="950,360 944,250 942,138 948,108 954,138 956,250 962,360"/>
+          <!-- Trunk 9 -->
+          <polygon points="1080,360 1074,238 1072,118 1078,88 1084,118 1086,238 1092,360"/>
+        </g>
+        <!-- Mid-layer canopy hints (soft elliptical shadows mid-height) -->
+        <g fill="rgba(20,32,26,0.5)">
+          <ellipse cx="55" cy="135" rx="22" ry="42"/>
+          <ellipse cx="180" cy="125" rx="24" ry="46"/>
+          <ellipse cx="310" cy="115" rx="26" ry="48"/>
+          <ellipse cx="430" cy="125" rx="24" ry="44"/>
+          <ellipse cx="560" cy="108" rx="28" ry="50"/>
+          <ellipse cx="690" cy="138" rx="22" ry="42"/>
+          <ellipse cx="820" cy="115" rx="26" ry="46"/>
+          <ellipse cx="950" cy="128" rx="24" ry="44"/>
+          <ellipse cx="1080" cy="108" rx="28" ry="50"/>
         </g>
       </g>
 
-      <g class="cloud-drift-c">
-        <g fill="rgba(244,244,242,0.06)" stroke="rgba(244,244,242,0.12)" stroke-width="0.4">
-          <ellipse cx="860" cy="38" rx="34" ry="8"/>
-          <ellipse cx="882" cy="34" rx="24" ry="7"/>
+      <!-- NEAR TREE LAYER — large in foreground, darkest, slowest sway -->
+      <g class="forest-trees-near">
+        <g fill="url(#trees-near)">
+          <!-- Left foreground giant -->
+          <polygon points="0,360 -10,260 -8,90 8,40 24,90 26,260 40,360"/>
+          <!-- Right foreground giant -->
+          <polygon points="1160,360 1148,250 1146,80 1170,30 1194,80 1196,250 1210,360"/>
+          <!-- Mid-right foreground -->
+          <polygon points="880,360 870,270 868,130 884,90 900,130 902,270 912,360"/>
+          <!-- Mid-left foreground -->
+          <polygon points="240,360 230,275 228,140 244,100 260,140 262,275 272,360"/>
+        </g>
+        <!-- Near-layer canopy masses (large dark blobs creating top frame) -->
+        <g fill="rgba(6,10,8,0.85)">
+          <ellipse cx="10"   cy="60"  rx="80"  ry="80"/>
+          <ellipse cx="1180" cy="50"  rx="90"  ry="85"/>
+          <ellipse cx="888"  cy="110" rx="56"  ry="62"/>
+          <ellipse cx="246"  cy="118" rx="52"  ry="58"/>
         </g>
       </g>
 
-      <g class="cloud-drift-a">
-        <g fill="rgba(244,244,242,0.07)" stroke="rgba(244,244,242,0.13)" stroke-width="0.4">
-          <ellipse cx="1080" cy="58" rx="40" ry="9"/>
-          <ellipse cx="1108" cy="52" rx="26" ry="7"/>
-        </g>
+      <!-- FOREST FLOOR — soft dark mossy base -->
+      <rect x="0" y="320" width="1200" height="40" fill="url(#floor-grad)"/>
+      <!-- Tiny ground tufts -->
+      <g stroke="rgba(60,90,72,0.4)" stroke-width="0.6" fill="none">
+        <path d="M 80 348 L 82 338 M 85 348 L 87 336 M 88 348 L 90 339"/>
+        <path d="M 270 350 L 272 340 M 275 350 L 277 337 M 278 350 L 280 341"/>
+        <path d="M 480 348 L 482 338 M 485 348 L 487 336 M 488 348 L 490 339"/>
+        <path d="M 720 350 L 722 340 M 725 350 L 727 337 M 728 350 L 730 341"/>
+        <path d="M 980 348 L 982 338 M 985 348 L 987 336 M 988 348 L 990 339"/>
+        <path d="M 1140 350 L 1142 340 M 1145 350 L 1147 337 M 1148 350 L 1150 341"/>
       </g>
 
-      <g class="cloud-drift-b">
-        <g fill="rgba(244,244,242,0.05)" stroke="rgba(244,244,242,0.10)" stroke-width="0.4">
-          <ellipse cx="360" cy="110" rx="28" ry="7"/>
-          <ellipse cx="378" cy="106" rx="20" ry="6"/>
-        </g>
+      <!-- POLLEN / SPORES — slow upward float, warm color -->
+      <g class="forest-pollen" fill="#e8c48c">
+        <circle cx="120"  cy="360" r="0.7" opacity="0.7" style="animation-duration: 26s; animation-delay: -1s;"/>
+        <circle cx="240"  cy="360" r="0.6" opacity="0.6" style="animation-duration: 32s; animation-delay: -8s;"/>
+        <circle cx="370"  cy="360" r="0.8" opacity="0.65" style="animation-duration: 28s; animation-delay: -14s;"/>
+        <circle cx="500"  cy="360" r="0.5" opacity="0.55" style="animation-duration: 36s; animation-delay: -4s;"/>
+        <circle cx="620"  cy="360" r="0.7" opacity="0.7" style="animation-duration: 30s; animation-delay: -18s;"/>
+        <circle cx="750"  cy="360" r="0.6" opacity="0.6" style="animation-duration: 34s; animation-delay: -10s;"/>
+        <circle cx="880"  cy="360" r="0.8" opacity="0.65" style="animation-duration: 26s; animation-delay: -22s;"/>
+        <circle cx="1010" cy="360" r="0.5" opacity="0.55" style="animation-duration: 32s; animation-delay: -6s;"/>
+        <circle cx="1130" cy="360" r="0.7" opacity="0.7" style="animation-duration: 28s; animation-delay: -16s;"/>
+        <circle cx="180"  cy="360" r="0.5" opacity="0.5" style="animation-duration: 38s; animation-delay: -12s;"/>
+        <circle cx="430"  cy="360" r="0.6" opacity="0.6" style="animation-duration: 30s; animation-delay: -20s;"/>
+        <circle cx="690"  cy="360" r="0.5" opacity="0.55" style="animation-duration: 36s; animation-delay: -24s;"/>
+        <circle cx="940"  cy="360" r="0.6" opacity="0.6" style="animation-duration: 34s; animation-delay: -3s;"/>
       </g>
 
-      <g class="cloud-drift-c">
-        <g fill="rgba(244,244,242,0.05)" stroke="rgba(244,244,242,0.10)" stroke-width="0.4">
-          <ellipse cx="720" cy="118" rx="32" ry="7"/>
-          <ellipse cx="744" cy="114" rx="22" ry="6"/>
-        </g>
-      </g>
-
-      <!-- Horizon line -->
-      <line x1="0" y1="220" x2="1200" y2="220" stroke="#3a7bbf" stroke-width="0.5" opacity="0.4"/>
-
-      <!-- Distant birds (V shapes) -->
-      <g class="bird-fly-2">
-        <g stroke="#c8282e" stroke-width="0.7" fill="none" opacity="0.6">
-          <path d="M 700 90 Q 705 86 710 90 Q 715 86 720 90"/>
-          <path d="M 760 86 Q 764 83 768 86 Q 772 83 776 86"/>
-        </g>
-      </g>
-
-      <!-- Flying bird flock (left side, animated) -->
-      <g class="bird-fly">
-        <g stroke="#c8282e" stroke-width="0.9" fill="none">
-          <path d="M 300 140 Q 308 134 316 140 Q 324 134 332 140"/>
-          <path d="M 372 134 Q 378 130 384 134 Q 390 130 396 134"/>
-        </g>
-      </g>
-
-      <!-- Wading bird at shore -->
-      <g class="tree-sway-2" style="transform-origin: 200px 220px;">
-        <g stroke="#3a7bbf" stroke-width="0.8" fill="none">
-          <ellipse cx="180" cy="218" rx="14" ry="6"/>
-          <circle cx="194" cy="208" r="3.5"/>
-          <line x1="197" y1="208" x2="206" y2="210"/>
-          <line x1="176" y1="222" x2="174" y2="232"/>
-          <line x1="182" y1="222" x2="180" y2="232"/>
-          <ellipse cx="180" cy="240" rx="12" ry="2" opacity="0.3"/>
-        </g>
-        <circle cx="194" cy="208" r="0.8" fill="#e8b73c"/>
-      </g>
-
-      <!-- Crab on the sand -->
-      <g transform="translate(840 290)">
-        <g stroke="#c8282e" stroke-width="0.7" fill="none">
-          <ellipse cx="0" cy="0" rx="8" ry="5"/>
-          <line x1="-3" y1="-5" x2="-3" y2="-9"/>
-          <line x1="3" y1="-5" x2="3" y2="-9"/>
-          <path d="M -8 0 Q -14 -2 -16 -6 L -13 -4"/>
-          <path d="M 8 0 Q 14 -2 16 -6 L 13 -4"/>
-          <line x1="-6" y1="3" x2="-12" y2="6"/>
-          <line x1="-4" y1="4" x2="-8" y2="10"/>
-          <line x1="6" y1="3" x2="12" y2="6"/>
-          <line x1="4" y1="4" x2="8" y2="10"/>
-        </g>
-        <circle cx="-3" cy="-9" r="0.8" fill="#c8282e"/>
-        <circle cx="3" cy="-9" r="0.8" fill="#c8282e"/>
-      </g>
-
-      <!-- Second crab (smaller, blue) further along -->
-      <g transform="translate(1010 318)" class="crab-walk">
-        <g stroke="#3a7bbf" stroke-width="0.6" fill="none">
-          <ellipse cx="0" cy="0" rx="5" ry="3.5"/>
-          <line x1="-2" y1="-3.5" x2="-2" y2="-6"/>
-          <line x1="2" y1="-3.5" x2="2" y2="-6"/>
-          <path d="M -5 0 Q -9 -1 -10 -4"/>
-          <path d="M 5 0 Q 9 -1 10 -4"/>
-          <line x1="-4" y1="2" x2="-8" y2="4"/>
-          <line x1="-3" y1="3" x2="-6" y2="7"/>
-          <line x1="4" y1="2" x2="8" y2="4"/>
-          <line x1="3" y1="3" x2="6" y2="7"/>
-        </g>
-        <circle cx="-2" cy="-6" r="0.6" fill="#3a7bbf"/>
-        <circle cx="2" cy="-6" r="0.6" fill="#3a7bbf"/>
-      </g>
-
-      <!-- Third crab (mid-shore) -->
-      <g transform="translate(560 308)">
-        <g stroke="#c8282e" stroke-width="0.6" fill="none" opacity="0.85">
-          <ellipse cx="0" cy="0" rx="6" ry="4"/>
-          <line x1="-2" y1="-4" x2="-2" y2="-7"/>
-          <line x1="2" y1="-4" x2="2" y2="-7"/>
-          <path d="M -6 0 Q -11 -2 -12 -5"/>
-          <path d="M 6 0 Q 11 -2 12 -5"/>
-          <line x1="-5" y1="2" x2="-10" y2="4"/>
-          <line x1="-3" y1="3" x2="-6" y2="7"/>
-          <line x1="5" y1="2" x2="10" y2="4"/>
-          <line x1="3" y1="3" x2="6" y2="7"/>
-        </g>
-      </g>
-
-      <!-- Starfish on sand -->
-      <g transform="translate(720 332) rotate(15)" class="starfish-pulse">
-        <g stroke="#e8b73c" stroke-width="0.6" fill="none" opacity="0.7">
-          <path d="M 0 -7 L 2 -2 L 7 -1 L 3 2 L 4 7 L 0 4 L -4 7 L -3 2 L -7 -1 L -2 -2 Z"/>
-          <circle cx="0" cy="0" r="1.2" fill="#e8b73c" opacity="0.4"/>
-        </g>
-      </g>
-
-      <!-- Small starfish (red) -->
-      <g transform="translate(380 326) rotate(-22)">
-        <g stroke="#c8282e" stroke-width="0.5" fill="none" opacity="0.6">
-          <path d="M 0 -5 L 1.4 -1.4 L 5 -0.7 L 2 1.4 L 2.8 5 L 0 2.8 L -2.8 5 L -2 1.4 L -5 -0.7 L -1.4 -1.4 Z"/>
-        </g>
-      </g>
-
-      <!-- Bigger orange starfish on the right side -->
-      <g transform="translate(950 334) rotate(-8)" class="starfish-pulse">
-        <g stroke="#e8b73c" stroke-width="0.8" fill="rgba(232,183,60,0.15)" opacity="0.8">
-          <path d="M 0 -9 L 2.6 -2.6 L 9 -1.3 L 3.8 2.6 L 5.2 9 L 0 5.2 L -5.2 9 L -3.8 2.6 L -9 -1.3 L -2.6 -2.6 Z"/>
-          <circle cx="0" cy="0" r="1.5" fill="#e8b73c" opacity="0.5"/>
-          <!-- texture dots on the arms -->
-          <circle cx="0" cy="-5" r="0.4" fill="#e8b73c"/>
-          <circle cx="4" cy="3" r="0.4" fill="#e8b73c"/>
-          <circle cx="-4" cy="3" r="0.4" fill="#e8b73c"/>
-        </g>
-      </g>
-
-      <!-- Jumping fish over the wave -->
-      <g class="fish-jump">
-        <g transform="translate(450 252)">
-          <g stroke="#3a7bbf" stroke-width="0.7" fill="none">
-            <path d="M 0 0 Q 6 -3 12 0 Q 6 3 0 0"/>
-            <path d="M 12 0 L 16 -3 L 16 3 Z"/>
-            <circle cx="3" cy="-0.5" r="0.5" fill="#3a7bbf"/>
-            <path d="M 6 -1 Q 8 0 6 1" opacity="0.5"/>
-          </g>
-          <!-- Splash drops -->
-          <circle cx="-3" cy="2" r="0.6" fill="#3a7bbf" opacity="0.5"/>
-          <circle cx="-5" cy="4" r="0.4" fill="#3a7bbf" opacity="0.4"/>
-          <circle cx="18" cy="2" r="0.5" fill="#3a7bbf" opacity="0.5"/>
-        </g>
-      </g>
-
-      <!-- Second jumping fish, smaller, opposite direction -->
-      <g class="fish-jump-2">
-        <g transform="translate(890 248) scale(-1, 1)">
-          <g stroke="#3a7bbf" stroke-width="0.6" fill="none" opacity="0.8">
-            <path d="M 0 0 Q 5 -2.5 10 0 Q 5 2.5 0 0"/>
-            <path d="M 10 0 L 13 -2.5 L 13 2.5 Z"/>
-            <circle cx="2.5" cy="-0.5" r="0.4" fill="#3a7bbf"/>
-          </g>
-        </g>
-      </g>
-
-      <!-- Seagull standing on sand (right of center) -->
-      <g class="tree-sway-2" style="transform-origin: 670px 296px;">
-        <g stroke="#3a7bbf" stroke-width="0.7" fill="none">
-          <!-- body -->
-          <ellipse cx="670" cy="293" rx="9" ry="5"/>
-          <!-- head -->
-          <circle cx="679" cy="287" r="3"/>
-          <!-- beak -->
-          <line x1="682" y1="287" x2="687" y2="288"/>
-          <!-- wing detail -->
-          <path d="M 666 290 Q 670 287 674 290" opacity="0.6"/>
-          <!-- legs -->
-          <line x1="667" y1="298" x2="666" y2="307"/>
-          <line x1="672" y1="298" x2="673" y2="307"/>
-          <!-- feet -->
-          <line x1="664" y1="307" x2="668" y2="307"/>
-          <line x1="671" y1="307" x2="675" y2="307"/>
-          <!-- shadow -->
-          <ellipse cx="670" cy="310" rx="8" ry="1.2" opacity="0.25"/>
-        </g>
-        <circle cx="679" cy="287" r="0.6" fill="#3a7bbf"/>
-      </g>
-
-      <!-- Lone bird gliding higher up -->
-      <g class="bird-fly-2">
-        <g stroke="#c8282e" stroke-width="0.9" fill="none">
-          <path d="M 540 70 Q 547 65 554 70 Q 561 65 568 70"/>
-        </g>
-      </g>
-
-      <!-- White bird flock — small group on the left side -->
-      <g class="bird-fly-2">
-        <g stroke="#ffffff" stroke-width="0.9" fill="none" opacity="0.85">
-          <path d="M 420 100 Q 426 95 432 100 Q 438 95 444 100"/>
-          <path d="M 450 116 Q 456 111 462 116 Q 468 111 474 116"/>
-        </g>
-      </g>
-
-      <!-- Lone white bird gliding very high -->
-      <g class="bird-fly">
-        <g stroke="#ffffff" stroke-width="1" fill="none" opacity="0.9">
-          <path d="M 280 56 Q 287 51 294 56 Q 301 51 308 56"/>
-        </g>
-      </g>
-
-      <!-- Hermit-style shell with creature peeking -->
-      <g transform="translate(280 326)" class="crab-walk-2">
-        <g stroke="#e8b73c" stroke-width="0.6" fill="none" opacity="0.8">
-          <path d="M -5 0 Q -7 -4 -4 -6 Q 0 -7 4 -6 Q 7 -4 5 0 Q 4 3 0 3 Q -4 3 -5 0 Z"/>
-          <path d="M -2 -3 Q 0 -5 2 -3" opacity="0.5"/>
-          <!-- antennae poking out -->
-          <line x1="-1" y1="-6" x2="-2" y2="-9"/>
-          <line x1="1" y1="-6" x2="2" y2="-9"/>
-        </g>
-      </g>
-
-      <!-- Distant boat silhouette on the horizon -->
-      <g transform="translate(990 218)" opacity="0.55">
-        <g stroke="#3a7bbf" stroke-width="0.6" fill="none">
-          <path d="M -10 0 L 10 0 L 8 3 L -8 3 Z"/>
-          <line x1="0" y1="0" x2="0" y2="-8"/>
-          <path d="M 0 -8 L 6 -2 L 0 -2 Z"/>
-        </g>
-      </g>
-
-      <!-- Dragonfly hovering near the left palm -->
-      <g class="dragonfly-hover">
-        <g transform="translate(180 160)">
-          <g stroke="#6ba368" stroke-width="0.5" fill="none">
-            <!-- body -->
-            <line x1="0" y1="0" x2="0" y2="6"/>
-            <!-- wings -->
-            <ellipse cx="-3" cy="1" rx="4" ry="1.5" opacity="0.7"/>
-            <ellipse cx="3" cy="1" rx="4" ry="1.5" opacity="0.7"/>
-            <ellipse cx="-3" cy="3" rx="3" ry="1.2" opacity="0.6"/>
-            <ellipse cx="3" cy="3" rx="3" ry="1.2" opacity="0.6"/>
-            <!-- head -->
-            <circle cx="0" cy="-1" r="0.8"/>
-          </g>
-        </g>
-      </g>
-
-      <!-- Palm tree (left) -->
-      <g class="tree-sway" style="transform-origin: 90px 320px;">
-        <path d="M 90 320 Q 88 280 92 240 Q 96 200 100 170" stroke="#8b5a2b" stroke-width="4" fill="none" stroke-linecap="round"/>
-        <g stroke="#8b5a2b" stroke-width="1" opacity="0.6">
-          <line x1="86" y1="290" x2="96" y2="290"/>
-          <line x1="87" y1="270" x2="97" y2="270"/>
-          <line x1="89" y1="250" x2="99" y2="250"/>
-          <line x1="91" y1="230" x2="101" y2="230"/>
-          <line x1="93" y1="210" x2="103" y2="210"/>
-          <line x1="95" y1="190" x2="105" y2="190"/>
-        </g>
-        <circle cx="98" cy="172" r="4" fill="#8b5a2b" opacity="0.9"/>
-        <circle cx="104" cy="174" r="4" fill="#8b5a2b" opacity="0.9"/>
-        <circle cx="100" cy="178" r="3.5" fill="#8b5a2b" opacity="0.9"/>
-        <g stroke="#6ba368" stroke-width="2.4" fill="none" stroke-linecap="round">
-          <path d="M 100 170 Q 110 150 140 142"/>
-          <path d="M 100 170 Q 90 148 60 138"/>
-          <path d="M 100 170 Q 115 158 145 158"/>
-          <path d="M 100 170 Q 85 158 55 158"/>
-          <path d="M 100 170 Q 105 152 115 130"/>
-          <path d="M 100 170 Q 95 152 85 130"/>
-        </g>
-      </g>
-
-      <!-- Palm tree (right, smaller) -->
-      <g class="tree-sway-2" style="transform-origin: 1100px 320px;">
-        <path d="M 1100 320 Q 1102 290 1098 260 Q 1094 230 1090 210" stroke="#8b5a2b" stroke-width="3.2" fill="none" stroke-linecap="round"/>
-        <g stroke="#8b5a2b" stroke-width="0.9" opacity="0.6">
-          <line x1="1095" y1="296" x2="1105" y2="296"/>
-          <line x1="1094" y1="276" x2="1104" y2="276"/>
-          <line x1="1093" y1="256" x2="1103" y2="256"/>
-          <line x1="1092" y1="236" x2="1102" y2="236"/>
-        </g>
-        <circle cx="1088" cy="212" r="3.5" fill="#8b5a2b" opacity="0.9"/>
-        <circle cx="1094" cy="214" r="3.5" fill="#8b5a2b" opacity="0.9"/>
-        <g stroke="#6ba368" stroke-width="2" fill="none" stroke-linecap="round">
-          <path d="M 1090 210 Q 1100 194 1124 188"/>
-          <path d="M 1090 210 Q 1080 192 1056 184"/>
-          <path d="M 1090 210 Q 1102 200 1124 200"/>
-          <path d="M 1090 210 Q 1078 200 1056 200"/>
-          <path d="M 1090 210 Q 1094 196 1100 178"/>
-          <path d="M 1090 210 Q 1086 196 1080 178"/>
-        </g>
-      </g>
-
-      <!-- Wave layer 3 (furthest) -->
-      <g class="wave-3">
-        <path d="M -20 230 Q 100 226 220 230 T 460 230 T 700 230 T 940 230 T 1220 230"
-              stroke="#3a7bbf" stroke-width="0.6" fill="none" opacity="0.28"/>
-        <path d="M -20 238 Q 120 234 240 238 T 480 238 T 720 238 T 960 238 T 1220 238"
-              stroke="#3a7bbf" stroke-width="0.5" fill="none" opacity="0.22"/>
-      </g>
-
-      <!-- Wave layer 2 -->
-      <g class="wave-2">
-        <path d="M -20 252 Q 110 246 230 252 T 470 252 T 710 252 T 950 252 T 1220 252"
-              stroke="#3a7bbf" stroke-width="0.7" fill="none" opacity="0.36"/>
-        <path d="M -20 262 Q 130 256 250 262 T 490 262 T 730 262 T 970 262 T 1220 262"
-              stroke="#3a7bbf" stroke-width="0.6" fill="none" opacity="0.3"/>
-      </g>
-
-      <!-- Wave layer 1 (closest, with foam crests) -->
-      <g class="wave-1">
-        <path d="M -20 278 Q 90 272 200 278 T 420 278 T 640 278 T 860 278 T 1080 278 T 1220 278"
-              stroke="#3a7bbf" stroke-width="0.9" fill="none" opacity="0.5"/>
-        <g stroke="#e8b73c" stroke-width="0.5" fill="none" opacity="0.4">
-          <path d="M 90 276 Q 95 274 100 276"/>
-          <path d="M 310 276 Q 315 274 320 276"/>
-          <path d="M 530 276 Q 535 274 540 276"/>
-          <path d="M 750 276 Q 755 274 760 276"/>
-          <path d="M 970 276 Q 975 274 980 276"/>
-        </g>
-      </g>
-
-      <!-- Sand line / shore -->
-      <line x1="0" y1="296" x2="1200" y2="296" stroke="#e8b73c" stroke-width="0.6" opacity="0.25"/>
-      <line x1="0" y1="305" x2="1200" y2="305" stroke="#e8b73c" stroke-width="0.4" opacity="0.18"/>
-
-      <!-- Sand texture dots -->
-      <g fill="#e8b73c" opacity="0.28">
-        <circle cx="180" cy="312" r="0.8"/>
-        <circle cx="320" cy="318" r="0.8"/>
-        <circle cx="450" cy="310" r="0.8"/>
-        <circle cx="560" cy="316" r="0.8"/>
-        <circle cx="720" cy="314" r="0.8"/>
-        <circle cx="900" cy="320" r="0.8"/>
-        <circle cx="1010" cy="312" r="0.8"/>
-        <circle cx="380" cy="328" r="0.6"/>
-        <circle cx="640" cy="332" r="0.6"/>
-        <circle cx="780" cy="326" r="0.6"/>
-        <circle cx="220" cy="330" r="0.6"/>
-      </g>
-
-      <!-- Beach cone shells -->
-      <!-- Cone shell 1 (left) -->
-      <g transform="translate(200 326)">
-        <g stroke="#c8282e" stroke-width="0.6" fill="rgba(200,40,46,0.18)" opacity="0.85">
-          <!-- Cone body -->
-          <path d="M -5 6 L 0 -8 L 5 6 Z"/>
-          <!-- Spiral bands across the cone -->
-          <path d="M -3 0 Q 0 -1 3 0" fill="none"/>
-          <path d="M -4 3 Q 0 2 4 3" fill="none"/>
-          <path d="M -2 -3 Q 0 -3.5 2 -3" fill="none"/>
-          <!-- Opening at bottom -->
-          <ellipse cx="0" cy="6" rx="5" ry="1.2" fill="rgba(255,255,255,0.15)"/>
-        </g>
-      </g>
-
-      <!-- Cone shell 2 (middle, tilted) -->
-      <g transform="translate(620 332) rotate(20)">
-        <g stroke="#e8b73c" stroke-width="0.6" fill="rgba(232,183,60,0.2)" opacity="0.85">
-          <path d="M -6 7 L 0 -10 L 6 7 Z"/>
-          <path d="M -4 0 Q 0 -1 4 0" fill="none"/>
-          <path d="M -5 3 Q 0 2 5 3" fill="none"/>
-          <path d="M -2.5 -4 Q 0 -4.5 2.5 -4" fill="none"/>
-          <path d="M -3 -1.5 Q 0 -2 3 -1.5" fill="none"/>
-          <ellipse cx="0" cy="7" rx="6" ry="1.4" fill="rgba(255,255,255,0.18)"/>
-        </g>
-      </g>
-
-      <!-- Cone shell 3 (right, smaller) -->
-      <g transform="translate(860 328) rotate(-15)">
-        <g stroke="#c8282e" stroke-width="0.5" fill="rgba(200,40,46,0.16)" opacity="0.85">
-          <path d="M -4 5 L 0 -7 L 4 5 Z"/>
-          <path d="M -2.5 1 Q 0 0 2.5 1" fill="none"/>
-          <path d="M -3 3 Q 0 2.5 3 3" fill="none"/>
-          <ellipse cx="0" cy="5" rx="4" ry="1" fill="rgba(255,255,255,0.15)"/>
-        </g>
-      </g>
-
-      <!-- Small scattered shell tips -->
-      <g stroke="#c8282e" stroke-width="0.5" fill="none" opacity="0.45">
-        <path d="M 460 330 L 463 324 L 466 330 Z"/>
-        <path d="M 1080 332 L 1083 327 L 1086 332 Z"/>
-      </g>
-
-      <!-- GLITTERY DENSE SAND at the bottom -->
-      <!-- Base sand bed -->
-      <g fill="#e8b73c">
-        <!-- Dense scattered sand grains -->
-        <circle cx="30" cy="342" r="0.7" opacity="0.45"/>
-        <circle cx="50" cy="356" r="0.8" opacity="0.5"/>
-        <circle cx="72" cy="348" r="0.6" opacity="0.4"/>
-        <circle cx="95" cy="354" r="0.9" opacity="0.55"/>
-        <circle cx="118" cy="346" r="0.7" opacity="0.45"/>
-        <circle cx="138" cy="358" r="0.8" opacity="0.5"/>
-        <circle cx="162" cy="350" r="0.6" opacity="0.4"/>
-        <circle cx="185" cy="344" r="0.9" opacity="0.55"/>
-        <circle cx="208" cy="356" r="0.7" opacity="0.45"/>
-        <circle cx="232" cy="348" r="0.8" opacity="0.5"/>
-        <circle cx="255" cy="354" r="0.6" opacity="0.4"/>
-        <circle cx="278" cy="346" r="0.9" opacity="0.55"/>
-        <circle cx="300" cy="358" r="0.7" opacity="0.45"/>
-        <circle cx="324" cy="350" r="0.8" opacity="0.5"/>
-        <circle cx="348" cy="342" r="0.6" opacity="0.4"/>
-        <circle cx="370" cy="356" r="0.9" opacity="0.55"/>
-        <circle cx="394" cy="348" r="0.7" opacity="0.45"/>
-        <circle cx="418" cy="354" r="0.8" opacity="0.5"/>
-        <circle cx="442" cy="346" r="0.6" opacity="0.4"/>
-        <circle cx="465" cy="358" r="0.9" opacity="0.55"/>
-        <circle cx="488" cy="350" r="0.7" opacity="0.45"/>
-        <circle cx="512" cy="344" r="0.8" opacity="0.5"/>
-        <circle cx="536" cy="356" r="0.6" opacity="0.4"/>
-        <circle cx="560" cy="348" r="0.9" opacity="0.55"/>
-        <circle cx="584" cy="354" r="0.7" opacity="0.45"/>
-        <circle cx="608" cy="346" r="0.8" opacity="0.5"/>
-        <circle cx="630" cy="358" r="0.6" opacity="0.4"/>
-        <circle cx="654" cy="350" r="0.9" opacity="0.55"/>
-        <circle cx="678" cy="344" r="0.7" opacity="0.45"/>
-        <circle cx="702" cy="356" r="0.8" opacity="0.5"/>
-        <circle cx="726" cy="348" r="0.6" opacity="0.4"/>
-        <circle cx="750" cy="354" r="0.9" opacity="0.55"/>
-        <circle cx="774" cy="346" r="0.7" opacity="0.45"/>
-        <circle cx="798" cy="358" r="0.8" opacity="0.5"/>
-        <circle cx="822" cy="350" r="0.6" opacity="0.4"/>
-        <circle cx="846" cy="344" r="0.9" opacity="0.55"/>
-        <circle cx="870" cy="356" r="0.7" opacity="0.45"/>
-        <circle cx="894" cy="348" r="0.8" opacity="0.5"/>
-        <circle cx="918" cy="354" r="0.6" opacity="0.4"/>
-        <circle cx="942" cy="346" r="0.9" opacity="0.55"/>
-        <circle cx="966" cy="358" r="0.7" opacity="0.45"/>
-        <circle cx="990" cy="350" r="0.8" opacity="0.5"/>
-        <circle cx="1014" cy="344" r="0.6" opacity="0.4"/>
-        <circle cx="1038" cy="356" r="0.9" opacity="0.55"/>
-        <circle cx="1062" cy="348" r="0.7" opacity="0.45"/>
-        <circle cx="1086" cy="354" r="0.8" opacity="0.5"/>
-        <circle cx="1110" cy="346" r="0.6" opacity="0.4"/>
-        <circle cx="1134" cy="358" r="0.9" opacity="0.55"/>
-        <circle cx="1158" cy="350" r="0.7" opacity="0.45"/>
-        <circle cx="1182" cy="344" r="0.8" opacity="0.5"/>
-        <!-- Additional grains for density -->
-        <circle cx="42" cy="350" r="0.5" opacity="0.35"/>
-        <circle cx="84" cy="356" r="0.5" opacity="0.35"/>
-        <circle cx="128" cy="352" r="0.5" opacity="0.35"/>
-        <circle cx="172" cy="358" r="0.5" opacity="0.35"/>
-        <circle cx="216" cy="352" r="0.5" opacity="0.35"/>
-        <circle cx="260" cy="358" r="0.5" opacity="0.35"/>
-        <circle cx="304" cy="352" r="0.5" opacity="0.35"/>
-        <circle cx="348" cy="358" r="0.5" opacity="0.35"/>
-        <circle cx="392" cy="352" r="0.5" opacity="0.35"/>
-        <circle cx="436" cy="358" r="0.5" opacity="0.35"/>
-        <circle cx="480" cy="352" r="0.5" opacity="0.35"/>
-        <circle cx="524" cy="358" r="0.5" opacity="0.35"/>
-        <circle cx="568" cy="352" r="0.5" opacity="0.35"/>
-        <circle cx="612" cy="358" r="0.5" opacity="0.35"/>
-        <circle cx="656" cy="352" r="0.5" opacity="0.35"/>
-        <circle cx="700" cy="358" r="0.5" opacity="0.35"/>
-        <circle cx="744" cy="352" r="0.5" opacity="0.35"/>
-        <circle cx="788" cy="358" r="0.5" opacity="0.35"/>
-        <circle cx="832" cy="352" r="0.5" opacity="0.35"/>
-        <circle cx="876" cy="358" r="0.5" opacity="0.35"/>
-        <circle cx="920" cy="352" r="0.5" opacity="0.35"/>
-        <circle cx="964" cy="358" r="0.5" opacity="0.35"/>
-        <circle cx="1008" cy="352" r="0.5" opacity="0.35"/>
-        <circle cx="1052" cy="358" r="0.5" opacity="0.35"/>
-        <circle cx="1096" cy="352" r="0.5" opacity="0.35"/>
-        <circle cx="1140" cy="358" r="0.5" opacity="0.35"/>
-      </g>
-
-      <!-- GLITTER — bright sparkles scattered through the sand -->
-      <g class="sand-glitter">
-        <circle cx="60" cy="350" r="0.6" fill="#ffffff" class="glint-1"/>
-        <circle cx="170" cy="354" r="0.7" fill="#fff4c4" class="glint-2"/>
-        <circle cx="280" cy="346" r="0.6" fill="#ffffff" class="glint-3"/>
-        <circle cx="390" cy="352" r="0.8" fill="#fff4c4" class="glint-4"/>
-        <circle cx="500" cy="348" r="0.6" fill="#ffffff" class="glint-5"/>
-        <circle cx="610" cy="354" r="0.7" fill="#fff4c4" class="glint-6"/>
-        <circle cx="720" cy="346" r="0.6" fill="#ffffff" class="glint-7"/>
-        <circle cx="830" cy="352" r="0.8" fill="#fff4c4" class="glint-8"/>
-        <circle cx="940" cy="348" r="0.6" fill="#ffffff" class="glint-9"/>
-        <circle cx="1050" cy="354" r="0.7" fill="#fff4c4" class="glint-10"/>
-        <circle cx="1160" cy="346" r="0.6" fill="#ffffff" class="glint-11"/>
-        <circle cx="110" cy="358" r="0.5" fill="#ffffff" class="glint-12"/>
-        <circle cx="340" cy="356" r="0.5" fill="#fff4c4" class="glint-13"/>
-        <circle cx="570" cy="358" r="0.5" fill="#ffffff" class="glint-14"/>
-        <circle cx="780" cy="356" r="0.5" fill="#fff4c4" class="glint-15"/>
-        <circle cx="990" cy="358" r="0.5" fill="#ffffff" class="glint-16"/>
-        <circle cx="1200" cy="356" r="0.5" fill="#fff4c4" class="glint-17"/>
-      </g>
+      <!-- Vignette overlay (frames the painting, keeps content legible) -->
+      <defs>
+        <radialGradient id="forest-vignette" cx="0.5" cy="0.5" r="0.7">
+          <stop offset="55%" stop-color="rgba(0,0,0,0)"/>
+          <stop offset="100%" stop-color="rgba(0,0,0,0.65)"/>
+        </radialGradient>
+      </defs>
+      <rect width="1200" height="360" fill="url(#forest-vignette)"/>
     </svg>
   </div>
 
@@ -4770,6 +4732,51 @@
 </section>
 
 <footer>
+  <!-- CREDITS BACKDROP — quiet vertical dust drift -->
+  <div class="credits-backdrop">
+    <svg viewBox="0 0 1200 1400" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+      <defs>
+        <radialGradient id="credits-glow-warm" cx="0.75" cy="0.18" r="0.55">
+          <stop offset="0%" stop-color="rgba(232,183,60,0.07)"/>
+          <stop offset="100%" stop-color="rgba(232,183,60,0)"/>
+        </radialGradient>
+        <radialGradient id="credits-glow-cool" cx="0.18" cy="0.85" r="0.5">
+          <stop offset="0%" stop-color="rgba(58,123,191,0.06)"/>
+          <stop offset="100%" stop-color="rgba(58,123,191,0)"/>
+        </radialGradient>
+      </defs>
+      <rect width="1200" height="1400" fill="url(#credits-glow-warm)"/>
+      <rect width="1200" height="1400" fill="url(#credits-glow-cool)"/>
+
+      <!-- Slow-rising dust particles -->
+      <g class="credits-dust" fill="#d8d8e4">
+        <circle cx="60"   cy="1400" r="0.7" style="animation-duration: 38s; animation-delay: -2s;"/>
+        <circle cx="140"  cy="1400" r="0.5" style="animation-duration: 52s; animation-delay: -8s;"/>
+        <circle cx="220"  cy="1400" r="0.8" style="animation-duration: 44s; animation-delay: -16s;"/>
+        <circle cx="310"  cy="1400" r="0.4" style="animation-duration: 60s; animation-delay: -22s;"/>
+        <circle cx="390"  cy="1400" r="0.6" style="animation-duration: 48s; animation-delay: -5s;"/>
+        <circle cx="470"  cy="1400" r="0.7" style="animation-duration: 56s; animation-delay: -30s;"/>
+        <circle cx="540"  cy="1400" r="0.5" style="animation-duration: 42s; animation-delay: -12s;"/>
+        <circle cx="610"  cy="1400" r="0.9" style="animation-duration: 50s; animation-delay: -25s;"/>
+        <circle cx="680"  cy="1400" r="0.5" style="animation-duration: 36s; animation-delay: -18s;"/>
+        <circle cx="755"  cy="1400" r="0.7" style="animation-duration: 54s; animation-delay: -3s;"/>
+        <circle cx="830"  cy="1400" r="0.4" style="animation-duration: 46s; animation-delay: -27s;"/>
+        <circle cx="910"  cy="1400" r="0.8" style="animation-duration: 58s; animation-delay: -10s;"/>
+        <circle cx="985"  cy="1400" r="0.5" style="animation-duration: 40s; animation-delay: -19s;"/>
+        <circle cx="1060" cy="1400" r="0.6" style="animation-duration: 50s; animation-delay: -7s;"/>
+        <circle cx="1135" cy="1400" r="0.7" style="animation-duration: 44s; animation-delay: -33s;"/>
+        <circle cx="100"  cy="1400" r="0.4" style="animation-duration: 62s; animation-delay: -14s;"/>
+        <circle cx="265"  cy="1400" r="0.6" style="animation-duration: 38s; animation-delay: -28s;"/>
+        <circle cx="430"  cy="1400" r="0.5" style="animation-duration: 56s; animation-delay: -36s;"/>
+        <circle cx="585"  cy="1400" r="0.4" style="animation-duration: 48s; animation-delay: -41s;"/>
+        <circle cx="720"  cy="1400" r="0.6" style="animation-duration: 52s; animation-delay: -46s;"/>
+        <circle cx="870"  cy="1400" r="0.5" style="animation-duration: 40s; animation-delay: -23s;"/>
+        <circle cx="1020" cy="1400" r="0.4" style="animation-duration: 58s; animation-delay: -38s;"/>
+        <circle cx="1170" cy="1400" r="0.6" style="animation-duration: 46s; animation-delay: -11s;"/>
+      </g>
+    </svg>
+  </div>
+
   <div class="container">
     <!-- END CREDITS DIVIDER -->
     <div class="credits-divider">
