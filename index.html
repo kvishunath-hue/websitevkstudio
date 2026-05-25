@@ -2278,16 +2278,6 @@
     pointer-events: none;
     z-index: 1;
     overflow: hidden;
-    /* Same top-left corner clip as the beach backdrop, so any floating
-       shape that drifts into that 5×5 corner is hidden cleanly. */
-    clip-path: polygon(
-      5% 0,
-      100% 0,
-      100% 100%,
-      0 100%,
-      0 5%,
-      5% 5%
-    );
   }
   .contact-mid .c-shape {
     position: absolute;
@@ -2974,15 +2964,6 @@
     pointer-events: none;
     overflow: hidden;
     opacity: 0.55;
-    /* Match the contact-mid corner clip */
-    clip-path: polygon(
-      5% 0,
-      100% 0,
-      100% 100%,
-      0 100%,
-      0 5%,
-      5% 5%
-    );
   }
   .aurora-backdrop svg {
     position: absolute;
