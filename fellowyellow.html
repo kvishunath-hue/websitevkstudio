@@ -1,0 +1,1700 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>Architect of Modern India</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  background:#0a0e17;
+  color:#e2e8f0;
+  font-family:'Helvetica Neue','Segoe UI',system-ui,sans-serif;
+  min-height:100vh;
+  padding:16px;
+  max-width:680px;
+  margin:0 auto;
+  -webkit-font-smoothing:antialiased;
+  padding-bottom:80px;
+}
+
+/* HEADER */
+.hdr{text-align:center;margin-bottom:20px;padding-top:8px}
+.hdr .k{font-size:10px;color:#f59e0b;letter-spacing:4px;text-transform:uppercase;margin-bottom:6px;font-weight:600}
+.hdr h1{font-size:22px;font-weight:700;margin:0;color:#f6c453;letter-spacing:1px}
+.hdr .sub{font-size:10px;color:#64748b;margin-top:6px;font-style:italic}
+
+/* PASSWORD GATE */
+.gate{
+  position:fixed;top:0;left:0;width:100vw;height:100vh;
+  background:#0a0e17;
+  display:flex;align-items:center;justify-content:center;
+  z-index:100;flex-direction:column;
+}
+.gate.off{display:none}
+.gate-inner{max-width:340px;width:90%;text-align:center;padding:0 16px}
+.gate-logo{font-size:24px;font-weight:700;color:#f6c453;letter-spacing:2px;margin-bottom:8px}
+.gate-tag{font-size:11px;color:#64748b;letter-spacing:3px;text-transform:uppercase;margin-bottom:32px}
+.gate input{
+  background:#111827;border:1px solid #1e293b;color:#e2e8f0;
+  padding:14px 16px;border-radius:10px;width:100%;font-size:14px;
+  font-family:inherit;outline:none;text-align:center;letter-spacing:2px;
+}
+.gate input:focus{border-color:#f59e0b}
+.gate button{
+  background:#f59e0b;color:#0a0e17;border:none;padding:14px 16px;
+  border-radius:10px;width:100%;font-size:14px;font-weight:700;
+  margin-top:12px;cursor:pointer;font-family:inherit;letter-spacing:1px;
+}
+.gate-err{color:#ef4444;font-size:11px;margin-top:12px;min-height:14px}
+
+/* SCREENS */
+.scr{display:none;padding-bottom:20px}
+.scr.on{display:block}
+
+/* HOME TILES */
+.grid{display:flex;flex-direction:column;gap:6px;margin-top:16px}
+.ebtn{
+  background:#111827;border:1px solid #1e293b;border-radius:10px;
+  padding:14px 16px;cursor:pointer;display:flex;align-items:center;gap:14px;
+  -webkit-tap-highlight-color:transparent;
+  transition:border-color .15s, transform .1s;
+}
+.ebtn:active{transform:scale(0.99);opacity:.85}
+.ebtn:hover{border-color:#334155}
+.eico{font-size:20px;width:30px;text-align:center;flex-shrink:0}
+.enm{font-size:14px;font-weight:600;color:#e2e8f0}
+.eds{font-size:11px;color:#64748b;margin-top:3px;line-height:1.4}
+
+/* BACK BUTTON */
+.bk{
+  background:none;border:none;color:#64748b;font-size:12px;
+  cursor:pointer;padding:6px 0;margin-bottom:12px;font-family:inherit;
+}
+.bk:hover{color:#f59e0b}
+
+/* SECTION HEADER */
+.sec{
+  font-size:10px;font-weight:700;letter-spacing:1.5px;
+  text-transform:uppercase;margin:24px 0 12px;padding-bottom:8px;
+  border-bottom:1px solid #1e293b;color:#f6c453;
+}
+
+/* TITLE */
+.s-title{font-size:22px;font-weight:700;color:#e2e8f0;margin-bottom:6px;letter-spacing:0.5px}
+.s-sub{font-size:11px;color:#64748b;margin-bottom:20px;font-style:italic}
+
+/* SCOPE CARDS */
+.crd{
+  background:#111827;border:1px solid #1e293b;border-radius:10px;
+  padding:14px 16px;margin-bottom:10px;cursor:pointer;
+  -webkit-tap-highlight-color:transparent;
+}
+.crd:active{opacity:.85}
+.crd-h{display:flex;justify-content:space-between;align-items:center}
+.crd-t{font-size:14px;font-weight:600;color:#e2e8f0}
+.crd-s{font-size:11px;color:#64748b;margin-top:2px}
+.chv{font-size:10px;color:#64748b;transition:transform .2s;margin-left:8px}
+.crd.open .chv{transform:rotate(180deg)}
+.crd-b{
+  display:none;margin-top:14px;font-size:12px;color:#94a3b8;
+  line-height:1.6;border-top:1px solid #1e293b;padding-top:14px;
+}
+.crd.open .crd-b{display:block}
+.lbl{
+  font-size:9px;font-weight:700;letter-spacing:.8px;
+  text-transform:uppercase;margin-bottom:4px;color:#f59e0b;
+}
+.val{font-size:12px;color:#94a3b8;line-height:1.6;margin-bottom:10px}
+.pill{
+  font-size:10px;padding:3px 8px;border-radius:4px;font-weight:600;
+  display:inline-block;margin:2px 2px 2px 0;
+  background:#1e293b;color:#94a3b8;
+}
+.pill.std{background:#374151;color:#f59e0b}
+.pill.prem{background:#374151;color:#f6c453}
+
+/* CALCULATOR */
+.calc-top{
+  background:#111827;border:1px solid #1e293b;border-radius:10px;
+  padding:16px;margin-bottom:16px;position:sticky;top:0;z-index:10;
+  box-shadow:0 4px 12px rgba(0,0,0,0.3);
+}
+.calc-tot{
+  font-size:11px;color:#64748b;letter-spacing:1px;
+  text-transform:uppercase;margin-bottom:4px;
+}
+.calc-amt{font-size:28px;font-weight:700;color:#f6c453;letter-spacing:0.5px}
+.calc-cnt{font-size:11px;color:#64748b;margin-top:2px}
+.tier-toggle{
+  display:flex;gap:6px;margin-top:14px;
+  background:#0a0e17;border-radius:8px;padding:4px;
+}
+.tier-toggle button{
+  flex:1;background:none;border:none;color:#64748b;
+  padding:8px 12px;font-size:11px;font-weight:600;
+  border-radius:6px;cursor:pointer;font-family:inherit;
+  letter-spacing:1px;text-transform:uppercase;
+}
+.tier-toggle button.active{background:#f59e0b;color:#0a0e17}
+
+.calc-line{
+  background:#111827;border:1px solid #1e293b;border-radius:8px;
+  padding:12px 14px;margin-bottom:8px;
+}
+.calc-line.checked{border-color:#f59e0b}
+.cl-row{display:flex;align-items:center;gap:12px}
+.cl-chk{
+  width:20px;height:20px;border-radius:5px;border:2px solid #64748b;
+  flex-shrink:0;display:flex;align-items:center;justify-content:center;
+  cursor:pointer;font-size:13px;font-weight:700;color:transparent;
+  transition:all .12s;
+}
+.cl-chk::before{content:"✓";}
+.calc-line.checked .cl-chk{background:#f59e0b;border-color:#f59e0b;color:#0a0e17}
+.cl-nm{flex:1;font-size:13px;color:#e2e8f0;font-weight:500;line-height:1.3}
+.cl-pr{
+  font-size:13px;font-weight:700;color:#f6c453;
+  white-space:nowrap;margin-left:8px;
+}
+.calc-line.unchecked .cl-pr{color:#64748b}
+.cl-sub{
+  font-size:10px;color:#64748b;margin-top:6px;margin-left:32px;
+}
+.cl-tier-pick{
+  display:none;margin-top:10px;margin-left:32px;gap:6px;
+}
+.calc-line.checked .cl-tier-pick{display:flex}
+.cl-tier-pick button{
+  background:#1e293b;border:1px solid #1e293b;color:#94a3b8;
+  padding:6px 10px;font-size:10px;font-weight:600;border-radius:5px;
+  cursor:pointer;font-family:inherit;letter-spacing:0.5px;
+}
+.cl-tier-pick button.active{background:#0a0e17;border-color:#f59e0b;color:#f59e0b}
+
+.calc-grp-h{
+  font-size:10px;font-weight:700;letter-spacing:1.5px;
+  text-transform:uppercase;color:#f6c453;margin:20px 0 10px;
+}
+
+/* NOTES */
+.notes-box{
+  margin-top:20px;background:#0a0e17;border:1px solid #1e293b;
+  border-radius:8px;padding:12px;
+}
+.notes-lbl{
+  font-size:10px;font-weight:700;letter-spacing:1px;
+  text-transform:uppercase;color:#64748b;margin-bottom:8px;
+}
+.notes-box textarea{
+  width:100%;background:transparent;border:none;color:#e2e8f0;
+  font-family:inherit;font-size:12px;line-height:1.5;outline:none;
+  min-height:60px;resize:vertical;
+}
+.notes-box textarea::placeholder{color:#475569;font-style:italic}
+
+/* DOWNLOAD BUTTON */
+.dl-bar{
+  position:fixed;bottom:0;left:0;right:0;
+  background:#111827;border-top:1px solid #1e293b;
+  padding:12px 16px;display:flex;gap:8px;justify-content:center;
+  z-index:50;
+}
+.dl-bar button{
+  flex:1;max-width:200px;background:#f59e0b;color:#0a0e17;
+  border:none;padding:12px 16px;border-radius:8px;font-size:12px;
+  font-weight:700;cursor:pointer;font-family:inherit;letter-spacing:0.5px;
+}
+.dl-bar button.secondary{background:#1e293b;color:#f6c453}
+
+/* WELCOME */
+.welcome-box{
+  background:#111827;border:1px solid #1e293b;border-radius:10px;
+  padding:16px 18px;margin-bottom:14px;
+}
+.welcome-box p{font-size:13px;line-height:1.7;color:#94a3b8;margin-bottom:10px}
+.welcome-box p:last-child{margin-bottom:0}
+.welcome-box strong{color:#f6c453;font-weight:600}
+
+/* FY accent strip */
+.fy-strip{
+  height:3px;background:linear-gradient(90deg,#f59e0b 0%,#f6c453 100%);
+  border-radius:2px;margin:0 -16px 20px;
+}
+
+/* RESPONSIVE */
+@media (min-width: 681px) {
+  body{padding:24px;padding-bottom:90px}
+  .hdr h1{font-size:26px}
+  .ebtn{padding:18px 20px}
+  .enm{font-size:15px}
+  .eds{font-size:12px}
+}
+</style>
+</head>
+<body>
+
+<!-- PASSWORD GATE -->
+<div class="gate on" id="gate">
+  <div class="gate-inner">
+    <div class="gate-logo">VKSTUDIO</div>
+    <div class="gate-tag">Architect of Modern India</div>
+    <input type="password" id="gate-pw" placeholder="enter password" autocomplete="off">
+    <button onclick="checkPw()">Enter</button>
+    <div class="gate-err" id="gate-err"></div>
+  </div>
+</div>
+
+<!-- HEADER (visible after gate) -->
+<div class="hdr" id="mhdr" style="display:none">
+  <div class="k">Memorial Gallery Proposal</div>
+  <h1>Architect of Modern India</h1>
+  <div class="sub">VK Studio · for FellowYellow / HMDA · v1.0</div>
+</div>
+
+<!-- ====== HOME ====== -->
+<div class="scr on" id="s-home">
+  <div class="fy-strip"></div>
+  <div class="grid">
+
+    <div class="ebtn" onclick="go('s-welcome')" style="border-left:3px solid #f59e0b">
+      <div class="eico">&#9728;</div>
+      <div>
+        <div class="enm">Welcome</div>
+        <div class="eds">What this is, how to use it, what to expect</div>
+      </div>
+    </div>
+
+    <div class="ebtn" onclick="go('s-scope')" style="border-left:3px solid #f6c453">
+      <div class="eico">&#9678;</div>
+      <div>
+        <div class="enm">The Scope</div>
+        <div class="eds">19 deliverables across 7 galleries + lounge</div>
+      </div>
+    </div>
+
+    <div class="ebtn" onclick="go('s-quote')" style="border-left:3px solid #f59e0b">
+      <div class="eico">&#9881;</div>
+      <div>
+        <div class="enm">Build Your Quote</div>
+        <div class="eds">Tick items, see live total update</div>
+      </div>
+    </div>
+
+    <div class="ebtn" onclick="go('s-films')" style="border-left:3px solid #f6c453">
+      <div class="eico">&#9654;</div>
+      <div>
+        <div class="enm">Films &amp; Content</div>
+        <div class="eds">AI workflow for the 3 Modern India films</div>
+      </div>
+    </div>
+
+    <div class="ebtn" onclick="go('s-stages')" style="border-left:3px solid #f59e0b">
+      <div class="eico">&#9776;</div>
+      <div>
+        <div class="enm">Stages of Work</div>
+        <div class="eds">How we'd execute · 3-month timeline</div>
+      </div>
+    </div>
+
+    <div class="ebtn" onclick="go('s-hw')" style="border-left:3px solid #ef4444">
+      <div class="eico">&#9888;</div>
+      <div>
+        <div class="enm">Hardware &amp; Notes Log</div>
+        <div class="eds">Mismatches we found, items to confirm</div>
+      </div>
+    </div>
+
+    <div class="ebtn" onclick="go('s-notes')" style="border-left:3px solid #f6c453">
+      <div class="eico">&#9998;</div>
+      <div>
+        <div class="enm">Notes &amp; Assumptions</div>
+        <div class="eds">How we work, what's included, payment terms</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ====== WELCOME ====== -->
+<div class="scr" id="s-welcome">
+  <button class="bk" onclick="go('s-home')">&larr; back</button>
+  <div class="s-title">Welcome</div>
+  <div class="s-sub">A working document, not a one-shot proposal</div>
+
+  <div class="welcome-box">
+    <p>This app is how we're going to work together on the Memorial Gallery proposal. It's not a static PDF — it's a live document you can <strong>tick through</strong>, <strong>add notes to</strong>, and <strong>get a live quote from</strong>.</p>
+    <p>The structure mirrors what we've been discussing: the 19 BOQ deliverables, our additional offerings, the AI film approach, our phased timeline, and the hardware questions still open with your partner.</p>
+    <p>Everything you tick or write is saved locally on your device. When you're ready, use the <strong>Export Notes</strong> button to send us a snapshot — we'll respond by updating this app and re-sharing the link.</p>
+    <p><strong>Use it like this:</strong> walk through the Scope, see what each item involves, untick anything you don't want, leave notes for us where things need clarifying. We'll respond by updating this app and re-sending the link.</p>
+  </div>
+</div>
+
+<!-- ====== THE SCOPE (all 19 items) ====== -->
+<div class="scr" id="s-scope">
+  <button class="bk" onclick="go('s-home')">&larr; back</button>
+  <div class="s-title">The Scope</div>
+  <div class="s-sub">19 deliverables across 7 galleries + lounge. Tap any to drill in.</div>
+
+  <div class="sec">Gallery 1 · Introduction</div>
+
+  <div class="crd" onclick="toggleCard(this)">
+    <div class="crd-h">
+      <div>
+        <div class="crd-t">G1.1 · Entrance Kiosk</div>
+        <div class="crd-s">65" touch · 1 unit · attract + orientation</div>
+      </div>
+      <div class="chv">▼</div>
+    </div>
+    <div class="crd-b">
+      <div class="lbl">What we deliver</div>
+      <div class="val">Full-screen kiosk app: attract mode, "About this Museum", "Who was Ambedkar", "Navigate the Galleries", language selector. The visitor's first frame — set carefully.</div>
+      <div class="lbl">Content needed (you provide)</div>
+      <div class="val">Museum vision, key stakeholders, 5–8 Ambedkar anecdotes (2 Telangana-specific), hero photographs.</div>
+      <div class="lbl">Effort</div><div class="val">~9 working days</div>
+      <span class="pill std">STD ₹1.2 L</span><span class="pill prem">PREM ₹1.5 L</span>
+      <div class="notes-box" style="margin-top:14px">
+        <div class="notes-lbl">Your notes</div>
+        <textarea data-note="g1.1" placeholder="clarifications, changes, questions..."></textarea>
+      </div>
+    </div>
+  </div>
+
+  <div class="crd" onclick="toggleCard(this)">
+    <div class="crd-h">
+      <div>
+        <div class="crd-t">G1.2 · Life of Ambedkar Transformation Zone</div>
+        <div class="crd-s">55" touch · 3 units · 3 phases of life</div>
+      </div>
+      <div class="chv">▼</div>
+    </div>
+    <div class="crd-b">
+      <div class="lbl">What we deliver</div>
+      <div class="val">One build, three configs. Each kiosk = one phase. We propose: Origins &amp; Education (1891–1924), Reform &amp; Resistance (1924–1946), Architect &amp; Beyond (1946–1956). Timeline → milestone detail → photos + narrative + optional clip + documents. Independent kiosks (no real-time sync).</div>
+      <div class="lbl">Content needed</div>
+      <div class="val">~30 milestones across 3 phases, archival photos, 5 short clips, digitised documents. AI period reconstruction available as optional fallback for clips.</div>
+      <div class="lbl">Effort</div><div class="val">~22 working days</div>
+      <span class="pill std">STD ₹2.2 L</span><span class="pill prem">PREM ₹2.8 L</span>
+      <div class="notes-box" style="margin-top:14px">
+        <div class="notes-lbl">Your notes</div>
+        <textarea data-note="g1.2" placeholder="phase definitions, milestone preferences..."></textarea>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">Gallery 2 · Library</div>
+
+  <div class="crd" onclick="toggleCard(this)">
+    <div class="crd-h">
+      <div>
+        <div class="crd-t">G2 · Library + Annihilation Flipbook</div>
+        <div class="crd-s">65" touch + 16" Surface · bundled</div>
+      </div>
+      <div class="chv">▼</div>
+    </div>
+    <div class="crd-b">
+      <div class="lbl">What we deliver</div>
+      <div class="val">Library kiosk = bookshelf grid of Ambedkar's works → tap → cover + context + sample pages flipbook + curated quotations + theme filter. Annihilation kiosk = full digitised book on Surface table, chapter tile nav + page-by-page reader with zoom. Same flipbook engine, reused.</div>
+      <div class="lbl">Content needed</div>
+      <div class="val">Books list (you choose), pre-scanned sample pages, ~20 curated quotations, full digitised Annihilation of Caste.</div>
+      <div class="lbl">Effort</div><div class="val">~12 working days (shared engine)</div>
+      <span class="pill std">STD ₹1.9 L</span><span class="pill prem">PREM ₹2.3 L</span>
+      <div class="notes-box" style="margin-top:14px">
+        <div class="notes-lbl">Your notes</div>
+        <textarea data-note="g2" placeholder="book scope, BAWS vs standalones..."></textarea>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">Gallery 3 · Class &amp; Caste</div>
+
+  <div class="crd" onclick="toggleCard(this)">
+    <div class="crd-h">
+      <div>
+        <div class="crd-t">G3.1 · Class &amp; Caste Kiosks</div>
+        <div class="crd-s">55" touch · 2 units · one Caste, one Class</div>
+      </div>
+      <div class="chv">▼</div>
+    </div>
+    <div class="crd-b">
+      <div class="lbl">What we deliver</div>
+      <div class="val">One build, two configs. Each kiosk shows milestones, photo/document gallery, attract mode. Caste milestones: Mahad Satyagraha, Kalaram Temple Entry, Poona Pact, Annihilation publication, Buddhist conversion. Class milestones: BHS founding, Labour Member role, Minimum Wages Act, 8-hour day, NWPP. We propose, you refine.</div>
+      <div class="lbl">Engine</div><div class="val">Reused from G1.2 milestone framework</div>
+      <div class="lbl">Effort</div><div class="val">~10 working days</div>
+      <span class="pill std">STD ₹1.7 L</span><span class="pill prem">PREM ₹2.2 L</span>
+      <div class="notes-box" style="margin-top:14px">
+        <div class="notes-lbl">Your notes</div>
+        <textarea data-note="g3.1" placeholder="milestone list refinements..."></textarea>
+      </div>
+    </div>
+  </div>
+
+  <div class="crd" onclick="toggleCard(this)">
+    <div class="crd-h">
+      <div>
+        <div class="crd-t">G3.3 · Manu Smriti Video</div>
+        <div class="crd-s">85" signage · non-interactive auto-loop</div>
+      </div>
+      <div class="chv">▼</div>
+    </div>
+    <div class="crd-b">
+      <div class="lbl">What we deliver</div>
+      <div class="val">Single 4K rendered video, 5–8 min, auto-loops via Edge Kiosk Mode. Curated audio-visual narrative: infographic slides, animated visual interpretations, archival imagery, Ambedkar's quotations. Silent (museum convention). We propose structural outline; your curator fills narrative.</div>
+      <div class="lbl">AI option</div><div class="val">AI-generated visual interpretations available — your choice at script stage</div>
+      <div class="lbl">Effort</div><div class="val">~12 working days · 60-sec teaser before full production</div>
+      <span class="pill std">STD ₹1.8 L · 5min · 2 revisions</span><span class="pill prem">PREM ₹2.4 L · 7–8min · 4 revisions</span>
+      <div class="notes-box" style="margin-top:14px">
+        <div class="notes-lbl">Your notes</div>
+        <textarea data-note="g3.3" placeholder="narrative direction, sensitivity notes..."></textarea>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">Gallery 4 · Constitution</div>
+
+  <div class="crd" onclick="toggleCard(this)">
+    <div class="crd-h">
+      <div>
+        <div class="crd-t">G4.1a · Making of Constitution</div>
+        <div class="crd-s">65" touch · drafting narrative</div>
+      </div>
+      <div class="chv">▼</div>
+    </div>
+    <div class="crd-b">
+      <div class="lbl">What we deliver</div>
+      <div class="val">Timeline of the drafting process (1946–1949). Drafting Committee profiles. 8–10 landmark debates highlighted with context.</div>
+      <div class="lbl">Effort</div><div class="val">~10 working days</div>
+      <span class="pill std">STD ₹2.2 L</span><span class="pill prem">PREM ₹2.8 L</span>
+      <div class="notes-box" style="margin-top:14px">
+        <div class="notes-lbl">Your notes</div>
+        <textarea data-note="g4.1a" placeholder="landmark debate selections..."></textarea>
+      </div>
+    </div>
+  </div>
+
+  <div class="crd" onclick="toggleCard(this)">
+    <div class="crd-h">
+      <div>
+        <div class="crd-t">G4.1b · CAD Explorer <span style="color:#ef4444">· OPTIONAL</span></div>
+        <div class="crd-s">on same 65" kiosk · 12-volume corpus search</div>
+      </div>
+      <div class="chv">▼</div>
+    </div>
+    <div class="crd-b">
+      <div class="lbl">What is CAD?</div>
+      <div class="val">Constituent Assembly Debates — 12 volumes (~6000 pages) of verbatim debate transcripts from 1946–1949. Lok Sabha publishes them as PDFs. The BOQ asks for a searchable browse of all 12 volumes by speaker / article / theme.</div>
+      <div class="lbl">What we deliver</div>
+      <div class="val">Browse by Volume / Speaker / Article / Theme. Excerpt reader with citation. Full-text search (Premium tier only).</div>
+      <div class="lbl">Approach</div>
+      <div class="val">We parse PDFs from Lok Sabha source. You/curatorial team validates speaker tags and themes before publication.</div>
+      <div class="lbl">Risk</div><div class="val" style="color:#f6c453">Heavy. First item to defer to Phase 2 if Week 4 reveals slippage.</div>
+      <div class="lbl">Effort</div><div class="val">~15 working days</div>
+      <span class="pill std">STD ₹3.5 L · browse only</span><span class="pill prem">PREM ₹5.0 L · + full-text search</span>
+      <div class="notes-box" style="margin-top:14px">
+        <div class="notes-lbl">Your notes</div>
+        <textarea data-note="g4.1b" placeholder="keep in Phase 1 or defer?..."></textarea>
+      </div>
+    </div>
+  </div>
+
+  <div class="crd" onclick="toggleCard(this)">
+    <div class="crd-h">
+      <div>
+        <div class="crd-t">G4.2 + G4.3 · Constitution Multilingual</div>
+        <div class="crd-s">32" touch · master + 11 replicas = 12 kiosks</div>
+      </div>
+      <div class="chv">▼</div>
+    </div>
+    <div class="crd-b">
+      <div class="lbl">What we deliver</div>
+      <div class="val">One master HTML build, deployed identically to 12 kiosks. Language selector → Constitution in chosen language → browse by Part / Article / Theme → keyword search → tap-to-play audio on each article (visitor-initiated, soft volume, museum-quiet convention preserved).</div>
+      <div class="lbl">Languages</div><div class="val">You decide which languages. Priced per language: ₹0.5 L per extra beyond 3.</div>
+      <div class="lbl">Audio</div>
+      <div class="val">Options: TTS (₹0.3 L/lang), AI voice cloning (₹1.5 L/lang), human voice-over (₹2.5 L+/lang). Your call.</div>
+      <div class="lbl">Effort</div><div class="val">~22 working days for master + 11 replicas</div>
+      <span class="pill std">STD ₹5.2 L · base 3 languages</span><span class="pill prem">PREM ₹6.7 L · base 3 languages</span>
+      <div class="notes-box" style="margin-top:14px">
+        <div class="notes-lbl">Your notes</div>
+        <textarea data-note="g4.2" placeholder="languages, audio approach..."></textarea>
+      </div>
+    </div>
+  </div>
+
+  <div class="crd" onclick="toggleCard(this)">
+    <div class="crd-h">
+      <div>
+        <div class="crd-t">G4.4 · Hindu Code Bill <span style="color:#f6c453">· TBC</span></div>
+        <div class="crd-s">55" touch · in partner quote, not in BOQ text</div>
+      </div>
+      <div class="chv">▼</div>
+    </div>
+    <div class="crd-b">
+      <div class="lbl">Status</div>
+      <div class="val">Your hardware partner's quote includes a 55" Hindu Code Bill kiosk, but the BOQ document text doesn't describe it. Need your confirmation: is this in scope?</div>
+      <div class="lbl">If in scope</div>
+      <div class="val">Multilingual kiosk · timeline · key provisions · video clips · parliamentary debate excerpts. Similar pattern to other content kiosks.</div>
+      <div class="lbl">Indicative price</div>
+      <div class="val">~₹2.0 L Standard / ₹2.6 L Premium (pending confirmation)</div>
+      <div class="notes-box" style="margin-top:14px">
+        <div class="notes-lbl">Your notes</div>
+        <textarea data-note="g4.4" placeholder="is Hindu Code Bill in scope?..."></textarea>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">Gallery 6 · Modern India</div>
+
+  <div class="crd" onclick="toggleCard(this)">
+    <div class="crd-h">
+      <div>
+        <div class="crd-t">G6 · Modern India Films (×3)</div>
+        <div class="crd-s">3 × 180s · 4K · 5.1 audio · projectors (hardware partner)</div>
+      </div>
+      <div class="chv">▼</div>
+    </div>
+    <div class="crd-b">
+      <div class="lbl">What we deliver</div>
+      <div class="val">Three 3-min documentary films delivered as 4K MP4 + 5.1 audio mix. Film 1: Ambedkar &amp; the RBI. Film 2: Labour Reforms. Film 3: Planning &amp; State-Led Development.</div>
+      <div class="lbl">AI workflow</div>
+      <div class="val">Script (you) → storyboard → AI gen + curation → real footage blend → motion graphics → voice-over (optional) → score → 5.1 mix → render. See "Films &amp; Content" tile for full workflow detail.</div>
+      <div class="lbl">No teaser</div><div class="val">Full production commits on script approval (saves ~2 weeks per film)</div>
+      <div class="lbl">Effort</div><div class="val">~50–55 working days across 3 films · films run in parallel</div>
+      <span class="pill std">STD ₹7.5 L · Veo 3.1 Fast · 2 revs</span><span class="pill prem">PREM ₹12.0 L · Sora 2 Pro · 4 revs</span>
+      <div class="notes-box" style="margin-top:14px">
+        <div class="notes-lbl">Your notes</div>
+        <textarea data-note="g6" placeholder="voice-over preference, script approach..."></textarea>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">Gallery 7 · The World</div>
+
+  <div class="crd" onclick="toggleCard(this)">
+    <div class="crd-h">
+      <div>
+        <div class="crd-t">G7 · Global Vision &amp; Influence</div>
+        <div class="crd-s">55" touch · world map + list view</div>
+      </div>
+      <div class="chv">▼</div>
+    </div>
+    <div class="crd-b">
+      <div class="lbl">What we deliver</div>
+      <div class="val">Interactive world map as primary nav, list view as secondary. Tap location → photo + narrative + archival material. We propose locations (Columbia, South Africa apartheid, LSE/UK, Buddhist Asia, BLM US) — you finalise.</div>
+      <div class="lbl">Effort</div><div class="val">~10 working days</div>
+      <span class="pill std">STD ₹1.8 L</span><span class="pill prem">PREM ₹2.3 L</span>
+      <div class="notes-box" style="margin-top:14px">
+        <div class="notes-lbl">Your notes</div>
+        <textarea data-note="g7" placeholder="location selection, scope..."></textarea>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">Lounge</div>
+
+  <div class="crd" onclick="toggleCard(this)">
+    <div class="crd-h">
+      <div>
+        <div class="crd-t">L.2 · Testimonial Booth</div>
+        <div class="crd-s">27" AIO + camera + mic · visitor recordings</div>
+      </div>
+      <div class="chv">▼</div>
+    </div>
+    <div class="crd-b">
+      <div class="lbl">What we deliver</div>
+      <div class="val">Kiosk app + shared admin backend (Node + SQLite on local admin PC). Visitor records 30s video → reviews → submits → admin moderates → optionally features on Interactive Wall. Consent flow per your legal team.</div>
+      <div class="lbl">Hardware flag</div>
+      <div class="val" style="color:#f6c453">Partner quoted touch kiosks without integrated camera/mic. Either partner re-quotes AIO with cam/mic, or we add external USB cam/mic (~₹15–25k per booth).</div>
+      <div class="lbl">Effort</div><div class="val">~16 working days (shared with Photo Booth saves ~6 days combined)</div>
+      <span class="pill std">STD ₹2.5 L</span><span class="pill prem">PREM ₹3.2 L</span>
+      <div class="notes-box" style="margin-top:14px">
+        <div class="notes-lbl">Your notes</div>
+        <textarea data-note="l.2" placeholder="recording length, consent text..."></textarea>
+      </div>
+    </div>
+  </div>
+
+  <div class="crd" onclick="toggleCard(this)">
+    <div class="crd-h">
+      <div>
+        <div class="crd-t">L.3 · Photo Booth</div>
+        <div class="crd-s">27" AIO + camera · selfie with Babasaheb</div>
+      </div>
+      <div class="chv">▼</div>
+    </div>
+    <div class="crd-b">
+      <div class="lbl">What we deliver</div>
+      <div class="val">AI background replacement (no green screen needed — uses MediaPipe locally on Windows i7). Backdrop options: Constituent Assembly, his study, Chaitya Bhoomi, Round Table. Ambedkar figure cutouts overlaid. Visitor previews → captures → adds quote + frame → emails to themselves. Optional archive opt-in.</div>
+      <div class="lbl">Hardware flag</div><div class="val" style="color:#f6c453">Same camera/mic issue as Testimonial Booth — flag to partner</div>
+      <div class="lbl">Effort</div><div class="val">~16 working days (shared backend)</div>
+      <span class="pill std">STD ₹2.8 L</span><span class="pill prem">PREM ₹3.8 L</span>
+      <div class="notes-box" style="margin-top:14px">
+        <div class="notes-lbl">Your notes</div>
+        <textarea data-note="l.3" placeholder="backdrops, figure poses, archive policy..."></textarea>
+      </div>
+    </div>
+  </div>
+
+  <div class="crd" onclick="toggleCard(this)">
+    <div class="crd-h">
+      <div>
+        <div class="crd-t">L.4 · Listening Booth</div>
+        <div class="crd-s">27" touch + directional speakers · speeches archive</div>
+      </div>
+      <div class="chv">▼</div>
+    </div>
+    <div class="crd-b">
+      <div class="lbl">What we deliver</div>
+      <div class="val">Browse archive of Ambedkar speeches/interviews by year/theme/occasion. Tap → video/audio playback with synchronized transcript scrolling alongside. Contextual notes panel.</div>
+      <div class="lbl">Hardware flag</div>
+      <div class="val" style="color:#f6c453">Directional speakers (sound domes) not in partner's quote — let client decide if partner supplies or we do</div>
+      <div class="lbl">Transcripts</div><div class="val">Original-language only, or translated alongside — your call</div>
+      <div class="lbl">Effort</div><div class="val">~12 working days</div>
+      <span class="pill std">STD ₹1.8 L</span><span class="pill prem">PREM ₹2.3 L</span>
+      <div class="notes-box" style="margin-top:14px">
+        <div class="notes-lbl">Your notes</div>
+        <textarea data-note="l.4" placeholder="content sourcing, transcripts..."></textarea>
+      </div>
+    </div>
+  </div>
+
+  <div class="crd" onclick="toggleCard(this)">
+    <div class="crd-h">
+      <div>
+        <div class="crd-t">L.5 · Quiz Booth (×2)</div>
+        <div class="crd-s">27" touch · 2 units · test what visitors know</div>
+      </div>
+      <div class="chv">▼</div>
+    </div>
+    <div class="crd-b">
+      <div class="lbl">What we deliver</div>
+      <div class="val">10–15 questions per session, difficulty + category choice, immediate feedback with 1-line explanation, score at end. Certificate (optional, emailed PDF). Leaderboard (optional, via admin backend). Same build deployed twice.</div>
+      <div class="lbl">Question bank</div>
+      <div class="val">We propose 50 sample questions per category — you refine and expand</div>
+      <div class="lbl">Effort</div><div class="val">~12 working days</div>
+      <span class="pill std">STD ₹2.0 L · both kiosks</span><span class="pill prem">PREM ₹2.8 L · both kiosks</span>
+      <div class="notes-box" style="margin-top:14px">
+        <div class="notes-lbl">Your notes</div>
+        <textarea data-note="l.5" placeholder="certificate? leaderboard?..."></textarea>
+      </div>
+    </div>
+  </div>
+
+  <div class="crd" onclick="toggleCard(this)">
+    <div class="crd-h">
+      <div>
+        <div class="crd-t">L.6 · Interactive Wall 85"</div>
+        <div class="crd-s">85" touch · living archive centrepiece</div>
+      </div>
+      <div class="chv">▼</div>
+    </div>
+    <div class="crd-b">
+      <div class="lbl">What we deliver</div>
+      <div class="val">Kinetic collage wall: photos, quotes, document scans, video stills arranged as touchable items. Tap any → expands to detail. Themes shift through the day. Multi-user (configurable per your call).</div>
+      <div class="lbl">Density</div><div class="val">~100–150 items Standard, ~200+ Premium</div>
+      <div class="lbl">Multi-user</div><div class="val">Ask: simultaneous multiple-touch interaction worth the complexity?</div>
+      <div class="lbl">Effort</div><div class="val">~18 working days</div>
+      <span class="pill std">STD ₹3.5 L</span><span class="pill prem">PREM ₹4.8 L</span>
+      <div class="notes-box" style="margin-top:14px">
+        <div class="notes-lbl">Your notes</div>
+        <textarea data-note="l.6" placeholder="multi-user yes/no, content density..."></textarea>
+      </div>
+    </div>
+  </div>
+
+  <div class="crd" onclick="toggleCard(this)">
+    <div class="crd-h">
+      <div>
+        <div class="crd-t">L.8 · Curved LED — Ambedkar &amp; the World</div>
+        <div class="crd-s">128 sft · motion graphics on partner's LED panel</div>
+      </div>
+      <div class="chv">▼</div>
+    </div>
+    <div class="crd-b">
+      <div class="lbl">What we deliver</div>
+      <div class="val">5–7 minute auto-loop motion graphics video, 4K, native curved aspect ratio. Global influence theme: world map motifs, Ambedkar's ideas radiating outward, archival flashes, motion typography. Silent.</div>
+      <div class="lbl">AI usage</div><div class="val">AI imagery for atmospheric segments (faster, lower cost)</div>
+      <div class="lbl">Conditional</div>
+      <div class="val" style="color:#f6c453">Need exact pixel dimensions, curvature, native format from partner before we can render correctly</div>
+      <div class="lbl">Concept</div><div class="val">We propose 2–3 visual directions; consultant picks</div>
+      <div class="lbl">Effort</div><div class="val">~17 working days</div>
+      <span class="pill std">STD ₹3.5 L</span><span class="pill prem">PREM ₹5.0 L</span>
+      <div class="notes-box" style="margin-top:14px">
+        <div class="notes-lbl">Your notes</div>
+        <textarea data-note="l.8" placeholder="visual direction, themes..."></textarea>
+      </div>
+    </div>
+  </div>
+
+  <div class="crd" onclick="toggleCard(this)">
+    <div class="crd-h">
+      <div>
+        <div class="crd-t">L.9 · Curved LED — Universal Rights</div>
+        <div class="crd-s">224 sft · larger canvas · second motion designer</div>
+      </div>
+      <div class="chv">▼</div>
+    </div>
+    <div class="crd-b">
+      <div class="lbl">What we deliver</div>
+      <div class="val">8–10 minute auto-loop motion graphics, 4K, native curved aspect ratio. Universal Rights theme: UDHR + Fundamental Rights + Ambedkar's quotes on rights, motion typography, archival flashes. Silent.</div>
+      <div class="lbl">Production</div><div class="val">Handled by second motion designer in our network (capacity-driven, not subcontracted blindly)</div>
+      <div class="lbl">Conditional</div>
+      <div class="val" style="color:#f6c453">Same as L.8 — need canvas specs from partner</div>
+      <div class="lbl">Effort</div><div class="val">~22 working days</div>
+      <span class="pill std">STD ₹5.0 L</span><span class="pill prem">PREM ₹7.0 L</span>
+      <div class="notes-box" style="margin-top:14px">
+        <div class="notes-lbl">Your notes</div>
+        <textarea data-note="l.9" placeholder="any specific UDHR articles to emphasise..."></textarea>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">Optional · Tree of Ideas</div>
+
+  <div class="crd" onclick="toggleCard(this)">
+    <div class="crd-h">
+      <div>
+        <div class="crd-t">L.1 · Tree of Ideas <span style="color:#f6c453">· OPTIONAL</span></div>
+        <div class="crd-s">backlit LED panel + 55" interactive · soft offer</div>
+      </div>
+      <div class="chv">▼</div>
+    </div>
+    <div class="crd-b">
+      <div class="lbl">Status</div>
+      <div class="val">Out of our default scope. Partner's quote only includes the 55" touch screen, not the backlit LED tree panel. We can take this on end-to-end (firmware + software + LED hardware sourcing + install) if you'd like.</div>
+      <div class="lbl">What it would be</div>
+      <div class="val">Touch a word on screen → corresponding leaves on the physical tree light up. ESP32 driving WS2812 addressable LEDs, kiosk app sends word IDs over local network. Idle ambient breathing patterns.</div>
+      <div class="lbl">Indicative price (if we take it)</div>
+      <div class="val">~₹2.5 L software + ~₹40–50k electronics. Partner does LED panel hardware separately.</div>
+      <div class="notes-box" style="margin-top:14px">
+        <div class="notes-lbl">Your notes</div>
+        <textarea data-note="l.1" placeholder="do you want us to take this up?..."></textarea>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ====== BUILD YOUR QUOTE ====== -->
+<div class="scr" id="s-quote">
+  <button class="bk" onclick="go('s-home')">&larr; back</button>
+  <div class="s-title">Build Your Quote</div>
+  <div class="s-sub">Tick items to include. Set global tier or override per item.</div>
+
+  <div class="calc-top">
+    <div class="calc-tot">Live total · ex-GST · ex-hardware</div>
+    <div class="calc-amt" id="calc-total">₹0 L</div>
+    <div class="calc-cnt" id="calc-count">0 items selected</div>
+    <div class="tier-toggle">
+      <button class="active" id="tier-std" onclick="setGlobalTier('std')">Standard</button>
+      <button id="tier-prem" onclick="setGlobalTier('prem')">Premium</button>
+    </div>
+  </div>
+
+  <!-- PER-KIOSK ITEMS -->
+  <div class="calc-grp-h">Per-Kiosk Software &amp; Content</div>
+
+  <div class="calc-line checked" data-line="g1.1" data-std="1.2" data-prem="1.5" data-default="1">
+    <div class="cl-row">
+      <div class="cl-chk" onclick="toggleLine(this)"></div>
+      <div class="cl-nm">G1.1 Entrance Kiosk (65" ×1)</div>
+      <div class="cl-pr">₹1.2 L</div>
+    </div>
+    <div class="cl-tier-pick">
+      <button class="active" onclick="setLineTier(this,'std')">STD ₹1.2L</button>
+      <button onclick="setLineTier(this,'prem')">PREM ₹1.5L</button>
+    </div>
+  </div>
+
+  <div class="calc-line checked" data-line="g1.2" data-std="2.2" data-prem="2.8" data-default="1">
+    <div class="cl-row">
+      <div class="cl-chk" onclick="toggleLine(this)"></div>
+      <div class="cl-nm">G1.2 Life of Ambedkar Transformation Zone (55" ×3)</div>
+      <div class="cl-pr">₹2.2 L</div>
+    </div>
+    <div class="cl-tier-pick">
+      <button class="active" onclick="setLineTier(this,'std')">STD ₹2.2L</button>
+      <button onclick="setLineTier(this,'prem')">PREM ₹2.8L</button>
+    </div>
+  </div>
+
+  <div class="calc-line checked" data-line="g2" data-std="1.9" data-prem="2.3" data-default="1">
+    <div class="cl-row">
+      <div class="cl-chk" onclick="toggleLine(this)"></div>
+      <div class="cl-nm">G2 Library + Annihilation flipbook</div>
+      <div class="cl-pr">₹1.9 L</div>
+    </div>
+    <div class="cl-tier-pick">
+      <button class="active" onclick="setLineTier(this,'std')">STD ₹1.9L</button>
+      <button onclick="setLineTier(this,'prem')">PREM ₹2.3L</button>
+    </div>
+  </div>
+
+  <div class="calc-line checked" data-line="g3.1" data-std="1.7" data-prem="2.2" data-default="1">
+    <div class="cl-row">
+      <div class="cl-chk" onclick="toggleLine(this)"></div>
+      <div class="cl-nm">G3.1 Class &amp; Caste kiosks (55" ×2)</div>
+      <div class="cl-pr">₹1.7 L</div>
+    </div>
+    <div class="cl-tier-pick">
+      <button class="active" onclick="setLineTier(this,'std')">STD ₹1.7L</button>
+      <button onclick="setLineTier(this,'prem')">PREM ₹2.2L</button>
+    </div>
+  </div>
+
+  <div class="calc-line checked" data-line="g3.3" data-std="1.8" data-prem="2.4" data-default="1">
+    <div class="cl-row">
+      <div class="cl-chk" onclick="toggleLine(this)"></div>
+      <div class="cl-nm">G3.3 Manu Smriti video (85" signage)</div>
+      <div class="cl-pr">₹1.8 L</div>
+    </div>
+    <div class="cl-tier-pick">
+      <button class="active" onclick="setLineTier(this,'std')">STD ₹1.8L</button>
+      <button onclick="setLineTier(this,'prem')">PREM ₹2.4L</button>
+    </div>
+  </div>
+
+  <div class="calc-line checked" data-line="g4.1a" data-std="2.2" data-prem="2.8" data-default="1">
+    <div class="cl-row">
+      <div class="cl-chk" onclick="toggleLine(this)"></div>
+      <div class="cl-nm">G4.1a Making of Constitution (65")</div>
+      <div class="cl-pr">₹2.2 L</div>
+    </div>
+    <div class="cl-tier-pick">
+      <button class="active" onclick="setLineTier(this,'std')">STD ₹2.2L</button>
+      <button onclick="setLineTier(this,'prem')">PREM ₹2.8L</button>
+    </div>
+  </div>
+
+  <div class="calc-line" data-line="g4.1b" data-std="3.5" data-prem="5.0">
+    <div class="cl-row">
+      <div class="cl-chk" onclick="toggleLine(this)"></div>
+      <div class="cl-nm">G4.1b CAD Explorer (optional · heavy)</div>
+      <div class="cl-pr">₹3.5 L</div>
+    </div>
+    <div class="cl-tier-pick">
+      <button class="active" onclick="setLineTier(this,'std')">STD ₹3.5L</button>
+      <button onclick="setLineTier(this,'prem')">PREM ₹5.0L</button>
+    </div>
+  </div>
+
+  <div class="calc-line checked" data-line="g4.2" data-std="5.2" data-prem="6.7" data-default="1">
+    <div class="cl-row">
+      <div class="cl-chk" onclick="toggleLine(this)"></div>
+      <div class="cl-nm">G4.2+G4.3 Constitution multilingual (32" ×12)</div>
+      <div class="cl-pr">₹5.2 L</div>
+    </div>
+    <div class="cl-tier-pick">
+      <button class="active" onclick="setLineTier(this,'std')">STD ₹5.2L</button>
+      <button onclick="setLineTier(this,'prem')">PREM ₹6.7L</button>
+    </div>
+  </div>
+
+  <div class="calc-line" data-line="g4.4" data-std="2.0" data-prem="2.6">
+    <div class="cl-row">
+      <div class="cl-chk" onclick="toggleLine(this)"></div>
+      <div class="cl-nm">G4.4 Hindu Code Bill (TBC if in scope)</div>
+      <div class="cl-pr">₹2.0 L</div>
+    </div>
+    <div class="cl-tier-pick">
+      <button class="active" onclick="setLineTier(this,'std')">STD ₹2.0L</button>
+      <button onclick="setLineTier(this,'prem')">PREM ₹2.6L</button>
+    </div>
+  </div>
+
+  <div class="calc-line checked" data-line="g6" data-std="7.5" data-prem="12.0" data-default="1">
+    <div class="cl-row">
+      <div class="cl-chk" onclick="toggleLine(this)"></div>
+      <div class="cl-nm">G6 Modern India Films (×3, 180s each)</div>
+      <div class="cl-pr">₹7.5 L</div>
+    </div>
+    <div class="cl-tier-pick">
+      <button class="active" onclick="setLineTier(this,'std')">STD ₹7.5L</button>
+      <button onclick="setLineTier(this,'prem')">PREM ₹12.0L</button>
+    </div>
+  </div>
+
+  <div class="calc-line checked" data-line="g7" data-std="1.8" data-prem="2.3" data-default="1">
+    <div class="cl-row">
+      <div class="cl-chk" onclick="toggleLine(this)"></div>
+      <div class="cl-nm">G7 Global Vision (55")</div>
+      <div class="cl-pr">₹1.8 L</div>
+    </div>
+    <div class="cl-tier-pick">
+      <button class="active" onclick="setLineTier(this,'std')">STD ₹1.8L</button>
+      <button onclick="setLineTier(this,'prem')">PREM ₹2.3L</button>
+    </div>
+  </div>
+
+  <div class="calc-line checked" data-line="l.2" data-std="2.5" data-prem="3.2" data-default="1">
+    <div class="cl-row">
+      <div class="cl-chk" onclick="toggleLine(this)"></div>
+      <div class="cl-nm">L.2 Testimonial Booth (27" AIO)</div>
+      <div class="cl-pr">₹2.5 L</div>
+    </div>
+    <div class="cl-tier-pick">
+      <button class="active" onclick="setLineTier(this,'std')">STD ₹2.5L</button>
+      <button onclick="setLineTier(this,'prem')">PREM ₹3.2L</button>
+    </div>
+  </div>
+
+  <div class="calc-line checked" data-line="l.3" data-std="2.8" data-prem="3.8" data-default="1">
+    <div class="cl-row">
+      <div class="cl-chk" onclick="toggleLine(this)"></div>
+      <div class="cl-nm">L.3 Photo Booth (27" AIO)</div>
+      <div class="cl-pr">₹2.8 L</div>
+    </div>
+    <div class="cl-tier-pick">
+      <button class="active" onclick="setLineTier(this,'std')">STD ₹2.8L</button>
+      <button onclick="setLineTier(this,'prem')">PREM ₹3.8L</button>
+    </div>
+  </div>
+
+  <div class="calc-line checked" data-line="l.4" data-std="1.8" data-prem="2.3" data-default="1">
+    <div class="cl-row">
+      <div class="cl-chk" onclick="toggleLine(this)"></div>
+      <div class="cl-nm">L.4 Listening Booth (27")</div>
+      <div class="cl-pr">₹1.8 L</div>
+    </div>
+    <div class="cl-tier-pick">
+      <button class="active" onclick="setLineTier(this,'std')">STD ₹1.8L</button>
+      <button onclick="setLineTier(this,'prem')">PREM ₹2.3L</button>
+    </div>
+  </div>
+
+  <div class="calc-line checked" data-line="l.5" data-std="2.0" data-prem="2.8" data-default="1">
+    <div class="cl-row">
+      <div class="cl-chk" onclick="toggleLine(this)"></div>
+      <div class="cl-nm">L.5 Quiz Booth (27" ×2)</div>
+      <div class="cl-pr">₹2.0 L</div>
+    </div>
+    <div class="cl-tier-pick">
+      <button class="active" onclick="setLineTier(this,'std')">STD ₹2.0L</button>
+      <button onclick="setLineTier(this,'prem')">PREM ₹2.8L</button>
+    </div>
+  </div>
+
+  <div class="calc-line checked" data-line="l.6" data-std="3.5" data-prem="4.8" data-default="1">
+    <div class="cl-row">
+      <div class="cl-chk" onclick="toggleLine(this)"></div>
+      <div class="cl-nm">L.6 Interactive Wall 85"</div>
+      <div class="cl-pr">₹3.5 L</div>
+    </div>
+    <div class="cl-tier-pick">
+      <button class="active" onclick="setLineTier(this,'std')">STD ₹3.5L</button>
+      <button onclick="setLineTier(this,'prem')">PREM ₹4.8L</button>
+    </div>
+  </div>
+
+  <div class="calc-line checked" data-line="l.8" data-std="3.5" data-prem="5.0" data-default="1">
+    <div class="cl-row">
+      <div class="cl-chk" onclick="toggleLine(this)"></div>
+      <div class="cl-nm">L.8 Curved LED 128 sft (motion graphics)</div>
+      <div class="cl-pr">₹3.5 L</div>
+    </div>
+    <div class="cl-tier-pick">
+      <button class="active" onclick="setLineTier(this,'std')">STD ₹3.5L</button>
+      <button onclick="setLineTier(this,'prem')">PREM ₹5.0L</button>
+    </div>
+  </div>
+
+  <div class="calc-line checked" data-line="l.9" data-std="5.0" data-prem="7.0" data-default="1">
+    <div class="cl-row">
+      <div class="cl-chk" onclick="toggleLine(this)"></div>
+      <div class="cl-nm">L.9 Curved LED 224 sft (motion graphics)</div>
+      <div class="cl-pr">₹5.0 L</div>
+    </div>
+    <div class="cl-tier-pick">
+      <button class="active" onclick="setLineTier(this,'std')">STD ₹5.0L</button>
+      <button onclick="setLineTier(this,'prem')">PREM ₹7.0L</button>
+    </div>
+  </div>
+
+  <div class="calc-line" data-line="l.1" data-std="2.5" data-prem="3.5">
+    <div class="cl-row">
+      <div class="cl-chk" onclick="toggleLine(this)"></div>
+      <div class="cl-nm">L.1 Tree of Ideas (optional · soft offer)</div>
+      <div class="cl-pr">₹2.5 L</div>
+    </div>
+    <div class="cl-tier-pick">
+      <button class="active" onclick="setLineTier(this,'std')">STD ₹2.5L</button>
+      <button onclick="setLineTier(this,'prem')">PREM ₹3.5L</button>
+    </div>
+  </div>
+
+  <!-- PLATFORM INFRASTRUCTURE -->
+  <div class="calc-grp-h">Platform Infrastructure (Group A)</div>
+
+  <div class="calc-line checked" data-line="a1" data-std="3.5" data-prem="4.5" data-default="1">
+    <div class="cl-row">
+      <div class="cl-chk" onclick="toggleLine(this)"></div>
+      <div class="cl-nm">A.1 Master design system (one-time foundation)</div>
+      <div class="cl-pr">₹3.5 L</div>
+    </div>
+    <div class="cl-tier-pick">
+      <button class="active" onclick="setLineTier(this,'std')">STD ₹3.5L</button>
+      <button onclick="setLineTier(this,'prem')">PREM ₹4.5L</button>
+    </div>
+  </div>
+
+  <div class="calc-line checked" data-line="a2a" data-std="2.0" data-prem="2.0" data-default="1">
+    <div class="cl-row">
+      <div class="cl-chk" onclick="toggleLine(this)"></div>
+      <div class="cl-nm">A.2 Admin backend · Level A (Photo + Testimonial)</div>
+      <div class="cl-pr">₹2.0 L</div>
+    </div>
+    <div class="cl-tier-pick">
+      <button class="active" onclick="setLineTier(this,'std')">STD ₹2.0L</button>
+      <button onclick="setLineTier(this,'prem')">PREM ₹2.0L</button>
+    </div>
+  </div>
+
+  <div class="calc-line" data-line="a2b" data-std="3.0" data-prem="3.0">
+    <div class="cl-row">
+      <div class="cl-chk" onclick="toggleLine(this)"></div>
+      <div class="cl-nm">A.2 Admin backend · Level B (A + analytics)</div>
+      <div class="cl-pr">₹3.0 L</div>
+    </div>
+    <div class="cl-tier-pick">
+      <button class="active" onclick="setLineTier(this,'std')">STD ₹3.0L</button>
+      <button onclick="setLineTier(this,'prem')">PREM ₹3.0L</button>
+    </div>
+  </div>
+
+  <div class="calc-line" data-line="a2c" data-std="6.0" data-prem="6.0">
+    <div class="cl-row">
+      <div class="cl-chk" onclick="toggleLine(this)"></div>
+      <div class="cl-nm">A.2 Admin backend · Level C (B + remote updates)</div>
+      <div class="cl-pr">₹6.0 L</div>
+    </div>
+    <div class="cl-tier-pick">
+      <button class="active" onclick="setLineTier(this,'std')">STD ₹6.0L</button>
+      <button onclick="setLineTier(this,'prem')">PREM ₹6.0L</button>
+    </div>
+  </div>
+
+  <div class="calc-line checked" data-line="a3" data-std="1.2" data-prem="1.5" data-default="1">
+    <div class="cl-row">
+      <div class="cl-chk" onclick="toggleLine(this)"></div>
+      <div class="cl-nm">A.3 Kiosk-mode setup (Edge, ×30 units)</div>
+      <div class="cl-pr">₹1.2 L</div>
+    </div>
+    <div class="cl-tier-pick">
+      <button class="active" onclick="setLineTier(this,'std')">STD ₹1.2L</button>
+      <button onclick="setLineTier(this,'prem')">PREM ₹1.5L</button>
+    </div>
+  </div>
+
+  <div class="calc-line checked" data-line="a4" data-std="4.0" data-prem="5.5" data-default="1">
+    <div class="cl-row">
+      <div class="cl-chk" onclick="toggleLine(this)"></div>
+      <div class="cl-nm">A.4 On-site install (multi-trip, collaborative)</div>
+      <div class="cl-pr">₹4.0 L</div>
+    </div>
+    <div class="cl-tier-pick">
+      <button class="active" onclick="setLineTier(this,'std')">STD ₹4.0L</button>
+      <button onclick="setLineTier(this,'prem')">PREM ₹5.5L</button>
+    </div>
+  </div>
+
+  <div class="calc-line checked" data-line="a5" data-std="0.7" data-prem="1.2" data-default="1">
+    <div class="cl-row">
+      <div class="cl-chk" onclick="toggleLine(this)"></div>
+      <div class="cl-nm">A.5 Staff training (2–3 days + runbook)</div>
+      <div class="cl-pr">₹0.7 L</div>
+    </div>
+    <div class="cl-tier-pick">
+      <button class="active" onclick="setLineTier(this,'std')">STD ₹0.7L</button>
+      <button onclick="setLineTier(this,'prem')">PREM ₹1.2L</button>
+    </div>
+  </div>
+
+  <div class="calc-line checked" data-line="a6" data-std="1.5" data-prem="2.5" data-default="1">
+    <div class="cl-row">
+      <div class="cl-chk" onclick="toggleLine(this)"></div>
+      <div class="cl-nm">A.6 Defect warranty (12 mo / 24 mo)</div>
+      <div class="cl-pr">₹1.5 L</div>
+    </div>
+    <div class="cl-tier-pick">
+      <button class="active" onclick="setLineTier(this,'std')">STD ₹1.5L · 12mo</button>
+      <button onclick="setLineTier(this,'prem')">PREM ₹2.5L · 24mo</button>
+    </div>
+  </div>
+
+  <!-- CONTENT PRODUCTION -->
+  <div class="calc-grp-h">Content Production at Site (Group B)</div>
+
+  <div class="calc-line checked" data-line="b1" data-std="1.8" data-prem="2.5" data-default="1">
+    <div class="cl-row">
+      <div class="cl-chk" onclick="toggleLine(this)"></div>
+      <div class="cl-nm">B.1 In-house photography campaign</div>
+      <div class="cl-pr">₹1.8 L</div>
+    </div>
+    <div class="cl-tier-pick">
+      <button class="active" onclick="setLineTier(this,'std')">STD ₹1.8L</button>
+      <button onclick="setLineTier(this,'prem')">PREM ₹2.5L</button>
+    </div>
+  </div>
+
+  <div class="calc-line checked" data-line="b2" data-std="1.0" data-prem="1.8" data-default="1">
+    <div class="cl-row">
+      <div class="cl-chk" onclick="toggleLine(this)"></div>
+      <div class="cl-nm">B.2 Souvenir guide design (print-ready PDF)</div>
+      <div class="cl-pr">₹1.0 L</div>
+    </div>
+    <div class="cl-tier-pick">
+      <button class="active" onclick="setLineTier(this,'std')">STD ₹1.0L</button>
+      <button onclick="setLineTier(this,'prem')">PREM ₹1.8L</button>
+    </div>
+  </div>
+
+  <!-- PREMIUM ADD-ONS -->
+  <div class="calc-grp-h">Optional Add-ons (Group C · all default-off)</div>
+
+  <div class="calc-line" data-line="c1" data-std="2.5" data-prem="3.5">
+    <div class="cl-row">
+      <div class="cl-chk" onclick="toggleLine(this)"></div>
+      <div class="cl-nm">C.1 360° wayfinding kiosk</div>
+      <div class="cl-pr">₹2.5 L</div>
+    </div>
+    <div class="cl-tier-pick">
+      <button class="active" onclick="setLineTier(this,'std')">STD ₹2.5L</button>
+      <button onclick="setLineTier(this,'prem')">PREM ₹3.5L</button>
+    </div>
+  </div>
+
+  <div class="calc-line" data-line="c2" data-std="2.5" data-prem="3.5">
+    <div class="cl-row">
+      <div class="cl-chk" onclick="toggleLine(this)"></div>
+      <div class="cl-nm">C.2 Public-facing web tour</div>
+      <div class="cl-pr">₹2.5 L</div>
+    </div>
+    <div class="cl-tier-pick">
+      <button class="active" onclick="setLineTier(this,'std')">STD ₹2.5L</button>
+      <button onclick="setLineTier(this,'prem')">PREM ₹3.5L</button>
+    </div>
+  </div>
+
+  <div class="calc-line" data-line="c3" data-std="4.5" data-prem="6.5">
+    <div class="cl-row">
+      <div class="cl-chk" onclick="toggleLine(this)"></div>
+      <div class="cl-nm">C.3 10-min documentary (extended cut)</div>
+      <div class="cl-pr">₹4.5 L</div>
+    </div>
+    <div class="cl-tier-pick">
+      <button class="active" onclick="setLineTier(this,'std')">STD ₹4.5L</button>
+      <button onclick="setLineTier(this,'prem')">PREM ₹6.5L</button>
+    </div>
+  </div>
+
+  <div class="calc-line" data-line="c4" data-std="1.5" data-prem="2.5">
+    <div class="cl-row">
+      <div class="cl-chk" onclick="toggleLine(this)"></div>
+      <div class="cl-nm">C.4 Drone &amp; aerial photography</div>
+      <div class="cl-pr">₹1.5 L</div>
+    </div>
+    <div class="cl-tier-pick">
+      <button class="active" onclick="setLineTier(this,'std')">STD ₹1.5L</button>
+      <button onclick="setLineTier(this,'prem')">PREM ₹2.5L</button>
+    </div>
+  </div>
+
+  <div class="calc-line checked" data-line="c5" data-std="2.5" data-prem="3.5" data-default="1">
+    <div class="cl-row">
+      <div class="cl-chk" onclick="toggleLine(this)"></div>
+      <div class="cl-nm">C.5 Photogrammetry 3D scan of statue (recommended)</div>
+      <div class="cl-pr">₹2.5 L</div>
+    </div>
+    <div class="cl-tier-pick">
+      <button class="active" onclick="setLineTier(this,'std')">STD ₹2.5L</button>
+      <button onclick="setLineTier(this,'prem')">PREM ₹3.5L</button>
+    </div>
+  </div>
+
+  <!-- SERVICES -->
+  <div class="calc-grp-h">Services (Group D)</div>
+
+  <div class="calc-line" data-line="d2" data-std="3.5" data-prem="6.0">
+    <div class="cl-row">
+      <div class="cl-chk" onclick="toggleLine(this)"></div>
+      <div class="cl-nm">D.2 Extended AMC (per year, post-warranty)</div>
+      <div class="cl-pr">₹3.5 L</div>
+    </div>
+    <div class="cl-tier-pick">
+      <button class="active" onclick="setLineTier(this,'std')">STD ₹3.5L</button>
+      <button onclick="setLineTier(this,'prem')">PREM ₹6.0L</button>
+    </div>
+  </div>
+
+  <div class="notes-box" style="margin-top:24px">
+    <div class="notes-lbl">Overall notes on the quote</div>
+    <textarea data-note="quote" placeholder="e.g. 'budget cap is ₹X L, please suggest what to drop' or 'phase Premium across 6 months'"></textarea>
+  </div>
+
+  <div style="text-align:center;font-size:11px;color:#475569;margin-top:24px;margin-bottom:12px;font-style:italic;line-height:1.6;padding:0 8px">
+    All figures exclude GST (18%) and hardware. Hardware quoted separately by your appointed partner. Pre-contract site visit is free of charge. Standard tier defaults pre-selected; untick anything not wanted.
+  </div>
+</div>
+
+<!-- ====== FILMS & CONTENT ====== -->
+<div class="scr" id="s-films">
+  <button class="bk" onclick="go('s-home')">&larr; back</button>
+  <div class="s-title">Films &amp; Content</div>
+  <div class="s-sub">How we'd produce the three Modern India films + motion graphics</div>
+
+  <div class="sec">Our workflow</div>
+  <div class="welcome-box">
+    <p><strong>1. Script (you provide).</strong> Curatorial team writes 180-sec script for each film. Includes shot-by-shot beats, Ambedkar quotes, archival references.</p>
+    <p><strong>2. Storyboard.</strong> We turn the script into a scene-by-scene storyboard. Quick approval cycle.</p>
+    <p><strong>3. AI generation.</strong> Each scene rough-cut with AI (Veo 3.1 Fast for Standard, Sora 2 Pro for Premium). Multiple variants per scene.</p>
+    <p><strong>4. Real footage blend.</strong> Where archival or contemporary footage exists, we cut it in. Modern banks, factories, infrastructure shots — sourced from stock libraries or our own photography.</p>
+    <p><strong>5. Motion graphics.</strong> Data viz, kinetic typography for quotes, infographic moments.</p>
+    <p><strong>6. Voice-over (optional).</strong> Your call at script stage — TTS, AI-cloned voice, or human voice-over artist.</p>
+    <p><strong>7. Score &amp; sound design.</strong> Light orchestral or Indian classical underscore. 5.1 surround mix.</p>
+    <p><strong>8. Final render.</strong> 4K MP4 + 5.1 audio mix, ready for projector loop.</p>
+  </div>
+
+  <div class="sec">AI token cost · pass-through transparency</div>
+  <div class="welcome-box">
+    <p><strong>Standard tier (Veo 3.1 Fast)</strong> · $0.10/sec · ~$13 per film · ~₹1,100 per film · <strong>~₹3,300 total for 3 films</strong></p>
+    <p><strong>Premium tier (Sora 2 Pro)</strong> · $0.30–0.40/sec · ~$50 per film · ~₹4,200 per film · <strong>~₹12,600 total for 3 films</strong></p>
+    <p style="color:#64748b;font-size:11px;font-style:italic">Token cost is negligible at this scale. The cost driver is our labour: storyboarding, curation across multiple variants, revisions, motion graphics, voice direction, sound design.</p>
+  </div>
+
+  <div class="sec">No teaser policy</div>
+  <div class="welcome-box">
+    <p>Most film production processes include a "teaser" before commitment. We don't. <strong>Once your script is approved, we go directly to full production.</strong></p>
+    <p>This saves ~2 weeks per film. The decision risk shifts to script approval, which is the right place for it — script is what defines the film, not the teaser.</p>
+    <p>You get <strong>3 revision rounds</strong> (Standard) or <strong>4 rounds</strong> (Premium) on the full film, which is where you have real control.</p>
+  </div>
+
+  <div class="sec">Scope-creep rate card</div>
+  <div class="welcome-box">
+    <p>If you want changes beyond what's included:</p>
+    <p>· Additional film minute beyond agreed length: <strong>₹1.0 L (Std) · ₹2.0 L (Prem)</strong></p>
+    <p>· Additional revision round beyond included: <strong>₹0.3 L (Std) · ₹0.5 L (Prem)</strong></p>
+    <p>· Additional language for voice-over: <strong>₹1.0 L (Std) · ₹1.5 L (Prem)</strong></p>
+    <p>All change orders documented and approved before work begins.</p>
+  </div>
+
+  <div class="sec">Curved LED motion graphics</div>
+  <div class="welcome-box">
+    <p>L.8 and L.9 use the same AI-assisted approach but as non-narrative motion graphics:</p>
+    <p>· <strong>L.8 · 128 sft canvas · "Ambedkar and the World"</strong> — 5–7 min loop, world map motifs, archival flashes, motion typography</p>
+    <p>· <strong>L.9 · 224 sft canvas · "Universal Rights"</strong> — 8–10 min loop, UDHR + Fundamental Rights themes, motion typography</p>
+    <p>Both render at native curved aspect ratio. <strong>We need exact pixel dimensions, curvature, and format spec from your hardware partner</strong> before we can render correctly.</p>
+  </div>
+
+  <div class="notes-box" style="margin-top:24px">
+    <div class="notes-lbl">Your notes on films &amp; content</div>
+    <textarea data-note="films" placeholder="voice-over preference, language for narration, any specific visual direction..."></textarea>
+  </div>
+</div>
+
+<!-- ====== STAGES OF WORK ====== -->
+<div class="scr" id="s-stages">
+  <button class="bk" onclick="go('s-home')">&larr; back</button>
+  <div class="s-title">Stages of Work</div>
+  <div class="s-sub">12-week Phase 1 plan · how we'd execute</div>
+
+  <div class="sec">Phase structure</div>
+  <div class="welcome-box">
+    <p><strong>Phase 1 (3 months)</strong> — Everything in the BOQ. The full deliverable HMDA needs to open doors.</p>
+    <p><strong>Phase 2 (anytime, optional)</strong> — Our additional offerings: 360° wayfinding, web tour, 10-min documentary, drone, photogrammetry. Client opts in when ready.</p>
+  </div>
+
+  <div class="sec">Phase 1 · week-by-week</div>
+  <div class="welcome-box">
+    <p><strong>Weeks 1–2 · Kickoff &amp; Foundation</strong></p>
+    <p>· Master design system locked · base shell built · all team mobilised · content delivery schedule confirmed with your curatorial team</p>
+    <p><strong>Weeks 3–6 · Engineering Sprint 1</strong></p>
+    <p>· G1.1 Entrance, G4.2 Constitution multilingual master, L.5 Quiz, L.6 Interactive Wall</p>
+    <p>· <strong>Week 3 trigger:</strong> if behind, junior dev hired</p>
+    <p>· Film 1 storyboard + AI generation begins (parallel)</p>
+    <p><strong>Weeks 5–8 · Engineering Sprint 2</strong></p>
+    <p>· G1.2 Life of Ambedkar (×3), G2 Library, G3.1 Class &amp; Caste, G4.1a Making of Constitution</p>
+    <p>· Films 1 + 2 + 3 in active production (parallel)</p>
+    <p>· Manu Smriti video production</p>
+    <p>· Curved LED L.8 production begins</p>
+    <p><strong>Weeks 7–10 · Engineering Sprint 3 + Booths</strong></p>
+    <p>· Photo Booth, Testimonial Booth, Listening Booth, World Gallery, Constitution replicas (×11)</p>
+    <p>· Films delivered for review (week 8) → revisions (weeks 9–10)</p>
+    <p>· Curved LED L.9 production (second motion designer)</p>
+    <p>· On-site install trip 1 (first batch of kiosks)</p>
+    <p><strong>Weeks 10–12 · Install + Soft Launch</strong></p>
+    <p>· On-site install trips 2 + 3</p>
+    <p>· Integration testing with hardware partner</p>
+    <p>· Staff training (2–3 days on-site)</p>
+    <p>· Soft launch with HMDA</p>
+  </div>
+
+  <div class="sec">Sign-off gates</div>
+  <div class="welcome-box">
+    <p>· <strong>Week 2:</strong> design system + content delivery schedule</p>
+    <p>· <strong>Week 4:</strong> first kiosks ready for content load · go/no-go on CAD Explorer</p>
+    <p>· <strong>Week 6:</strong> film scripts approved</p>
+    <p>· <strong>Week 8:</strong> film drafts approved</p>
+    <p>· <strong>Week 10:</strong> first batch of kiosks signed off on-site</p>
+    <p>· <strong>Week 12:</strong> soft launch · all kiosks operational</p>
+  </div>
+
+  <div class="sec">Demo offer</div>
+  <div class="welcome-box">
+    <p>Unsure how we'd build any of this? <strong>Send us a sample of your content</strong> — text, an image, a video clip — and within 5 working days we'll build a working demo of the relevant kiosk using your content, free, no obligation.</p>
+    <p>This is how we prove fit before contract.</p>
+  </div>
+
+  <div class="notes-box" style="margin-top:24px">
+    <div class="notes-lbl">Your notes on the timeline</div>
+    <textarea data-note="stages" placeholder="any constraints we should know about, dates that matter, blocker risks..."></textarea>
+  </div>
+</div>
+
+<!-- ====== HARDWARE & NOTES LOG ====== -->
+<div class="scr" id="s-hw">
+  <button class="bk" onclick="go('s-home')">&larr; back</button>
+  <div class="s-title">Hardware &amp; Notes Log</div>
+  <div class="s-sub">Mismatches we found · open questions for you</div>
+
+  <div class="sec">Hardware partner quote mismatches</div>
+  <div class="welcome-box">
+    <p style="color:#f6c453"><strong>1. 32" Constitution kiosks (×12)</strong></p>
+    <p>Partner's Windows pricing tab still lists Amlogic Android CPU (not the Lenovo i7 the BOQ requires). Either spec is wrong or price is wrong. <strong>For text-heavy Constitution kiosks, Android is actually sufficient and saves ~₹9 L across 12 units</strong> — worth confirming.</p>
+
+    <p style="color:#f6c453;margin-top:14px"><strong>2. Photo Booth + Testimonial Booth</strong></p>
+    <p>BOQ asks for <strong>27" All-in-One PC with built-in camera + microphone</strong> (Lenovo Yoga AIO / HP EliteOne category). Partner quoted 27" floor-standing touch kiosks without integrated camera. Wrong product. Either partner re-quotes correct AIO, or we add external HD webcam + directional USB mic per booth (~₹15–25k each).</p>
+
+    <p style="color:#f6c453;margin-top:14px"><strong>3. Tree of Ideas LED panel</strong></p>
+    <p>BOQ specifies <strong>backlit LED graphic panel with addressable leaves</strong> + the 55" interactive touch. Partner's quote only includes the 55" screen. The LED panel hardware is missing. If you want Tree of Ideas built, this needs to be added on the partner's side (or we can source the electronics + program end-to-end).</p>
+
+    <p style="color:#f6c453;margin-top:14px"><strong>4. Manu Smriti 85"</strong></p>
+    <p>BOQ spec table says 85" <strong>touch screen</strong>. BOQ use-case text says <strong>non-interactive</strong> auto-loop. Partner correctly quoted as 85" signage (cheaper). Confirm — is the spec table wrong, or use case wrong?</p>
+
+    <p style="color:#64748b;font-size:11px;font-style:italic;margin-top:16px">We can raise these with the partner directly on your behalf if you want, or you can. Either way, these need closing before contract.</p>
+  </div>
+
+  <div class="sec">Open curatorial questions for you</div>
+  <div class="welcome-box">
+    <p><strong>· Hindu Code Bill kiosk</strong> — in scope or not? Partner's quote includes a 55" Hindu Code Bill kiosk; BOQ text doesn't describe it.</p>
+    <p><strong>· Languages on Constitution kiosk</strong> — which languages, how many? We price per language.</p>
+    <p><strong>· Audio narration on Constitution kiosk</strong> — TTS (cheap, robotic), AI voice cloning (₹1.5 L/lang, decent), or human voice-over (₹2.5 L+/lang, natural)?</p>
+    <p><strong>· CAD Explorer</strong> — full 12-volume corpus, or curated highlights only?</p>
+    <p><strong>· Tree of Ideas</strong> — do you want us to take this on end-to-end if partner doesn't?</p>
+    <p><strong>· Directional speakers for Listening Booth</strong> — partner supplies or we source?</p>
+  </div>
+
+  <div class="sec">Operational assumptions</div>
+  <div class="welcome-box">
+    <p><strong>Kioware not needed.</strong> We'll use <strong>Microsoft Edge in Kiosk Mode</strong> (built into Windows 11, zero license cost). Saves you ~₹1.1 L in Kioware licenses across 30 units.</p>
+    <p><strong>Windows-only.</strong> All HTML packages built for Windows 11 + Edge Kiosk. No Android tier needed.</p>
+    <p><strong>Content delivery from your side.</strong> Photographs, scanned pages, milestone narratives, quotes, translations all provided by your curatorial team. Our timeline starts from content lock-in per module.</p>
+  </div>
+
+  <div class="notes-box" style="margin-top:24px">
+    <div class="notes-lbl">Your notes on hardware &amp; open items</div>
+    <textarea data-note="hw" placeholder="confirmations, decisions, things you'll raise with your partner..."></textarea>
+  </div>
+</div>
+
+<!-- ====== NOTES & ASSUMPTIONS ====== -->
+<div class="scr" id="s-notes">
+  <button class="bk" onclick="go('s-home')">&larr; back</button>
+  <div class="s-title">Notes &amp; Assumptions</div>
+  <div class="s-sub">How we work · what's included · payment terms</div>
+
+  <div class="sec">Pricing assumptions</div>
+  <div class="welcome-box">
+    <p>· All figures <strong>exclusive of GST</strong> (18% extra).</p>
+    <p>· All figures <strong>exclusive of hardware</strong>. Hardware quoted separately by your appointed partner under a separate line of contract.</p>
+    <p>· Pricing assumes contract award and content delivery schedule per Phase 1 (3-month) plan.</p>
+    <p>· Standard tier includes 3 revision rounds per item. Premium tier includes 4–6 rounds.</p>
+    <p>· Additional revisions or scope expansion are documented change orders, billed at our rate card.</p>
+  </div>
+
+  <div class="sec">Payment terms (target)</div>
+  <div class="welcome-box">
+    <p>We are pushing for the following milestone structure with FellowYellow:</p>
+    <p>· <strong>25% on contract award</strong></p>
+    <p>· <strong>20% on design system + scope sign-off (week 2–3)</strong></p>
+    <p>· <strong>25% on engineering Sprint 1 completion (week 6)</strong></p>
+    <p>· <strong>20% on content delivery + Sprint 2 completion (week 10)</strong></p>
+    <p>· <strong>10% on soft launch + warranty start (week 12)</strong></p>
+    <p style="color:#64748b;font-size:11px;font-style:italic;margin-top:12px">Higher upfront than standard government 15% — justified by immediate mobilisation of 6 specialists in week 1.</p>
+  </div>
+
+  <div class="sec">Content delivery (your side)</div>
+  <div class="welcome-box">
+    <p>Your curatorial team provides:</p>
+    <p>· Archival photographs (high-res scans)</p>
+    <p>· Milestone narratives and selected quotations</p>
+    <p>· Sample pages for flipbooks (pre-scanned)</p>
+    <p>· Film scripts</p>
+    <p>· Translation texts (for multilingual kiosks)</p>
+    <p>· Speaker tag validation (for CAD Explorer if in scope)</p>
+    <p style="color:#64748b;font-size:11px;font-style:italic;margin-top:12px">Our timeline starts from content lock-in per module. Delays in content delivery push delivery dates accordingly.</p>
+  </div>
+
+  <div class="sec">Our team</div>
+  <div class="welcome-box">
+    <p>· <strong>Creative Director / Project Lead</strong> — VK Studio</p>
+    <p>· <strong>Software / AI Engineering Lead</strong> — confirmed contact, 3 months full-time</p>
+    <p>· <strong>Filmmaker / Director</strong> — confirmed contact, 3 months full-time (Manu Smriti + 3 Modern India films + L.8 curved LED)</p>
+    <p>· <strong>Second Motion Designer</strong> — confirmed contact, 4–6 weeks (L.9 curved LED only)</p>
+    <p>· <strong>Architecture Photographer</strong> — confirmed contact, 1 week (B.1)</p>
+    <p>· <strong>Drone Pilot</strong> — confirmed contact, 2–3 days (C.4 if opted)</p>
+    <p>· <strong>Photogrammetry Artist</strong> — confirmed contact, 1 week (C.5 if opted)</p>
+    <p>· <strong>Junior Dev</strong> — contingent hire if Week 3 reveals slippage</p>
+  </div>
+
+  <div class="sec">Demo policy</div>
+  <div class="welcome-box">
+    <p><strong>We offer to build a working demo of any scope item using your sample content, free, before contract.</strong></p>
+    <p>Send us a few photos + 2–3 milestone descriptions + a sample quote — within 5 working days we'll deliver a clickable demo of the relevant kiosk type. No obligation. This is how we prove fit before you commit.</p>
+  </div>
+
+  <div class="sec">What you own at handover</div>
+  <div class="welcome-box">
+    <p>At project close, you receive:</p>
+    <p>· Full source code for every kiosk + admin backend</p>
+    <p>· All design assets (Figma files, design system, icons)</p>
+    <p>· All content files (your scans + our edits, all film masters + 5.1 mixes)</p>
+    <p>· Deployment documentation per kiosk</p>
+    <p>· Operations runbook for museum staff</p>
+    <p>· 12-month defect warranty (Standard) or 24 months (Premium)</p>
+    <p>· No vendor lock-in. Any future developer can pick up where we leave off.</p>
+  </div>
+
+  <div class="notes-box" style="margin-top:24px">
+    <div class="notes-lbl">Your notes on terms &amp; assumptions</div>
+    <textarea data-note="terms" placeholder="payment timing concerns, content delivery realism, anything you want different..."></textarea>
+  </div>
+</div>
+
+<!-- DOWNLOAD BAR -->
+<div class="dl-bar">
+  <button onclick="downloadSummary()">↓ Download Summary</button>
+  <button class="secondary" onclick="exportNotes()">↗ Export Notes</button>
+</div>
+
+<script>
+// ============ PASSWORD GATE ============
+const PASSWORD = 'ambedkar2026';
+function checkPw(){
+  const v = document.getElementById('gate-pw').value.trim().toLowerCase();
+  if(v === PASSWORD){
+    document.getElementById('gate').classList.add('off');
+    document.getElementById('mhdr').style.display = 'block';
+    localStorage.setItem('amig-auth', '1');
+  } else {
+    document.getElementById('gate-err').textContent = 'wrong password';
+    setTimeout(()=>{document.getElementById('gate-err').textContent = ''}, 2000);
+  }
+}
+document.getElementById('gate-pw').addEventListener('keydown', e => {
+  if(e.key === 'Enter') checkPw();
+});
+if(localStorage.getItem('amig-auth') === '1'){
+  document.getElementById('gate').classList.add('off');
+  document.getElementById('mhdr').style.display = 'block';
+}
+
+// ============ SCREEN NAVIGATION ============
+function go(id){
+  document.querySelectorAll('.scr').forEach(s => s.classList.remove('on'));
+  document.getElementById(id).classList.add('on');
+  window.scrollTo(0,0);
+}
+
+// ============ CARD TOGGLE ============
+function toggleCard(el){
+  if(event.target.tagName === 'TEXTAREA') return;
+  el.classList.toggle('open');
+}
+
+// ============ CALCULATOR STATE ============
+let state = {
+  globalTier: 'std',
+  lines: {},      // {lineId: {checked: bool, tier: 'std'|'prem'}}
+  notes: {},      // {noteKey: text}
+};
+
+function loadState(){
+  const saved = localStorage.getItem('amig-state');
+  if(saved){
+    try { state = JSON.parse(saved); }
+    catch(e){ console.error('state load failed', e); }
+  } else {
+    // First-time visit — seed defaults from data-default attribute
+    document.querySelectorAll('.calc-line').forEach(line => {
+      const id = line.dataset.line;
+      const isDefault = line.dataset.default === '1';
+      state.lines[id] = {checked: isDefault, tier: 'std'};
+    });
+    saveState();
+  }
+}
+
+function saveState(){
+  localStorage.setItem('amig-state', JSON.stringify(state));
+}
+
+function applyState(){
+  // tier toggle
+  document.getElementById('tier-std').classList.toggle('active', state.globalTier === 'std');
+  document.getElementById('tier-prem').classList.toggle('active', state.globalTier === 'prem');
+
+  // each line
+  document.querySelectorAll('.calc-line').forEach(line => {
+    const id = line.dataset.line;
+    const ls = state.lines[id] || {checked: false, tier: state.globalTier};
+    line.classList.toggle('checked', ls.checked);
+    line.classList.toggle('unchecked', !ls.checked);
+
+    // tier display
+    const std = parseFloat(line.dataset.std);
+    const prem = parseFloat(line.dataset.prem);
+    const tier = ls.tier || state.globalTier;
+    const amt = tier === 'prem' ? prem : std;
+    line.querySelector('.cl-pr').textContent = '₹' + amt.toFixed(1) + ' L';
+
+    const pickBtns = line.querySelectorAll('.cl-tier-pick button');
+    pickBtns[0].classList.toggle('active', tier === 'std');
+    pickBtns[1].classList.toggle('active', tier === 'prem');
+  });
+
+  // notes
+  document.querySelectorAll('textarea[data-note]').forEach(t => {
+    const k = t.dataset.note;
+    t.value = state.notes[k] || '';
+  });
+
+  recalcTotal();
+}
+
+function recalcTotal(){
+  let total = 0, count = 0;
+  document.querySelectorAll('.calc-line').forEach(line => {
+    const id = line.dataset.line;
+    const ls = state.lines[id];
+    if(ls && ls.checked){
+      const tier = ls.tier || state.globalTier;
+      const amt = tier === 'prem' ? parseFloat(line.dataset.prem) : parseFloat(line.dataset.std);
+      total += amt;
+      count++;
+    }
+  });
+  document.getElementById('calc-total').textContent = '₹' + total.toFixed(1) + ' L';
+  document.getElementById('calc-count').textContent = count + ' item' + (count===1?'':'s') + ' selected · ex-GST';
+}
+
+function toggleLine(chkEl){
+  const line = chkEl.closest('.calc-line');
+  const id = line.dataset.line;
+  if(!state.lines[id]) state.lines[id] = {checked: false, tier: state.globalTier};
+  state.lines[id].checked = !state.lines[id].checked;
+  saveState();
+  applyState();
+}
+
+function setLineTier(btn, tier){
+  const line = btn.closest('.calc-line');
+  const id = line.dataset.line;
+  if(!state.lines[id]) state.lines[id] = {checked: false, tier: tier};
+  state.lines[id].tier = tier;
+  saveState();
+  applyState();
+}
+
+function setGlobalTier(tier){
+  state.globalTier = tier;
+  // also set every line that doesn't have explicit override
+  document.querySelectorAll('.calc-line').forEach(line => {
+    const id = line.dataset.line;
+    if(!state.lines[id]) state.lines[id] = {checked: false, tier: tier};
+    state.lines[id].tier = tier;
+  });
+  saveState();
+  applyState();
+}
+
+// ============ NOTES ============
+document.addEventListener('input', e => {
+  if(e.target.tagName === 'TEXTAREA' && e.target.dataset.note){
+    state.notes[e.target.dataset.note] = e.target.value;
+    saveState();
+  }
+});
+
+// ============ DOWNLOAD ============
+function downloadSummary(){
+  const lines = [];
+  lines.push('ARCHITECT OF MODERN INDIA — Memorial Gallery Proposal');
+  lines.push('Prepared by VK Studio for FellowYellow / HMDA');
+  lines.push('Summary generated: ' + new Date().toLocaleString());
+  lines.push('Global tier default: ' + state.globalTier.toUpperCase());
+  lines.push('');
+  lines.push('========================================');
+  lines.push('SELECTED ITEMS');
+  lines.push('========================================');
+  let total = 0;
+  document.querySelectorAll('.calc-line').forEach(line => {
+    const id = line.dataset.line;
+    const ls = state.lines[id];
+    if(ls && ls.checked){
+      const tier = ls.tier || state.globalTier;
+      const amt = tier === 'prem' ? parseFloat(line.dataset.prem) : parseFloat(line.dataset.std);
+      const nm = line.querySelector('.cl-nm').textContent;
+      lines.push(`[${tier.toUpperCase()}] ${nm} — ₹${amt.toFixed(1)} L`);
+      total += amt;
+    }
+  });
+  lines.push('');
+  lines.push('TOTAL (ex-GST, ex-hardware): ₹' + total.toFixed(1) + ' L');
+  lines.push('');
+  lines.push('========================================');
+  lines.push('YOUR NOTES');
+  lines.push('========================================');
+  Object.entries(state.notes).forEach(([k,v]) => {
+    if(v && v.trim()){
+      lines.push(`[${k}] ${v}`);
+    }
+  });
+  if(Object.keys(state.notes).filter(k => state.notes[k]?.trim()).length === 0){
+    lines.push('(no notes added)');
+  }
+
+  const blob = new Blob([lines.join('\n')], {type:'text/plain'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'AMIG-summary-' + new Date().toISOString().slice(0,10) + '.txt';
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function exportNotes(){
+  const data = {
+    exported: new Date().toISOString(),
+    globalTier: state.globalTier,
+    selectedItems: Object.entries(state.lines).filter(([_,v]) => v.checked),
+    notes: state.notes,
+  };
+  const blob = new Blob([JSON.stringify(data, null, 2)], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'AMIG-notes-' + new Date().toISOString().slice(0,10) + '.json';
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+// ============ SYNC ============
+// v1: manual export only via "Export Notes" button.
+// Client clicks Export Notes → JSON file → emails to VK Studio.
+
+// ============ INIT ============
+loadState();
+applyState();
+</script>
+</body>
+</html>
