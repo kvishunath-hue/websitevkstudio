@@ -71,10 +71,19 @@ body{
 
 /* BACK BUTTON */
 .bk{
-  background:none;border:none;color:#64748b;font-size:12px;
-  cursor:pointer;padding:6px 0;margin-bottom:12px;font-family:inherit;
+  position:sticky;top:0;z-index:20;
+  background:#0a0e17;border:1px solid #1e293b;color:#f6c453;
+  font-size:12px;cursor:pointer;padding:10px 14px;
+  margin:-16px -16px 16px;border-radius:0;
+  font-family:inherit;font-weight:600;letter-spacing:0.5px;
+  display:flex;align-items:center;gap:8px;width:calc(100% + 32px);
+  -webkit-tap-highlight-color:transparent;
 }
-.bk:hover{color:#f59e0b}
+.bk:hover{color:#f59e0b;background:#111827}
+.bk:active{opacity:.8}
+@media (min-width: 681px) {
+  .bk{margin:-24px -24px 20px;width:calc(100% + 48px);padding:12px 20px;font-size:13px}
+}
 
 /* SECTION HEADER */
 .sec{
@@ -120,7 +129,7 @@ body{
 /* CALCULATOR */
 .calc-top{
   background:#111827;border:1px solid #1e293b;border-radius:10px;
-  padding:16px;margin-bottom:16px;position:sticky;top:0;z-index:10;
+  padding:16px;margin-bottom:16px;position:sticky;top:48px;z-index:10;
   box-shadow:0 4px 12px rgba(0,0,0,0.3);
 }
 .calc-tot{
@@ -321,7 +330,7 @@ body{
 
 <!-- ====== WELCOME ====== -->
 <div class="scr" id="s-welcome">
-  <button class="bk" onclick="go('s-home')">&larr; back</button>
+  <button class="bk" onclick="go('s-home')"><span style="font-size:16px">←</span> Back to home</button>
   <div class="s-title">Welcome</div>
   <div class="s-sub">A working document, not a one-shot proposal</div>
 
@@ -335,7 +344,7 @@ body{
 
 <!-- ====== THE SCOPE (all 19 items) ====== -->
 <div class="scr" id="s-scope">
-  <button class="bk" onclick="go('s-home')">&larr; back</button>
+  <button class="bk" onclick="go('s-home')"><span style="font-size:16px">←</span> Back to home</button>
   <div class="s-title">The Scope</div>
   <div class="s-sub">19 deliverables across 7 galleries + lounge. Tap any to drill in.</div>
 
@@ -779,7 +788,7 @@ body{
 
 <!-- ====== BUILD YOUR QUOTE ====== -->
 <div class="scr" id="s-quote">
-  <button class="bk" onclick="go('s-home')">&larr; back</button>
+  <button class="bk" onclick="go('s-home')"><span style="font-size:16px">←</span> Back to home</button>
   <div class="s-title">Build Your Quote</div>
   <div class="s-sub">Tick items to include. Set global tier or override per item.</div>
 
@@ -1240,7 +1249,7 @@ body{
 
 <!-- ====== FILMS & CONTENT ====== -->
 <div class="scr" id="s-films">
-  <button class="bk" onclick="go('s-home')">&larr; back</button>
+  <button class="bk" onclick="go('s-home')"><span style="font-size:16px">←</span> Back to home</button>
   <div class="s-title">Films &amp; Content</div>
   <div class="s-sub">How we'd produce the three Modern India films + motion graphics</div>
 
@@ -1295,7 +1304,7 @@ body{
 
 <!-- ====== STAGES OF WORK ====== -->
 <div class="scr" id="s-stages">
-  <button class="bk" onclick="go('s-home')">&larr; back</button>
+  <button class="bk" onclick="go('s-home')"><span style="font-size:16px">←</span> Back to home</button>
   <div class="s-title">Stages of Work</div>
   <div class="s-sub">12-week Phase 1 plan · how we'd execute</div>
 
@@ -1354,7 +1363,7 @@ body{
 
 <!-- ====== HARDWARE & NOTES LOG ====== -->
 <div class="scr" id="s-hw">
-  <button class="bk" onclick="go('s-home')">&larr; back</button>
+  <button class="bk" onclick="go('s-home')"><span style="font-size:16px">←</span> Back to home</button>
   <div class="s-title">Hardware &amp; Notes Log</div>
   <div class="s-sub">Mismatches we found · open questions for you</div>
 
@@ -1400,7 +1409,7 @@ body{
 
 <!-- ====== NOTES & ASSUMPTIONS ====== -->
 <div class="scr" id="s-notes">
-  <button class="bk" onclick="go('s-home')">&larr; back</button>
+  <button class="bk" onclick="go('s-home')"><span style="font-size:16px">←</span> Back to home</button>
   <div class="s-title">Notes &amp; Assumptions</div>
   <div class="s-sub">How we work · what's included · payment terms</div>
 
