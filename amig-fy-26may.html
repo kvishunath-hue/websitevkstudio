@@ -6,6 +6,9 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="robots" content="noindex,nofollow,noarchive,nosnippet">
 <meta name="referrer" content="no-referrer">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
 <title>Architect of Modern India</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
@@ -253,7 +256,8 @@ body{
 <div class="hdr" id="mhdr" style="display:none">
   <div class="k">Memorial Gallery Proposal</div>
   <h1>Architect of Modern India</h1>
-  <div class="sub">VK Studio · for FellowYellow / HMDA · v1.0</div>
+  <div class="sub">VK Studio · for FellowYellow / HMDA</div>
+  <div style="font-size:9px;color:#475569;margin-top:6px;letter-spacing:0.5px">v1.0 · last updated 27 May 2026</div>
 </div>
 
 <!-- ====== HOME ====== -->
@@ -329,8 +333,8 @@ body{
   <div class="welcome-box">
     <p>This app is how we're going to work together on the Memorial Gallery proposal. It's not a static PDF — it's a live document you can <strong>tick through</strong>, <strong>add notes to</strong>, and <strong>get a live quote from</strong>.</p>
     <p>The structure mirrors what we've been discussing: the 19 BOQ deliverables, our additional offerings, the AI film approach, our phased timeline, and the hardware questions still open with your partner.</p>
-    <p>Everything you tick or write is saved locally on your device. When you're ready, use the <strong>Export Notes</strong> button to send us a snapshot — we'll respond by updating this app and re-sharing the link.</p>
-    <p><strong>Use it like this:</strong> walk through the Scope, see what each item involves, untick anything you don't want, leave notes for us where things need clarifying. We'll respond by updating this app and re-sending the link.</p>
+    <p>Everything you tick or write is saved locally on your device. When you're ready, use the <strong>Export Notes</strong> button to send us a snapshot — we'll respond by updating this same link.</p>
+    <p><strong>Use it like this:</strong> walk through the Scope, see what each item involves, untick anything you don't want, leave notes for us where things need clarifying. We update this same URL as our conversation evolves — just refresh the page to see the latest. The version date at the top tells you which one you're on.</p>
   </div>
 </div>
 
@@ -1630,6 +1634,34 @@ document.addEventListener('input', e => {
 });
 
 // ============ DOWNLOAD ============
+// Map of note keys → human-readable labels
+const NOTE_LABELS = {
+  'g1.1': 'G1.1 Entrance Kiosk',
+  'g1.2': 'G1.2 Life of Ambedkar Transformation Zone',
+  'g2': 'G2 Library + Annihilation flipbook',
+  'g3.1': 'G3.1 Class & Caste kiosks',
+  'g3.3': 'G3.3 Manu Smriti video',
+  'g4.1a': 'G4.1a Making of Constitution',
+  'g4.1b': 'G4.1b CAD Explorer (optional)',
+  'g4.2': 'G4.2+G4.3 Constitution multilingual',
+  'g4.4': 'G4.4 Hindu Code Bill (TBC)',
+  'g6': 'G6 Modern India Films',
+  'g7': 'G7 Global Vision',
+  'l.1': 'L.1 Tree of Ideas (optional)',
+  'l.2': 'L.2 Testimonial Booth',
+  'l.3': 'L.3 Photo Booth',
+  'l.4': 'L.4 Listening Booth',
+  'l.5': 'L.5 Quiz Booth',
+  'l.6': 'L.6 Interactive Wall 85"',
+  'l.8': 'L.8 Curved LED 128 sft',
+  'l.9': 'L.9 Curved LED 224 sft',
+  'quote': 'Overall notes on the quote',
+  'films': 'Films & Content section',
+  'stages': 'Stages of Work section',
+  'hw': 'Hardware & Notes Log section',
+  'terms': 'Notes & Assumptions section',
+};
+
 function downloadSummary(){
   const lines = [];
   lines.push('ARCHITECT OF MODERN INDIA — Memorial Gallery Proposal');
@@ -1638,34 +1670,47 @@ function downloadSummary(){
   lines.push('Global tier default: ' + state.globalTier.toUpperCase());
   lines.push('');
   lines.push('========================================');
-  lines.push('SELECTED ITEMS');
+  lines.push('SELECTED ITEMS (from Build Your Quote)');
   lines.push('========================================');
-  let total = 0;
+  let total = 0, count = 0;
   document.querySelectorAll('.calc-line').forEach(line => {
     const id = line.dataset.line;
     const ls = state.lines[id];
     if(ls && ls.checked){
       const tier = ls.tier || state.globalTier;
       const amt = tier === 'prem' ? parseFloat(line.dataset.prem) : parseFloat(line.dataset.std);
-      const nm = line.querySelector('.cl-nm').textContent;
+      const nm = line.querySelector('.cl-nm').textContent.trim();
       lines.push(`[${tier.toUpperCase()}] ${nm} — ₹${amt.toFixed(1)} L`);
       total += amt;
+      count++;
     }
   });
-  lines.push('');
-  lines.push('TOTAL (ex-GST, ex-hardware): ₹' + total.toFixed(1) + ' L');
-  lines.push('');
-  lines.push('========================================');
-  lines.push('YOUR NOTES');
-  lines.push('========================================');
-  Object.entries(state.notes).forEach(([k,v]) => {
-    if(v && v.trim()){
-      lines.push(`[${k}] ${v}`);
-    }
-  });
-  if(Object.keys(state.notes).filter(k => state.notes[k]?.trim()).length === 0){
-    lines.push('(no notes added)');
+  if(count === 0){
+    lines.push('(no items selected)');
   }
+  lines.push('');
+  lines.push(`TOTAL (${count} items, ex-GST, ex-hardware): ₹${total.toFixed(1)} L`);
+  lines.push('');
+  lines.push('========================================');
+  lines.push('YOUR NOTES BY SECTION');
+  lines.push('========================================');
+
+  const filledNotes = Object.entries(state.notes).filter(([_,v]) => v && v.trim());
+  if(filledNotes.length === 0){
+    lines.push('(no notes added)');
+  } else {
+    filledNotes.forEach(([k,v]) => {
+      const label = NOTE_LABELS[k] || k;
+      lines.push('');
+      lines.push(`── ${label} ──`);
+      lines.push(v.trim());
+    });
+  }
+  lines.push('');
+  lines.push('========================================');
+  lines.push('End of summary');
+  lines.push('Please email this file to contact@vkstudio.in');
+  lines.push('========================================');
 
   const blob = new Blob([lines.join('\n')], {type:'text/plain'});
   const url = URL.createObjectURL(blob);
@@ -1680,7 +1725,9 @@ function exportNotes(){
   const data = {
     exported: new Date().toISOString(),
     globalTier: state.globalTier,
-    selectedItems: Object.entries(state.lines).filter(([_,v]) => v.checked),
+    selectedItems: Object.entries(state.lines)
+      .filter(([_,v]) => v.checked)
+      .map(([k,v]) => ({lineId: k, tier: v.tier || state.globalTier})),
     notes: state.notes,
   };
   const blob = new Blob([JSON.stringify(data, null, 2)], {type:'application/json'});
