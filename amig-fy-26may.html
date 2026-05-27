@@ -18,6 +18,7 @@ body{
   max-width:680px;
   margin:0 auto;
   -webkit-font-smoothing:antialiased;
+  padding-bottom:72px;
 }
 
 /* HEADER */
@@ -197,13 +198,15 @@ body{
 
 /* DOWNLOAD BUTTON */
 .dl-bar{
-  background:#111827;border:1px solid #1e293b;border-radius:10px;
-  padding:14px 16px;display:flex;gap:8px;justify-content:center;
-  margin-top:24px;
+  position:fixed;bottom:0;left:0;right:0;
+  background:rgba(17,24,39,0.96);backdrop-filter:blur(8px);
+  border-top:1px solid #1e293b;
+  padding:10px 14px;display:flex;gap:8px;justify-content:center;
+  z-index:50;
 }
 .dl-bar button{
   flex:1;max-width:200px;background:#f59e0b;color:#0a0e17;
-  border:none;padding:12px 16px;border-radius:8px;font-size:12px;
+  border:none;padding:10px 14px;border-radius:8px;font-size:11px;
   font-weight:700;cursor:pointer;font-family:inherit;letter-spacing:0.5px;
 }
 .dl-bar button.secondary{background:#1e293b;color:#f6c453}
@@ -225,7 +228,7 @@ body{
 
 /* RESPONSIVE */
 @media (min-width: 681px) {
-  body{padding:24px}
+  body{padding:24px;padding-bottom:80px}
   .hdr h1{font-size:26px}
   .ebtn{padding:18px 20px}
   .enm{font-size:15px}
@@ -1234,11 +1237,6 @@ body{
   <div style="text-align:center;font-size:11px;color:#475569;margin-top:24px;margin-bottom:12px;font-style:italic;line-height:1.6;padding:0 8px">
     All figures exclude GST (18%) and hardware. Hardware quoted separately by your appointed partner. Pre-contract site visit is free of charge. Standard tier defaults pre-selected; untick anything not wanted.
   </div>
-
-  <div class="dl-bar">
-    <button onclick="downloadSummary()">↓ Download Summary</button>
-    <button class="secondary" onclick="exportNotes()">↗ Export Notes</button>
-  </div>
 </div>
 
 <!-- ====== FILMS & CONTENT ====== -->
@@ -1476,6 +1474,11 @@ body{
 </div>
 
 <!-- /sections -->
+
+<div class="dl-bar">
+  <button onclick="downloadSummary()">↓ Download Summary</button>
+  <button class="secondary" onclick="exportNotes()">↗ Export Notes</button>
+</div>
 
 <script>
 // ============ PASSWORD GATE ============
